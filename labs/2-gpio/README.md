@@ -5,6 +5,8 @@
 </p>
 
 **Important**: 
+ - For today: there is no autograder, so just checkoff with a 
+   CA by running the tests.
  - For today only you'll have to hit the power-button on the parthiv board
    (or unplug your pi) after each test.  If you get an error from the 
    bootloader this is likely the cause.  We get rid of this restriction
@@ -29,8 +31,6 @@ Make sure you read
 Notes:
   - See [the setup lab](../0-pi-setup/README.md) for more info on how to
     set up your Raspberry Pi.
-  - See the [checkoff doc](CHECKOFF.md) for info on what you need to
-    show to get credit for the lab.
   - If you finish early, feel free to do the extensions (e.g., sonar)
     at the bottom of the README.
 
@@ -182,13 +182,6 @@ More detail:
 
 4.  Success: both LEDs will be on or off at the same time.
 
-
-If this is your first time working with Raspberry Pis, you're almost done!
-Check the [checkoff guide](./CHECKOFF.md) for what to show us.
-
-If you took cs107e or you've done this kind of thing before, please do
-an extension.
-
 ------------------------------------------------------------------------------
 ## Part 3: make the on-board LED blink (`4-act-blink.bin`)
 
@@ -197,8 +190,10 @@ test `4-act-blink.c` blinks it off an on.    This LED is useful as a
 status indicator since it's built-in.  This test checks that you can
 access higher GPIO bank.
 
+At this point you can checkoff.
+
 ------------------------------------------------------------------------------
-## Part 4: look through the code in `code` and `.list` file 
+## Part 5: look through the code in `code` and `.list` file 
 
 Other than the bootloader, all the code needed for this lab is in
 `code`: there is no additional magic.  Please look through the code
