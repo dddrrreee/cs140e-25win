@@ -1,5 +1,7 @@
 # Checkoff Checklist
 
+No autograder today. Show your work to a TA
+
 Make sure you have all of these things working for checkoff!
 
 Unfortunately, due to the size of the class this year we won't be able to give
