@@ -13,6 +13,7 @@
    in the next labs.  (If you look in `code/start.S` you'll see why:
    we infinite loop when `notmain` returns --- we do this b/c we don't
    yet have a reboot.)
+- If you're getting an error with <string.h> on Mac and it's loading somethig that includes like MacSDK, set your CPATH env variable to empty
 
   - As always, read and complete the [PRELAB](PRELAB.md) before lab!
 
