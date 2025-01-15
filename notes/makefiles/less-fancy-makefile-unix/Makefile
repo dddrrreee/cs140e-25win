@@ -81,7 +81,8 @@ C_SRC = foo/foo.c bar/bar.c a.c  foo.c
 # all your common asm files.
 ASM_SRC := asm.S
 
-# all prebuilt .o's
+# all prebuilt .o's: you'll have to generate this for your
+# system.
 PREBUILT_OBJS := prebuilt-b.o
 
 # what directory to put the generated files; you can change this.
