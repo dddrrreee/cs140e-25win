@@ -40,7 +40,8 @@ To checkoff:
 - Run `sender.py`. The output will be pushed to the checkoff directory of http://github.com/dghosef/140e-dumb-autograder
 - The output is pretty raw. You should check the TRACE statements are the same as a friend's. A quick way to do this would be:
   - copy and paste the output of the autograder into a file
-  - run `grep -E "TRACE:PUT32|TRACE:GET32" < `filename` | cksum
+  - run `grep -E "TRACE:PUT32|TRACE:GET32" < filename | cksum
+  - Ask a friend if they have the same cksum
  
 - Let Joe know if something isn't working
 
