@@ -33,10 +33,17 @@ computed result.
 #### Sign-off
 
 
+To checkoff:
+- Reclone the autograder from here: http://github.com/dghosef/140e-dumb-autograder. Or pull and fix the conflict
+- Modify the repo, sunet, and lab variables in `sender.py`. The lab one should be set to 'lab3'
+- Run `sender.py`. The output will be pushed to the checkoff directory of http://github.com/dghosef/140e-dumb-autograder
+- The output is pretty raw. You should check the TRACE statements are the same as a friend's. A quick way to do this would be:
+  - copy and paste the output of the autograder into a file
+  - run `grep -E "TRACE:PUT32|TRACE:GET32" < `filename` | cksum
 
 
 
-There are three parts for sign-off:
+To check your work manually:
 
    1. Your checksums for the tests in `1-fake-pi/tests` match your
       partner's (and ours).
