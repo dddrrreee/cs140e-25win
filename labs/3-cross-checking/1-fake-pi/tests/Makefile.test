@@ -1,0 +1,87 @@
+# if you do:
+#   - "make runall" it will run all programs in <TESTS>
+#   - "make emitall" it emit .outs for all programs in <TESTS>
+#   - "make checkall" it will check all programs in <TESTS> against their .out
+#   - "make cksumall" it will compute checksums for all programs in <TESTS>
+#
+# Should not have to invoke this directly: ./Makefile does.
+#
+# We seperate this out to hopefully clean up the various makefiles: they worry
+# about making binaries, this one worries about testing.
+
+# shut up "ntering/leaving"
+MAKEFLAGS += --no-print-directory
+
+# we only look at this output
+GREP_STR := "TRACE:"
+
+SUFFIXES: .out .run .check 
+
+ifndef TESTS
+$(error TESTS is not defined: makefile invoked incorrectly)
+endif
+
+TEST_RUN   := $(patsubst %.fake, %.run, $(TESTS))  
+TEST_CHECK := $(patsubst %.fake, %.check, $(TESTS))  
+TEST_CKSUM := $(patsubst %.fake, %.cksum, $(TESTS))  
+TEST_EMIT := $(patsubst %.fake, %.emit, $(TESTS))  
+TEST_OUT   := $(patsubst %.fake, %.out, $(TESTS))  
+TEST_REF   := $(patsubst %.fake, %.ref, $(TESTS))  
+
+# set whatever you want the default action to be.
+all: $(TEST_RUN) 
+
+%.run: ./%.fake
+	@echo "\n-------------------<start>---------------------------------------";
+	./$< 
+	@echo "-------------------<end>---------------------------------------";
+
+# note: this will fail if output does not contain a trace.
+# we pull everything into .out so that it's easier to debug.
+# not sure if we should always force it.
+%.out:  %.fake # FORCE
+	@echo -n "generating <$*.out> and <$*.raw>: ";
+	@./$< 2>&1  > ./$*.raw || (echo "error generating raw file:\n------------------"; cat $*.raw; echo "------------------" ; exit 1)
+	@grep $(GREP_STR) ./$*.raw > ./$*.out
+	@echo " success!";
+
+FORCE: 
+
+%.ref: %.out # FORCE
+	@cp $*.out $*.ref
+
+%.check: ./%.fake %.out
+	@echo "------------------------------------------";
+	@echo "checking $*:";
+	@echo "  about to emit a new test output <$*.test>:";
+	@echo "      ./$< > ./$*.test";
+	@./$< 2>&1 | grep  $(GREP_STR) > ./$*.test
+	@echo "  about to compare new <$*.test> to old <$*.out>: ";
+	@diff ./$*.out ./$*.test || (echo "ERROR: test output <$*.test> did not match reference output ($*.out): compare them (and $*.raw) directly to see why"; exit 1)
+
+	@echo "   Success!  Matched!";
+	@rm -f ./$*.test ./$*.raw
+
+# we could just cksum all the .outs, but this lets us be more targeted.
+%.cksum: %.out
+	cksum ./$*.out
+
+# not sure if there is a better way: use these fake target to run our
+# checks for everything.
+emitall: $(TEST_OUT) 
+checkall: $(TEST_CHECK) 
+runall: $(TEST_RUN) 
+cksumall:  $(TEST_CKSUM)
+refall:  $(TEST_REF)
+	echo "running <$(TEST_REF)>"
+
+print:
+	# TEST_RUN = <$(TEST_RUN)>
+	# TEST_CHECK = <$(TEST_CHECK)>
+
+cleanall:
+	rm -f *.out
+
+.PRECIOUS: $(TEST_OUT)
+
+.PHONY: all clean runall emitall checkall cksumall # $(TEST_EMIT) $(TEST_CHECK)  FORCE

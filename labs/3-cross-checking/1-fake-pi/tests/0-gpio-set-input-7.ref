@@ -1,0 +1,4 @@
+TRACE:0: calling pi code
+TRACE:1: GET32(0x20200000) = 0x327b23c6
+TRACE:2: PUT32(0x20200000) = 0x321b23c6
+TRACE: pi exited cleanly: 7 calls to random
