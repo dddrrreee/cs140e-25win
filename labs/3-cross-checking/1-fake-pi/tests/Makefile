@@ -63,9 +63,9 @@ TEST_OUT := $(TEST_SRC:.c=.out)
 FAKE_PROGS := $(TEST_SRC:.c=.fake)
 
 INC =  -I../  -I.
-INC +=  -I$(CS140E_2024_PATH)/libpi/include
-INC +=  -I$(CS140E_2024_PATH)/libpi/libc
-INC +=  -I$(CS140E_2024_PATH)/libpi/staff-src
+INC +=  -I$(CS140E_2025_PATH)/libpi/include
+INC +=  -I$(CS140E_2025_PATH)/libpi/libc
+INC +=  -I$(CS140E_2025_PATH)/libpi/staff-src
 CFLAGS = $(INC) -O -Wall -Wno-unused-function -Wno-unused-variable
 
 DEPS = $(LIBPI_FAKE) $(FAKE_PROGS) 

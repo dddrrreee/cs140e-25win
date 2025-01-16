@@ -3,7 +3,7 @@
 
 
 # grab stuff from libpi
-LPP = $(CS140E_2024_PATH)/libpi/
+LPP = $(CS140E_2025_PATH)/libpi/
 SRC  = $(LPP)/libc/printk.c
 SRC  += $(LPP)/libc/putk.c
 SRC  += $(LPP)/libc/putchar.c
@@ -24,9 +24,9 @@ dep := $(reloc:.c=.d)
 
 LIBNAME = libpi-fake.a
 
-INC +=  -I$(CS140E_2024_PATH)/libpi/include
-INC +=  -I$(CS140E_2024_PATH)/libpi/libc
-INC +=  -I$(CS140E_2024_PATH)/libpi/staff-src
+INC +=  -I$(CS140E_2025_PATH)/libpi/include
+INC +=  -I$(CS140E_2025_PATH)/libpi/libc
+INC +=  -I$(CS140E_2025_PATH)/libpi/staff-src
 
 CFLAGS = $(INC) -O -Wall -Wno-unused-function -Wno-unused-variable -MMD
 

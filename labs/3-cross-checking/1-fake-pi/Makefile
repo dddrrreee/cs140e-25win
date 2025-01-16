@@ -1,7 +1,7 @@
 LIBNAME = libpi-fake.a
 BUILD_DIR = ./objs
 
-LPP = $(CS140E_2024_PATH)libpi
+LPP = $(CS140E_2025_PATH)libpi
 
 # all the .c files used to generate fake programs on Unix.
 # 1. get all the the routines from current directory.
