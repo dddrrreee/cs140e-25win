@@ -1,0 +1,297 @@
+######################################################################
+# you should not have to modify below.
+#
+# takes files from a bunch of directories and emits them into a build_dir.
+#
+# the enclosing makefile should define:
+#   1. <PROGS> =  the different programs to make.
+# optional common source and .o files to be linked w all <PROGS>
+#   - <COMMON_SRC> = the source files
+#   - <COMMON_OBJS> = can also specify .o's for .c and .S files.
+#   - <STAFF_OBJS> = pre-built .o's -- these won't be deleted by clean.
+# optional:
+#   - <TAG_PROG> = program to compute tags (ctags, etags)
+#   - <BUILD_DIR> = the directory for all .o, .d and temporary files.
+#   - can add to the <libs::> and <all::> targets.
+#   - can add more libraries to <LIBS>
+#   - <LINK_DEPS>: add any dependencies needed for linking.
+
+
+######################################################################
+# 1. Error checking and config.
+
+MAKEFLAGS += --no-print-directory
+BUILD_DIR ?= ./objs
+
+# sanity checks.
+ifndef LIBNAME
+ifndef PROGS
+    $(error "neither <LIBNAME> nor <PROGS> is defined.")
+endif
+endif
+
+ifdef COMMON_OBJS
+    $(error "<COMMON_OBJS> is an obsolete variable")
+endif
+
+ifeq ($(BUILD_DIR),.)
+    $(error "<BUILD_DIR> cannot be '.' or clean will remove everything.")
+endif
+ifeq ($(BUILD_DIR),)
+    $(error "<BUILD_DIR> cannot be empty.")
+endif
+ifneq ($(RUN),0)
+    RUN_PROGS = run
+endif
+ifdef START_ASM
+	START = $(BUILD_DIR)/$(START_ASM:.S=.o)
+    $(info "Setting <START> to $(START)");
+endif
+
+BOOTLOADER ?= pi-install
+
+ifdef BOOTLOADER
+    export BOOTLOADER
+endif
+
+ifdef GREP_STR
+    export GREP_STR
+endif
+
+ifdef START
+    export START
+endif
+
+# add libpi to LIBS
+LIBS += $(LIB) $(LPI) 
+
+include $(CS140E_2025_PATH)/libpi/defs.mk
+
+ifndef MK_CHK
+    MK_CHK := $(LPP)/mk/Makefile.check-v3
+endif
+
+######################################################################
+# 2. compute all dependency and .o files
+
+
+# compute all common object files: right now we mix .S and .c 
+# files in this, not sure if it matters.
+# we could do something like:
+#   $(filter $@,$(COMMON_SRC)).c 
+#   $(filter $@,$(COMMON_SRC)).S 
+# (probably good idea.)
+common_objs := $(COMMON_SRC:.c=.o)
+common_objs := $(common_objs:.S=.o)
+common_objs := $(common_objs:.s=.o)
+
+prog_objs :=  $(PROGS:.c=.o) 
+
+# all objects that ever get built.
+built_objs := $(common_objs) $(prog_objs)
+prebuilt_objs := $(STAFF_OBJS)  $(PREBUILT_OBJS)
+
+# all directories of all built-objects (used for vpath and includes)
+built_dirs :=  $(sort $(dir $(built_objs)))
+VPATH := $(built_dirs)    # tell make where to look.
+
+# relocate all built .o files to <BUILD_DIR>
+common_objs := $(foreach o, $(common_objs), $(BUILD_DIR)/$(notdir $(o)))
+prog_objs   := $(foreach o, $(prog_objs), $(BUILD_DIR)/$(notdir $(o)))
+built_objs  := $(common_objs) $(prog_objs)
+link_objs   := $(common_objs) $(prebuilt_objs)
+
+# every built object should have a .d file in the build dir.
+built_deps := $(built_objs:.o=.d)
+
+# fake target used to run the programs.
+progs_run    := $(PROGS:.c=.run)
+# all bins go in current directory.
+progs_bin    := $(PROGS:.c=.bin)
+# all .list files go in the current directory.
+progs_list   := $(PROGS:.c=.list)
+# put the ELF in BUILD_DIR
+progs_elf := $(prog_objs:.o=.elf)
+
+# all files to tag: we manually list out the .h's
+headers += $(foreach d, $(built_dirs), $(wildcard $d*.h))
+all_tags := $(COMMON_SRC) $(PROGS) $(headers)
+
+# update the compilation include flags to look in all directories.
+# this will not work great if same .h name is used in different
+# directories.
+
+# INC += -I. $(foreach d, $(built_dirs), -I$(d))
+
+DEPFLAGS =  -MT $@ -MMD -MP -MF $(BUILD_DIR)/$*.d
+
+.SUFFIXES: .run
+
+# recompile everything if any makefile changes.
+DEPS += $(MAKEFILE_LIST)
+# relink if these change.
+LINK_DEPS += $(MEMMAP) $(DEPS) $(START) 
+
+# if we are building libpi.a don't add it as a dependency!
+ifneq ($(LIBNAME),libpi.a)
+ifneq ($(LIBNAME),libpi-fp.a)
+LINK_DEPS += $(LPI)
+
+# put lib first so we take symbols from there.
+# had a very weird error where a foo.o was appearing in libpi.  wth.
+LIBS += $(LIBNAME) $(LPI)
+
+else
+LIBS = $(LPI)
+endif
+endif
+
+all:: $(BUILD_DIR)  libs $(LIB) $(progs_bin) $(LIBNAME) $(RUN_PROGS) 
+
+$(BUILD_DIR):  FORCE
+	@mkdir -p $(BUILD_DIR)
+
+.PHONY: print
+print:
+	@echo "progs_elf=<$(progs_elf)>"
+	@echo "progs_bin=<$(progs_bin)>"
+	@echo "progs_list=<$(progs_list)>"
+	@echo "built_deps=<$(built_deps)>"
+	@echo "built_objs=<$(built_objs)>"
+	@echo "common_objs=<$(common_objs)>"
+	@echo "link_objs=<$(link_objs)>"
+	@echo "VPATH=<$(VPATH)>"
+	@echo "LIBS=<$(LIBS)>"
+	@echo "LINK_DEPS=<$(LINK_DEPS)>"
+	@echo "START=<$(START)>"
+	@echo "BUILD_DIR=<$(BUILD_DIR)>"
+
+.PHONY: FORCE
+FORCE:
+
+# if we are building libpi.a don't rerun make
+#   @make -s -C $(LPP)
+# otherwise rebuild.
+#
+# double colon is so user can add transparently.
+libs:: FORCE
+ifneq ($(LIBNAME),libpi.a)
+ifneq ($(LIBNAME),libpi-fp.a)
+	make -C $(LPP)
+
+$(LPI):
+	make -C $(LPP)
+endif
+endif
+
+
+# rules to generate .o from .c and .S files.
+# NOTE:
+#  1. we explicitly force a .d file to be 
+#     present to catch mistakes in mis-specifying 
+#     them.  
+#  2. we use a '|' (order only) rule b/c we only
+#     need the <BUILD_DIR> to exist; we don't care about
+#     its timestamp.
+
+%.o:%.c # remove built-in rule for .c
+$(built_deps):
+$(built_objs): 
+$(BUILD_DIR)/%.o: %.c  $(BUILD_DIR)/%.d $(DEPS)  | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+
+%.o:%.S  # remove builtin rule for .S
+%.o:%.s  # remove builtin rule for .s
+
+$(START):
+$(START:.o=.d):
+$(built_deps):
+$(built_objs):
+$(BUILD_DIR)/%.o: %.S $(BUILD_DIR)/%.d $(DEPS)  | $(BUILD_DIR)
+	$(CC) $(CPP_ASFLAGS) $(DEPFLAGS) -c $< -o $@
+
+# b/c of our explicit dependencies on .d files, we tell
+# 'make' not to panic if no .d exists since it will
+# get generated by the end.  (you can test this by deleting
+# the .d and seeing that it and its associated .o will
+# get regenerated correctly)
+%.d: ;
+
+# we delete the archive before creating so that the hack of
+# having duplicate symbols in it resolved in order works.
+$(LIBNAME): $(link_objs) $(prebuilt_objs) $(LINK_DEPS)
+	@rm -f $@
+	$(AR) crf $@ $(link_objs) $(prebuilt_objs)
+	$(OD) -D $@ > $@.list
+
+
+ifdef LIBNAME
+$(progs_elf):
+$(BUILD_DIR)/%.elf: $(BUILD_DIR)/%.o $(BUILD_DIR)/%.d $(LINK_DEPS) $(LIBNAME)
+	$(LD) $(LDFLAGS) $(START) $< -T $(MEMMAP) -o $@ $(LIBS) $(LIBNAME) $(LIB_POST)
+else
+$(progs_elf):
+$(BUILD_DIR)/%.elf: $(BUILD_DIR)/%.o $(BUILD_DIR)/%.d $(prebuilt_objs) $(link_objs) $(LINK_DEPS) $(LIBS)
+	$(LD) $(LDFLAGS) $(START) $< $(link_objs) -T $(MEMMAP) -o $@ $(LIBS) $(LIB_POST)
+endif
+
+$(prebuilt_objs):
+	$(error "ERROR: PREBUILT_OBJ <$@> does not exist!")
+
+$(progs_list): %.list: $(BUILD_DIR)/%.elf
+	$(OD) -d $< > $@
+
+$(progs_bin): %.bin: $(BUILD_DIR)/%.elf %.list $(DEPS)
+	$(OCP) $(BUILD_DIR)/$*.elf -O binary $*.bin
+
+%.run: %.bin
+	$(BOOTLOADER) $(TTYUSB) ./$<
+run: $(progs_run)
+
+ifneq ($(CAN_EMIT), 0)
+emit: libs $(DEPS) $(progs_bin) FORCE
+	@make -e -f $(MK_CHK) emit "TESTS=$(progs_bin)"
+endif
+
+check: libs $(DEPS) $(progs_bin)
+	@make -f $(MK_CHK) check "TESTS=$(progs_bin)"
+
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),cleanall)
+-include $(built_deps)  # include dep files
+endif
+endif
+
+# we have these as explicit targets above, so don't need this.
+#$(progs_bin):
+#$(progs_elf):
+#$(progs_list):
+#$(built_deps):
+
+gen-binaries: $(progs_bin)
+.PHONY: gen-binaries 
+
+# XXX: should do tags of all the source.  make a variable.
+tags::
+	ctags $(all_tags) $(LPP)/*.[Ssch] $(LPP)/*/*.[chSs]
+
+
+# note: double :: is so user can add rules to <clean> transparently
+clean::
+	rm -rf $(BUILD_DIR) $(progs_bin) $(progs_list) $(LIBNAME)  $(LIBNAME).list
+	rm -f *~ tags Makefile.bak  *.test
+
+.PHONY: libs all tags clean run check
+
+####################################################################
+# TODO: rip out all the libraries and run make on them.  
+
+# # Function to define a rule for each library
+# define library_rule
+# $(1): 
+#    @echo "Rebuilding $(1)"
+#	make -C $(abspath $(1))  $(notdir $(1))
+# endef
+
+# Use foreach and eval to create a rule for each library
+# $(foreach lib,$(LIBS),$(eval $(call library_rule,$(lib))))

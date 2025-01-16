@@ -1,0 +1,144 @@
+# stand-alone makefile for testing: aims to compare subsequent runs ("make checkall")
+# against a previous reference run ("make emitall")
+#
+# if you do:
+#   - "make runall" it will run all programs in TESTS
+#   - "make emitall" it emit .outs for all programs in TESTS
+#   - "make checkall" it will check all programs in TESTS against their .out
+#   - "make cksumall" it will compute checksums for all programs in TESTS
+#
+# Should not have to invoke this directly: ./Makefile does.
+#
+# We seperate this out to hopefully clean up the various makefiles: they worry
+# about making binaries, this one worries about testing.
+
+BOOTLOADER ?= pi-install  
+
+# shut up "ntering/leaving"
+MAKEFLAGS += --no-print-directory
+
+# we only look at this output
+GREP_STR ?= 'PI:\|TRACE:\|ERROR:\|PANIC:' 
+EXCLUDE ?= grep -v simple_boot
+EXCLUDE ?= cat
+CMD_EXTRA ?= 
+
+BOOT_CMD := $(BOOTLOADER) $(TTYUSB)
+
+# strip all bracketed tags in output messages
+STRIP_BRACKETS := 's/\[.*\]//'
+STRIP_REL := 's/\.\.\///'
+
+.SUFFIXES: .out .run .check .raw
+
+BIN_SUFFIX ?= .bin
+
+# this will be passed in by the caller.
+# TESTS      := $(patsubst %.c, %, $(TESTS_SRC)) 
+ifneq ($(MAKECMDGOALS),clean)
+ifndef TESTS
+$(error variable TESTS is empty: Makefile invoked incorrectly)
+endif
+endif
+
+
+TEST_RUN   := $(patsubst %$(BIN_SUFFIX), %.run, $(TESTS))  
+TEST_CHECK := $(patsubst %$(BIN_SUFFIX), %.check, $(TESTS))  
+TEST_CKSUM := $(patsubst %$(BIN_SUFFIX), %.cksum, $(TESTS))  
+TEST_OUT   := $(patsubst %$(BIN_SUFFIX), %.out, $(TESTS))  
+
+ifeq ($(RUN),1)
+RUN_MK = $(TEST_RUN)
+endif
+
+
+# set whatever you want the default action to be.
+all:: $(RUN_MK) # $(TEST_RUN) # $(TEST_CHECK) 
+
+printx:
+	# TESTS=$(TESTS)
+	# TEST_RUN=$(TEST_RUN)
+
+%.run: %$(BIN_SUFFIX)
+	@echo "\n----------------[about to run <./$*]-----------------------";
+	$(BOOT_CMD) ./$< 
+	@echo "-----------------[done running <./$*>]-----------------------";
+
+%.err: %$(BIN_SUFFIX)
+	@-./$<  && echo "Fail: did not detect error" || echo "Success: detected error";
+
+
+# note: this will fail if output does not contain a trace.
+# we pull everything into .out so that it's easier to debug.
+%.out: %$(BIN_SUFFIX)
+	@echo -n "generating <$*.out> and <$*.raw>: ";
+	@$(BOOT_CMD) ./$< >  $*.raw 2>&1                                        \
+	|| (                                                                    \
+            echo "ERROR: [$(BOOT_CMD) ./$< $(CMD_EXTRA)] failed:\n";        \
+            echo "        -----------[$*.test.raw start]----------------";  \
+            cat $*.test.raw;                                                \
+            echo "        -----------[$*.test.raw end]------------------\n\n";\
+            exit 1                                                          \
+        )
+	@$(EXCLUDE) $*.raw | sed $(STRIP_BRACKETS) | grep $(GREP_STR) > $*.out
+	@echo " success!";
+
+# need to merge the .out and .check rules so we don't have to keep
+# replicating.
+%.check: %$(BIN_SUFFIX)
+	@echo    "-------------------------------------------------";
+	@echo    "checking <$*>: ";
+	@echo    "  about to emit new <$*.test>:"
+	@echo    "     $(BOOT_CMD) ./$< $(CMD_EXTRA) > $*.test"
+	@$(BOOT_CMD) ./$< $(CMD_EXTRA) > $*.test.raw 2>&1                       \
+	|| (                                                                    \
+            echo "ERROR: [$(BOOT_CMD) ./$< $(CMD_EXTRA)] failed:\n";         \
+            echo "        -----------[$*.test.raw start]----------------";  \
+            cat $*.test.raw;                                                \
+            echo "        -----------[$*.test.raw end]------------------\n\n";\
+            exit 1                                                          \
+        )
+
+	@$(EXCLUDE) $*.test.raw | sed $(STRIP_REL) | sed $(STRIP_BRACKETS) | grep  $(GREP_STR) > $*.test
+	@echo "  about to compare contents:"
+	@echo "     diff $*.out $*.test"
+	@diff ./$*.out ./$*.test \
+      || (                                                                  \
+            echo "";                                                        \
+            echo "\t^";                                                     \
+            echo "\t|";                                                     \
+            echo "\t|";                                                     \
+            echo "   ERROR: files don't match!  Compare them to see why:";  \
+            echo "\t$*.out  = `wc -l < $*.out`  lines # correct ref output";\
+            echo "\t$*.test = `wc -l < $*.test` lines # incorrect test output";\
+            echo "   or just run the command by hand:";                     \
+			echo "\t$(BOOT_CMD) ./$< $(CMD_EXTRA)";                         \
+            exit 1;                                                         \
+        )
+	@echo "  SUCCESS!   Test output and reference match."
+	@rm ./$*.test
+	@rm ./$*.test.raw
+
+# we could just cksum all the .outs, but this lets us be more targeted.
+%.cksum: %.out
+	cksum ./$*.out
+
+# not sure if there is a better way: use these fake target to run our
+# checks for everything.
+ifneq ($(CAN_EMIT), 0)
+emit: $(TEST_OUT) 
+endif
+
+check: $(TEST_CHECK)  
+run: $(TEST_RUN)
+cksum:  $(TEST_CKSUM)
+
+#cleanall:
+#	rm -f *.out *.raw
+clean::
+	rm -f *~ *.test *.test.raw
+ 
+.PHONY: all clean run emit check cksum
+
+# need to redo so we don't have this.
+.PRECIOUS: %.raw %.out 

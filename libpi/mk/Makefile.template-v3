@@ -1,0 +1,145 @@
+MAKEFLAGS += --no-print-directory
+BUILD_DIR ?= ./objs
+
+# sanity checks.
+ifndef PROGS
+    $(error "PROGS is not defined.")
+endif
+ifeq ($(BUILD_DIR),.)
+    $(error "BUILD_DIR cannot be '.' or clean will remove everything.")
+endif
+ifeq ($(BUILD_DIR),)
+    $(error "BUILD_DIR cannot be empty.")
+endif
+ifneq ($(RUN),0)
+    test_run := $(PROGS:.c=.run)
+endif
+
+# grab all the source: XXX COMMON_SRC should be .S as well?
+objs := $(COMMON_OBJS) $(COMMON_SRC:.c=.o)
+objs := $(objs:.S=.o)
+objs := $(objs:.s=.o)
+
+dep = $(objs:.o=.d) $(PROGS:.c=.d)
+dep := $(foreach o, $(dep), $(BUILD_DIR)/$(notdir $(o)))
+
+# all locations.
+locs := $(objs) $(START) $(PROGS)
+dirs :=  $(sort $(dir $(locs)))
+
+all_tags := $(foreach d, $(dirs), $(d)*.[cSh])
+
+objs := $(foreach o, $(objs), $(BUILD_DIR)/$(notdir $(o)))
+all_objs := $(objs) $(STAFF_OBJS) 
+
+CFLAGS += $(foreach d, $(dirs), -I$(d))
+headers += $(foreach d, $(dirs), $(d)/*.h)
+
+RUN=1
+# we might not need these.
+test_bin := $(PROGS:.c=.bin)
+test_list   := $(PROGS:.c=.list)
+test_elf   := $(PROGS:.c=.elf)
+test_dep   := $(PROGS:.c=.d)
+##test_tmp   := $(PROGS:.c=.test) $(PROGS:.c=.raw)
+
+# tell make where to look.
+VPATH := $(dirs)
+
+.SUFFIXES: .run
+
+include $(CS140E_2025_PATH)/libpi/defs.mk
+CFLAGS += -MMD
+## XXX: when we don't have this, the .d files don't get generated.
+# but make wasn't complaining.
+CPP_ASFLAGS += -MMD
+
+LIBS += $(LIB) $(LPI) 
+
+# all the makefile dependencies: force recompile if these change.
+mk = $(LPP)/mk/Makefile.template-v3 ./Makefile $(LPP)/defs.mk
+DEPS += $(MEMMAP) $(LPI)  $(mk)
+
+all:: $(BUILD_DIR) libs $(LIB) $(test_bin) $(test_run) 
+
+# always create the directory.
+# $(BUILD_DIR): ; mkdir -p $(BUILD_DIR)
+
+$(BUILD_DIR):  FORCE
+	@mkdir -p $(BUILD_DIR)
+
+FORCE:
+
+printdep:
+	@echo "all_tags=<$(all_tags)>"
+
+
+print:
+	# test_bin = <$(test_bin)>
+	# dir = <$(dirs)>
+	# all_objs = <$(all_objs)>
+
+# double colon is so user can add transparently.
+libs:: FORCE
+	@make -s -C $(LPP)
+FORCE:
+
+$(LPI):
+	@make -s -C $(LPP)
+
+
+%.elf: %.o $(all_objs) $(DEPS) $(START) $(LIBS) 
+	$(LD) $(LDFLAGS) $(START)  $< $(all_objs) -T $(MEMMAP) -o $@ $(LIBS) $(LIB_POST)
+
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),cleanall)
+-include $(dep)  # include dep files
+endif
+endif
+
+# only have these two rules to catch case when the .d isn't generated.
+# 
+#$(BUILD_DIR)/%.d: %.c  $(DEPS) 
+#	$(CC) $(CFLAGS) -c -MMD $< -o $(DUILB$*.o
+#$(BUILD_DIR)/%.d: %.S $(DEPS)
+#	$(CC) $(CPP_ASFLAGS) -c -MMD $< -o $*.o
+#
+
+$(BUILD_DIR)/%.o: %.c  $(DEPS) 
+	$(CC) $(CFLAGS) -c $< -o $@
+$(BUILD_DIR)/%.o: %.S $(DEPS) 
+	$(CC) $(CPP_ASFLAGS) -c $< -o $@
+
+# why do we need these?  is this for PROG?
+./%.o: %.c  $(DEPS)
+	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.S $(DEPS)
+	$(CC) $(CPP_ASFLAGS) -c $< -o $@
+
+%.list: %.elf
+	$(OD) -d   $*.elf > $*.list
+%.bin: %.list $(DEPS)
+	$(OCP) $*.elf -O binary $*.bin
+%.run: %.bin
+	$(BOOTLOADER) $(TTYUSB) ./$<
+
+# XXX: should do tags of all the source.  make a variable.
+tags::
+	ctags $(COMMON_SRC) $(PROGS)  $(LPP)/*.[Ssch] $(LPP)/*/*.[chSs] $(all_tags)
+
+# note: double :: is so user can add rules to <clean> transparently
+clean::
+	rm -rf $(BUILD_DIR) $(test_bin) $(test_list) $(test_elf)
+	rm -f *~ tags $(objs) Makefile.bak *.d $(TEST_OBJS) *.raw *.test $(TEST_ASM_OBJS) 
+	rm -f $(TEST_LIST) $(TEST_ELF) $(TEST_DEP) $(TEST_TMP) $(TEST_PROGS)
+
+.PHONY: libs all tags clean FORCE
+
+# stop make from deleting these suffix'd files.
+.PRECIOUS: %.list %.elf $(BUILD_DIR)/%.o $(BUILD_DIR)/%.d 
+
+BOOTLOADER ?= my-install
+# TESTS = $(TEST_PROGS)
+#ifneq ($(DEFINE_CHECK),0)
+#include $(MK_CHK)
+#endif
