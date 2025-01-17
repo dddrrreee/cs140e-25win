@@ -85,6 +85,7 @@ Checking your code:
 #### Checksums.
 
 If you want to use our checksums:
+
 		% cd 1-fake-pi/test
 		% make checkoff
 
