@@ -15,6 +15,16 @@
                 return DEV_VAL32(x);
             }
 
+  - Please make sure your class path definition ends with
+    a `/`.  For example:
+
+        setenv CS140E_2025_PATH /home/engler/class/cs140e-25win/
+
+    Versus
+
+        setenv CS140E_2025_PATH /home/engler/class/cs140e-25win
+
+
 ----------------------------------------------------------
 
 A goal of this course is that you will write every single line of
