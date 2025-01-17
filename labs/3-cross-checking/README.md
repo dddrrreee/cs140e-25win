@@ -1,8 +1,21 @@
 ### Lab: automatically cross-check your GPIO code against everyone else's.
 
-***NOTE:
- - first things first: make sure that `make` in `00-hello` works
-   as a way to check your setup!***
+----------------------------------------------------------
+***Errata***:
+***Errata***:
+***Errata***:
+***Errata***:
+
+  - don't check for 47 in `gpio_read` do:
+
+            int gpio_read(unsigned pin) {
+                if(pin >= 32)
+                    return -1;
+                ...
+                return DEV_VAL32(x);
+            }
+
+----------------------------------------------------------
 
 A goal of this course is that you will write every single line of
 (interesting) low level code you use.  A good result of this approach
@@ -376,7 +389,7 @@ First things first:
 
 
             int gpio_read(unsigned pin) {
-                if(pin >= 32 && pin != 47)
+                if(pin >= 32)
                     return -1;
                 ...
                 return x;
@@ -385,7 +398,7 @@ First things first:
      Becomes
 
             int gpio_read(unsigned pin) {
-                if(pin >= 32 && pin != 47)
+                if(pin >= 32)
                     return -1;
                 ...
                 return DEV_VAL32(x);

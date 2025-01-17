@@ -6,7 +6,7 @@
 PROGS := hello.c 
 
 # COMMON_OBJS := ../1-fake-pi.staff/gpio.o
-COMMON_OBJS := ../1-fake-pi/gpio.o
+# COMMON_OBJS := ../1-fake-pi/gpio.o
 
 # define this if you need to give the device for your pi
 TTYUSB = 

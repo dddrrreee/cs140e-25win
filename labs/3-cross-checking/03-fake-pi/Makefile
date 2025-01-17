@@ -7,9 +7,9 @@
 #  2 is the fanciest.
 #  switch the variable to run each.
 # last writer wins: start with 0-libpi-fake
-FAKE_VERSION = 2-libpi-fake
 FAKE_VERSION = 1-libpi-fake
 FAKE_VERSION = 0-libpi-fake
+FAKE_VERSION = 2-libpi-fake
 
 MAKEFLAGS += --no-print-directory
 
