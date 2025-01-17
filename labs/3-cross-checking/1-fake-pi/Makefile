@@ -12,17 +12,8 @@ LIB_SRC  += $(LPP)/libc/putk.c
 LIB_SRC  += $(LPP)/libc/putchar.c
 LIB_SRC  += $(LPP)/staff-src/clean-reboot.c
 
-# 3. pull in your gpio.c
-# undefine CS140E_STAFF
-
-ifndef CS140E_STAFF
-  # copy your gpio here!
-  LIB_SRC  += gpio.c 
-else
-  LIB_SRC  += $(LPP)/staff-private/gpio.c 
-  # $(error "what");
-endif
-
+# copy your gpio here!
+LIB_SRC  += gpio.c 
 
 # all the include locations.
 INC +=  -I$(LPP)/include
