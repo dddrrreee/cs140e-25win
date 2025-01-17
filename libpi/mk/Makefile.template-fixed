@@ -67,6 +67,12 @@ LIBS += $(LIB) $(LPI)
 
 include $(CS140E_2025_PATH)/libpi/defs.mk
 
+# try this method instead so we don't need the year baked
+# into everything.
+# THIS_MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
+# cur_dir := $(dir $(THIS_MAKEFILE))
+# include $(cur_dir)/../defs.mk
+
 ifndef MK_CHK
     MK_CHK := $(LPP)/mk/Makefile.check-v3
 endif
