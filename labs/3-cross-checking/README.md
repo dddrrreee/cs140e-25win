@@ -321,7 +321,7 @@ To see how this all works:
 The `Makefile` in `1-fake-pi/tests` automates the process, but to understand
 how this works, let's run the `1-blink` from last lab using `fake-pi`:
 
-            % cd labs/4-cross-check/1-fake-pi/tests
+            % cd labs/3-cross-check/1-fake-pi/tests
             % make
             % ./prog-1-blink > prog-1-blink.out
             % cksum prog-1-blink.out
@@ -547,7 +547,7 @@ Checkoff:
       (See a pattern?)
 
    3. Checking that `printk` now works for real; if you go into
-      `4-cross-check/check-hello` and type `make` it produce a `hello.bin`
+      `3-cross-check/check-hello` and type `make` it produce a `hello.bin`
       that it can run successfully.
       If so, congratulations!  It is using your `gpio.c`
 
