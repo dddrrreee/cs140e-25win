@@ -6,6 +6,11 @@
 ***Errata***:
 ***Errata***:
 
+  - `2-trace`: this `Makefile` has issues, so you may need
+    to run `make` in `2-trace` and then inside `2-trace/test`
+    this won't be true for the rest of the quarter.  I forgot
+    to fix a problem from last year.
+    
   - if your tracing just hangs this is b/c there is an
     infinite loop from printing: `printk` will call the
     UART driver, which will then call `put32` and `get32`
