@@ -6,6 +6,13 @@
 ***Errata***:
 ***Errata***:
 
+  - if your tracing just hangs this is b/c there is an
+    infinite loop from printing: `printk` will call the
+    UART driver, which will then call `put32` and `get32`
+    which you will then call `printk` for etc.  this is
+    a pretty common issue when writing low level monitor
+    code. soln: don't trace when you've called `printk`.
+
   - don't check for 47 in `gpio_read` do:
 
             int gpio_read(unsigned pin) {
