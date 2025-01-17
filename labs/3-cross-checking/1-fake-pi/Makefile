@@ -30,7 +30,7 @@ all::
 	@echo "INC += $(INC)" > includes.mk
 
 gpio.c:
-	$(error "need to copy gpio.c into this directory");
+	$(error "copy 2-gpio/code/gpio.c into this directory");
 
 checkoff:
 	make -C tests checkoff
