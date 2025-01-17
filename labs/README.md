@@ -57,7 +57,6 @@ r/pi and using modern techniques to validate it.  Doing so will remove
 magic from what is going on since all of the interesting code on both
 the pi and Unix side will be written by you:
 
-***We are here*** ===>
 
   - [2-gpio](2-gpio/):  Two parts.  First, we will give out the
     hardware and make sure it works: [0-pi-setup](0-pi-setup/README.md).
@@ -72,6 +71,8 @@ the pi and Unix side will be written by you:
        - Note: [crash course in writing device code](../notes/devices/DEVICES.md).
        - pages 4--7 and 91---96 of the broadcom
          datasheet (`docs/BCM2835-ARM-Peripherals.annot.PDF`)
+
+***We are here*** ===>
 
   - [3-cross-check](3-cross-checking): you will use read-write logging
     of all loads and stores to device memory to verify that your GPIO

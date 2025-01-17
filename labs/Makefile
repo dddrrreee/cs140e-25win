@@ -2,7 +2,7 @@
 SUBDIRS += 0-pi-setup 
 SUBDIRS += 1-trusting-trust 
 SUBDIRS += 2-gpio
-#SUBDIRS += 4-cross-checking
+SUBDIRS += 3-cross-checking
 #SUBDIRS += 5-interrupts
 #SUBDIRS += 6-threads
 #SUBDIRS += 7-bootloader

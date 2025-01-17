@@ -1,0 +1,121 @@
+# stand-alone makefile for testing: aims to compare subsequent runs ("make checkall")
+# against a previous reference run ("make emitall")
+#
+# if you do:
+#   - "make runall" it will run all programs in TESTS
+#   - "make emitall" it emit .outs for all programs in TESTS
+#   - "make checkall" it will check all programs in TESTS against their .out
+#   - "make cksumall" it will compute checksums for all programs in TESTS
+#
+# Should not have to invoke this directly: ./Makefile does.
+#
+# We seperate this out to hopefully clean up the various makefiles: they worry
+# about making binaries, this one worries about testing.
+
+# shut up "ntering/leaving"
+MAKEFLAGS += --no-print-directory
+
+# we only look at this output
+GREP_STR ?= 'PI:\|TRACE:\|ERROR:\|PANIC:' 
+EXCLUDE ?= cat
+CMD_EXTRA ?= 
+
+ifneq ($(PROLOGUE),0)
+PRO = TRACE
+else
+$(error "pro=$(PROLOGUE)")
+endif
+
+# strip all bracketed tags in output messages
+STRIP_BRACKETS := 's/\[.*\]//'
+STRIP_REL := 's/\.\.\///'
+
+.SUFFIXES: .out .run .check .raw
+
+BIN_SUFFIX ?=
+
+# this will be passed in by the caller.
+# TESTS      := $(patsubst %.c, %, $(TESTS_SRC)) 
+ifndef TESTS
+$(error variable TESTS is empty: Makefile invoked incorrectly)
+endif
+
+# TEST_RUN   := $(patsubst %$(BIN_SUFFIX), %.run, $(TESTS))  
+TEST_CHECK := $(patsubst %$(BIN_SUFFIX), %.check, $(TESTS))  
+TEST_CKSUM := $(patsubst %$(BIN_SUFFIX), %.cksum, $(TESTS))  
+TEST_OUT   := $(patsubst %$(BIN_SUFFIX), %.out, $(TESTS))  
+TEST_REF   := $(patsubst %$(BIN_SUFFIX), %.ref, $(TESTS))  
+
+ifeq ($(RUN),1)
+RUN_MK = $(TEST_RUN)
+endif
+
+
+# set whatever you want the default action to be.
+all:: $(RUN_MK) # $(TEST_RUN) # $(TEST_CHECK) 
+
+print:
+	@echo "test check: $(TEST_CHECK)";
+	@echo "test out: $(TEST_OUT)";
+
+%.err: %$(BIN_SUFFIX)
+	@-./$<  && echo "Fail: did not detect error" || echo "Success: detected error";
+
+# note: this will fail if output does not contain a trace.
+# we pull everything into .out so that it's easier to debug.
+%.raw:
+$(TEST_OUT):
+%.out: %$(BIN_SUFFIX)
+	@echo -n "generating <$*.out> and <$*.raw>: ";
+	@echo  "$(PRO): out file for <$*>" > $*.raw
+	@./$< >>  $*.raw 2>&1
+	@$(EXCLUDE) $*.raw | sed $(STRIP_BRACKETS) | grep $(GREP_STR) > $*.out
+	@echo " success!";
+
+%.check: %$(BIN_SUFFIX)
+	@echo    "-------------------------------------------------";
+	@echo    "checking <$*>: ";
+	@echo    "  about to emit new <$*.test>:"
+	@echo    "     ./$< $(CMD_EXTRA) > $*.test"
+	echo  "$(PRO): out file for <$*>" > $*.test.raw
+	@./$< $(CMD_EXTRA) >> $*.test.raw 2>&1  \
+        || (                                                    \
+            echo "ERROR: [./$< $(CMD_EXTRA)] crashed:\n";   \
+            echo "        -----------[$*.test.raw start]----------------";\
+            cat $*.test.raw;                                    \
+            echo "        -----------[$*.test.raw end]------------------\n\n";\
+            exit 1                                              \
+        )
+	@$(EXCLUDE) $*.test.raw | sed $(STRIP_REL) | sed $(STRIP_BRACKETS) | grep  $(GREP_STR) > $*.test
+	@echo -n "     new <$*.test> lines = "
+	@cat $*.test | wc -l 
+	@echo -n "     old ref <$*.out>: lines=";
+	@cat $*.out | wc -l 
+	@echo    "  about to compare new <$*.test> to old <$*.out>: ";
+	@diff ./$*.out ./$*.test || (echo "mismatch in reference ($*.out) and test ($*.test): compare them directly to see why"; exit 1)
+	@echo    "  Success!  Matched!";
+	@rm ./$*.test
+
+# we could just cksum all the .outs, but this lets us be more targeted.
+%.cksum: %.out
+	cksum ./$*.out
+
+# not sure if there is a better way: use these fake target to run our
+# checks for everything.
+ifneq ($(CAN_EMIT), 0)
+emit: $(TEST_OUT) 
+endif
+
+check: $(TEST_CHECK)  
+# run: $(TEST_RUN) 
+cksum:  $(TEST_CKSUM)
+ref:  $(TEST_REF)
+
+#cleanall:
+#	rm -f *.out *.raw
+clean::
+	rm -f *.raw *~
+
+.PHONY: all clean run emit check cksum
+
+# .PRECIOUS: %.raw %.out 
