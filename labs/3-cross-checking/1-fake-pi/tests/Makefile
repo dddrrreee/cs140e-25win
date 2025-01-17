@@ -49,13 +49,14 @@ TEST_SRC := 0-gpio-write-17.c
 # TEST_SRC :=  $(wildcard ./act-*.c) 
 
 # 6. then do everything.
-TEST_SRC := $(wildcard ./[0-5]-*.c) $(wildcard ./prog-*.c)  $(wildcard ./act-*.c) 
+# TEST_SRC := $(wildcard ./[0-5]-*.c) $(wildcard ./prog-*.c)  $(wildcard ./act-*.c) 
 
-# this is used by the checkoff command.
+# the source used by the checkoff command.
 CHKOFF_SRC := $(wildcard ./[0-5]-*.c)  \
               $(wildcard ./prog-*.c)   \
               $(wildcard ./act-*.c) 
 
+# all the .outs
 CHKOFF_OUT := $(patsubst %.c, %.out, $(CHKOFF_SRC))
 
 #######################################################################
@@ -114,7 +115,7 @@ print:
 	echo "$(TEST_OUT)"
 
 checkoff: #  $(DEPS) 
-	make -C ./ emit
+	@make -C ./ emit
 	@echo "cksums of all files in (CHKOFF_OUT):";
 	@ls $(CHKOFF_OUT) | sort | xargs cksum
 	@echo -n "total files = ";
