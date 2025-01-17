@@ -30,6 +30,15 @@ machines are equivalant by comparing their logic.  On the other hand
 it's trivial compare their tapes after they run: same end tape = same
 computed result.
 
+
+You'll do two things:
+  1. Run your code in a simple fake simulator that you'll modify
+     so that you can trace the memory reads and writes it does to 
+     GPIO memory.  
+
+  2. Using the "wrap" linker trick to trace the code on the raw 
+     hardware.  
+
 ----------------------------------------------------------------------
 #### tl;dr: checking code
 
@@ -121,7 +130,6 @@ There's a bunch of extensions.
 On your local machine:
   - in directory: `1-fake-pi/test` running `make checkoff` should give
     the checksum: `525118589`.
-
 
 To checkoff:
 - First make sure you have manually made sure your code works on your computer.
@@ -565,15 +573,14 @@ For `fake-pi.c`:
     set to `~0`.
 
 For testing:
-  - *NOTE: Do a `git pull` to get our hashes.*
-
   - Enable the act tests:
 
         # 1-fake-pi/tests/Makefile
         TEST_SRC := $(wildcard ./act-*.c) 
 
 ----------------------------------------------------------------------
-##### Checkoff
+----------------------------------------------------------------------
+##### Final checkoff for part 1.
 
 Now that you're done, for checkoff:
 
@@ -589,8 +596,11 @@ Now that you're done, for checkoff:
      the checksums.  You should get a total of 29 files, and the
      checksum should be `525118589`.
 
+
+
+
 ----------------------------------------------------------------------
-#### Step 4. Do similar tracing on the pi (`2-trace`)
+#### Part 2: Do similar tracing on the pi (`2-trace`)
 
 ***Note: for the `prog-hardware-loopback.c` you'll need to run a jumper
 between pins 9 and 10 (it sets and reads).***
