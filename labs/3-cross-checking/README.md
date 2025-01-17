@@ -581,15 +581,16 @@ For testing:
 
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
-##### Final checkoff for part 1.
+## Final checkoff for part 1.
 
 Now that you're done, for checkoff:
 
   1. As described at the start of the README, 
      in `1-fake-pi/test/Makefile`  uncomment the line:
 
-        # 6. then do everything.
-        TEST_SRC := $(wildcard ./[0-5]-*.c) ... [more] ...
+
+            # 6. then do everything.
+            TEST_SRC := $(wildcard ./[0-5]-*.c) ... [more] ...
 
      So we do all the tests.
 
