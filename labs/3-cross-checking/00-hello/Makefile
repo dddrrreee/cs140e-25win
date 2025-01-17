@@ -42,7 +42,7 @@ all:  $(progs) $(run_all)
 
 # each fake target foo.run depends on foo.bin
 $(run_all): %.run: %.bin
-	pi-install ./$@
+	pi-install ./$*.bin
 
 # always attempt to remake libpi.a
 $(LPI):

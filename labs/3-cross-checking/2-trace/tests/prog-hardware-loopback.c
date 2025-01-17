@@ -7,8 +7,8 @@ void notmain(void) {
     uart_init();
 
     trace_start(0);
-    const int led = 20;
-    const int input = 21;
+    const int led = 10;
+    const int input = 9;
 
     gpio_set_output(led);
     gpio_set_input(input);

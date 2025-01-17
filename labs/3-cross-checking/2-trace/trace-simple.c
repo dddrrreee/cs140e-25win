@@ -54,11 +54,14 @@ void trace_stop(void) {
 
 // call these to emit so everyone can compare!
 static void emit_put32(uint32_t addr, uint32_t val) {
-    printk("TRACE:PUT32(0x%x)=0x%x\n", addr, val);
+    printk("TRACE:PUT32(%x)=%x\n", addr, val);
 }
 static void emit_get32(uint32_t addr, uint32_t val) {
-    printk("TRACE:GET32(0x%x)=0x%x\n", addr, val);
+    printk("TRACE:GET32(%x)=%x\n", addr, val);
 }
+
+// NOTE: you will also have to implement wrappers for get32 and
+// put32.
 
 // the linker will change all calls to GET32 to call __wrap_GET32
 void __wrap_PUT32(unsigned addr, unsigned val) {

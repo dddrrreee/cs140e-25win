@@ -1,8 +1,8 @@
 ### Lab: automatically cross-check your GPIO code against everyone else's.
 
-
-***NOTE: don't modify either the 1-fake-pi directory or the 2-trace directory: these are still being cleaned up***
-
+***NOTE:
+ - first things first: make sure that `make` in `00-hello` works
+   as a way to check your setup!***
 
 A goal of this course is that you will write every single line of
 (interesting) low level code you use.  A good result of this approach
@@ -30,7 +30,97 @@ machines are equivalant by comparing their logic.  On the other hand
 it's trivial compare their tapes after they run: same end tape = same
 computed result.
 
-#### Sign-off
+----------------------------------------------------------------------
+#### tl;dr: checking code
+
+Checking your code:
+
+   1. Your checksums for the tests in `1-fake-pi/tests` match your
+      partner's (and ours).
+
+      Note this includes implementing `gpio_set_function` and check that it 
+      gives the same checksum. 
+
+      The easiest checkoff method is edit 
+      `1-fake-pi/tests/Makefile` and uncomment the line:
+
+            # 6. then do everything.
+            TEST_SRC := $(wildcard ./[0-5]-*.c) ... [more files]
+
+      and run in the same directory (`1-fake-pi/tests`):
+
+            % make checkoff
+
+      This reduces all the output to a single number you can compare
+      at a glance with everyone else.  Note: you'll have to work with
+      everyone to figure out who is wrong when there is a difference.
+
+      This is equivalant to  manually running:
+
+            # compute the cksum of your cksums.
+            1-fake-pi/tests % ls ./*.out | sort | xargs cksum | cksum
+
+   2. `2-trace`: You get the same checksum for all the `.out` files
+      produced by the tests in `2-trace/tests` --- note, there can be a
+      differences in the intial values for GPIO pins when comparing pi
+      zeroes to pi A+s.
+
+   3. When you put in your `gpio.o` into `libpi` you get the same output
+      for (2).
+
+   4. ***NOTE: we're modifying this description.***
+      After everything works, add gpio pullup and gpio pulldown and check
+      with everyone else.  You'll have to add timing routines!
+
+------------------------------------------------------------------------
+#### Checksums.
+
+If you want to use our checksums:
+		% cd 1-fake-pi/test
+		% make checkoff
+
+        cksums of all files in (CHKOFF_OUT):
+        950806854 132 ./0-gpio-read-17.out
+        2950566669 132 ./0-gpio-read-20.out
+        950806854 132 ./0-gpio-read-21.out
+        2950566669 132 ./0-gpio-read-7.out
+        197440487 149 ./0-gpio-set-input-17.out
+        2488920004 149 ./0-gpio-set-input-20.out
+        4071544067 149 ./0-gpio-set-input-21.out
+        233099041 149 ./0-gpio-set-input-7.out
+        2970604951 143 ./0-gpio-write-17.out
+        3157623788 145 ./0-gpio-write-21.out
+        2647062284 2139 ./1-gpio-read.out
+        2830168373 5379 ./1-gpio-set-input.out
+        107627159 107 ./1-gpio-set-off.out
+        710888840 107 ./1-gpio-set-on.out
+        53206415 149 ./1-gpio-set-output.out
+        2984310116 2460 ./1-gpio-write.out
+        1190846849 2679 ./2-set-input-N.out
+        1585249846 1262 ./2-set-off-N.out
+        2356184348 1262 ./2-set-on-N.out
+        1674533470 2685 ./2-set-output.out
+        3263639091 634 ./5-gpio-n-set-func.out
+        688829614 149 ./5-gpio-set-func.out
+        2119988811 5381 ./5-set-function-N.out
+        815968718 634 ./5-set-pin-func.out
+        2608020824 149 ./act-set-output.out
+        3166146642 141 ./act-write.out
+        3264505994 1602 ./prog-1-blink.out
+        2701669809 2464 ./prog-2-blink.out
+        1444919731 4598 ./prog-3-input.out
+        total files = 29
+        USE THIS VALUE FOR CHECKOFF:
+        525118589 1049
+        
+There's a bunch of extensions.
+
+----------------------------------------------------------------------
+#### How to turn in after your local checks pass.
+
+On your local machine:
+  - in directory: `1-fake-pi/test` running `make checkoff` should give
+    the checksum: `525118589`.
 
 
 To checkoff:
@@ -44,102 +134,6 @@ To checkoff:
   - Ask a friend if they have the same cksum
  
 - Let Joe know if something isn't working
-
-
-
-To check your work manually:
-
-   1. Your checksums for the tests in `1-fake-pi/tests` match your
-      partner's (and ours).
-
-      Note this includes implementing `gpio_set_function` and check that it 
-      gives the same checksum. 
-
-      The easiest checkoff method is to 
-      change `1-fake-pi/tests/Makefile` to:
-
-            TEST_SRC := $(wildcard ./[1-5]-*.c) $(wildcard ./prog-*.c)
-
-      and run
-
-            # make sure you have all the .out files
-            % make emit
-            # see all the checksums
-            % make checkoff
-
-      This reduces all the output to a single number you can compare
-      at a glance with everyone else.  Note: you'll have to work with
-      everyone to figure out who is wrong when there is a difference.
-
-      This is equivalant to 
-
-            # compute the cksum of your cksums.
-            code/tests % make cksum | grep -v cksum | sort -n | cksum 
-
-   2. `2-trace`: You get the same checksum for all the `.out` files
-      produced by the tests in `2-trace/tests` --- note, there can be a
-      differences in the intial values for GPIO pins when comparing pi
-      zeroes to pi A+s.
-
-   3. When you put in your `gpio.o` into `libpi` you get the same output
-      for (2).
-
-   4. After everything works, add gpio pullup and gpio pulldown and check
-      with everyone else.  You'll have to add timing routines!
-
-#### Checksums.
-
-If you want to use our checksums:
-
-        % make checkoff
-        all files we are going to checksum (TEST_OUT):
-        ./0-gpio-read-17.out	   ./1-gpio-read.out	    ./5-gpio-n-set-func.out
-        ./0-gpio-read-20.out	   ./1-gpio-set-input.out   ./5-gpio-set-func.out
-        ./0-gpio-read-21.out	   ./1-gpio-set-off.out     ./5-set-function-N.out
-        ./0-gpio-read-7.out	   ./1-gpio-set-on.out	    ./5-set-pin-func.out
-        ./0-gpio-set-input-17.out  ./1-gpio-set-output.out  ./act-set-output.out
-        ./0-gpio-set-input-20.out  ./1-gpio-write.out	    ./act-write.out
-        ./0-gpio-set-input-21.out  ./2-set-input-N.out	    ./prog-1-blink.out
-        ./0-gpio-set-input-7.out   ./2-set-off-N.out	    ./prog-2-blink.out
-        ./0-gpio-write-17.out	   ./2-set-on-N.out	    ./prog-3-input.out
-        ./0-gpio-write-21.out	   ./2-set-output.out
-        total files = 29
-        checksum of cksum command <cksum TEST_OUT| sort -n | cksum> =
-            1035093327 1049
-
-        individual checksums:
-            53206415 149 ./1-gpio-set-output.out
-            107627159 107 ./1-gpio-set-off.out
-            197440487 149 ./0-gpio-set-input-17.out
-            233099041 149 ./0-gpio-set-input-7.out
-            688829614 149 ./5-gpio-set-func.out
-            710888840 107 ./1-gpio-set-on.out
-            815968718 634 ./5-set-pin-func.out
-            950806854 132 ./0-gpio-read-17.out
-            950806854 132 ./0-gpio-read-21.out
-            1190846849 2679 ./2-set-input-N.out
-            1444919731 4598 ./prog-3-input.out
-            1585249846 1262 ./2-set-off-N.out
-            1674533470 2685 ./2-set-output.out
-            2119988811 5381 ./5-set-function-N.out
-            2356184348 1262 ./2-set-on-N.out
-            2488920004 149 ./0-gpio-set-input-20.out
-            2608020824 149 ./act-set-output.out
-            2647062284 2139 ./1-gpio-read.out
-            2701669809 2464 ./prog-2-blink.out
-            2830168373 5379 ./1-gpio-set-input.out
-            2950566669 132 ./0-gpio-read-20.out
-            2950566669 132 ./0-gpio-read-7.out
-            2970604951 143 ./0-gpio-write-17.out
-            2984310116 2460 ./1-gpio-write.out
-            3157623788 145 ./0-gpio-write-21.out
-            3166146642 141 ./act-write.out
-            3263639091 634 ./5-gpio-n-set-func.out
-            3264505994 1602 ./prog-1-blink.out
-            4071544067 149 ./0-gpio-set-input-21.out
-        
-
-There's a bunch of extensions.
 
 ------------------------------------------------------------------------
 #### Background: Concepts you will learn.
@@ -363,9 +357,9 @@ First things first:
      last lab:
 
             % cd 1-fake
-            % cp ../../3-labs/code/gpio.c .
+            % cp ../../2-labs/code/gpio.c .
 
-  2. Change `gpio_read` so that on the non-error case, it
+  2. Change `gpio_read` in `gpio.c` so that on the non-error case, it
      calls `DEV_VAL32` with its return value and returns that result.
      This lets us check more stringently.
 
@@ -373,7 +367,7 @@ First things first:
 
 
             int gpio_read(unsigned pin) {
-                if(pin >= 32)
+                if(pin >= 32 && pin != 47)
                     return -1;
                 ...
                 return x;
@@ -382,7 +376,7 @@ First things first:
      Becomes
 
             int gpio_read(unsigned pin) {
-                if(pin >= 32)
+                if(pin >= 32 && pin != 47)
                     return -1;
                 ...
                 return DEV_VAL32(x);
@@ -391,6 +385,7 @@ First things first:
 
   3. Make sure you can compile without errors.
 
+            # in 1-fake-pi
             % make 
        
   4. Change into the `tests` subdirectory and run a single test.
@@ -401,13 +396,17 @@ First things first:
             # test should pass.
             % make check
 
+            checking 0-gpio-write-17:
+            about to emit a new test output <0-gpio-write-17.test>:
+                ./0-gpio-write-17.fake > ./0-gpio-write-17.test
+            about to compare...
+            Success!  Matched!
 
   5. If you look in the `Makefile` in tests it describes how to 
       run the other tests.  
 
 
-##### How to run the tests.
-
+##### Workflow
 
 The tests are organized in increasing difficulty to debug.   
   - Tests with a `0-` prefix are the easiest (start there) and just contain
@@ -421,7 +420,9 @@ The tests are organized in increasing difficulty to debug.
   - Tests with a `prog-` prefix are full program tests (taken from last lab).
   - Tests with a `act-` prefix are run the act led tests.
 
-The `Makefile` in `1-fake-pi/tests` has a set of targets to automate the process.
+
+The `Makefile` in `1-fake-pi/tests` has a set of targets to automate
+the process.
 
   - The files specified by the `TEST_SRC` variable at the top of `1-fake-pi/tests/Makefile` 
     determine which tests get run.  For example, to run all simple tests:
@@ -445,7 +446,6 @@ The `Makefile` in `1-fake-pi/tests` has a set of targets to automate the process
 You should compare to your partner and work through the tests.
 
 ##### Making  code behave the same on illegal inputs
-
 
 The `0-` and `1-` tests  work on legal inputs.  You should get these
 working.  The next set (`2-*.c`) check illegal pin inputs as well.
@@ -471,26 +471,31 @@ And for non-void, such as `gpio_read`, check and return `-1`:
 We would normally print and error and crash, but at the moment we don't
 even have `printk` so simply return.
 
-Note: no matter what, we definitely need to check for illegal pins since
-they are being used to compute an address that we read and write to
-(i.e., they determine the value passed to `GET32` and `PUT32`).  Since we
-are running without memory protecton, such invalid accesses are extremely bad 
-since they can silently corrupt data we use or issue weird hardware commands.
+Note: no matter what, we definitely need to check for illegal pins
+since they are being used to compute an address that we read and write
+to (i.e., they determine the value passed to `GET32` and `PUT32`).
+Since we are running without memory protecton, such invalid accesses
+are extremely bad since they can silently corrupt data we use or issue
+weird hardware commands.
 
-##### Checkoff
+##### Workflow
 
-The easiest way to check all the runs:
-  1. Set `TEST_SRC`:
+In general, when you work on tests:
 
-            # run all the 0 and 1 tests
-            TEST_SRC := $(wildcard ./[0-2]*.c)
+  - `make run`: will compile and run the tests.  This is good
+    to check for a crash.
 
-  2. Compute the checksum of checksums.
+  - `make emit` will emit a `.out` file for each configured
+     test.  This is the output we run `cksum` on later, and 
+     is also the used for regression testing.
+  - `make check` will rerun tests and compare there output to 
+    previously emitted .outs.  You want to do this after any
+    modification to `gpio.c` so that you can make sure old
+    functionality doesn't change.
 
-            # ensure all the code is compiled so won't be in our output.
-            % make 
-            # compute a checksum of check sums.
-            % make cksum | sort -n | cksum 
+  - `make cksum` will run `cksum` on every `.out` so that
+    you can easily compare to other people.
+
 
 ----------------------------------------------------------------------
 #### Step 2: implement `gpio_set_function` and cross-check it 
@@ -504,13 +509,14 @@ the `GPIO` code `printf` working so that it's a bit easier.
    the machine versus an application segmentation fault) and because
    our implementation isn't quite `printf`.
 
-This is the one step where you write some code.  But it's mainly just adapting
-the GPIO code you already implemented.
+This is the one step where you write some code.  But it's mainly just
+adapting the GPIO code you already implemented.
 
-The header `$CS140E_2024_PATH/libpi/include/gpio.h` in today's lab gives the definition:
+The header `$CS140E_2025_PATH/libpi/include/gpio.h` in today's 
+lab gives the definition:
 
-    // set GPIO function for <pin> (input, output, alt...).  settings for other
-    // pins should be unchanged.
+    // set GPIO function for <pin> (input, output, alt...).  
+    // settings for other pins should be unchanged.
     void gpio_set_function(unsigned pin, gpio_func_t function);
 
 This is just a more generic version of your `gpio_set_output` and
@@ -566,12 +572,28 @@ For testing:
         # 1-fake-pi/tests/Makefile
         TEST_SRC := $(wildcard ./act-*.c) 
 
+----------------------------------------------------------------------
+##### Checkoff
+
+Now that you're done, for checkoff:
+
+  1. As described at the start of the README, 
+     in `1-fake-pi/test/Makefile`  uncomment the line:
+
+        # 6. then do everything.
+        TEST_SRC := $(wildcard ./[0-5]-*.c) ... [more] ...
+
+     So we do all the tests.
+
+  2. run `make  checkoff` which will compute a checksum of all
+     the checksums.  You should get a total of 29 files, and the
+     checksum should be `525118589`.
 
 ----------------------------------------------------------------------
 #### Step 4. Do similar tracing on the pi (`2-trace`)
 
 ***Note: for the `prog-hardware-loopback.c` you'll need to run a jumper
-between pins 20 and 21 (it sets and reads).***
+between pins 9 and 10 (it sets and reads).***
 
 This uses the tracing trick from the `PRELAB`.  You should look at that
 implementation if you haven't already.
@@ -581,6 +603,9 @@ Implement the code in `2-trace`:
   - `trace-simple.c`: implement `__wrap_PUT32` and `__wrap_GET32`
   - `trace-notmainc.c: if you want to get fancy implement this
     so you can run raw pi programs in tracing mode.
+  - extend `tests/Makefile` to also handle get32 and put32.  You
+    should just change your trace library to call the wrappers for
+    `PUT32` and `GET32`.
 
 As with `1-fake-pi` start working through the tests in `2-trace/tests`.
 
@@ -598,7 +623,7 @@ and then drop in your gpio and make sure you get the same answer.
        These steps are described in the `libpi/Makefile` comments.
 
        ***To make debugging easy: before doing anything else, check that
-      running `make` in `4-cross-check/check-libpi` doesn't break: for
+      running `make` in `3-cross-check/check-libpi` doesn't break: for
       `hello-bin.bin` should print "hello" and `act-blink.bin` should
       blink the small green led on the pi itself.***
 
@@ -608,17 +633,17 @@ and then drop in your gpio and make sure you get the same answer.
 #### Extension: simulator validation
 
 Modify the `fake-pi.c` implementation to set memory to the actual values
-on the pi when called with `-initial`.  You should then check that you get the
-same results when run on the same program.  Note: you will have to do something
-about the tracing start/stop calls.
+on the pi when called with `-initial`.  You should then check that you
+get the same results when run on the same program.  Note: you will have
+to do something about the tracing start/stop calls.
 
 ----------------------------------------------------------------------
 #### Extension: Implement a better version of memory that uses an array.
 
-Our crude memory in `fake-pi.c` is relatively simple to understand, but very
-rigid since it uses a global variable for each address.  Make a copy of code
-(`cp -r code code-new`) and reimplement memory using an array.  When you rerun
-all the tests nothing should change.
+Our crude memory in `fake-pi.c` is relatively simple to understand, but
+very rigid since it uses a global variable for each address.  Make a copy
+of code (`cp -r code code-new`) and reimplement memory using an array.
+When you rerun all the tests nothing should change.
 
 ----------------------------------------------------------------------
 #### Extension: write other tests.
