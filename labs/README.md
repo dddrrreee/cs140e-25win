@@ -66,14 +66,6 @@ the pi and Unix side will be written by you:
     Broadcom document GPIO description.  You will use this to implement
     your own blink and a simple network between your r/pi's.
 
-    ***READING***:
-       - Note: [GPIO](../notes/devices/GPIO.md).
-       - Note: [crash course in writing device code](../notes/devices/DEVICES.md).
-       - pages 4--7 and 91---96 of the broadcom
-         datasheet (`docs/BCM2835-ARM-Peripherals.annot.PDF`)
-
-***We are here*** ===>
-
   - [3-cross-check](3-cross-checking): you will use read-write logging
     of all loads and stores to device memory to verify that your GPIO
     code is equivalent to everyone else's.  If one person got the code
@@ -100,7 +92,9 @@ After four runs at the architecture manual, you will have a new
 comfort with using it.
 
 
-  - [5-interupts](5-interrupts/): 
+***We are here*** ===>
+
+  - [4-interupts](4-interrupts/): 
     you will walk through a simple, self-contained implementation of
     pi interrupts (for timer-interrupts), kicking each line until you
     understand what, how, why.  You will use these to then implement
@@ -118,25 +112,12 @@ comfort with using it.
     have a result that is much much much slower and, worse, in terms
     of insight.
 
-    Incomplete reading list: 
-      - [armv6 interrupt cheat sheet](../notes/interrupts/INTERRUPT-CHEAT-SHEET.md) 
-      - [caller/callee](../../notes/caller-callee/README.md)
-      - [example mode mistakes](../notes/mode-bugs/README.md)
-      - [using gcc to figure out assembly](../notes/using-gcc-for-asm/README.md)
-      - `5-interrupts/docs/BCM2835-ARM-timer-int.annot.pdf` --- excerpt from the Broadcom
-        document, discusses how to enable both general and timer interrupts.
-
-      - `5-interrupts/docs/armv6-interrupts.annot.pdf` ---  excerpt from the ARMv6
-        document in our main `doc` directory.  Discusses where and how
-        interrupts are delivered.
-
-  - [6-threads](6-threads):  we build a simple, but functional
+  - [5-threads](5-threads):  we build a simple, but functional
     threads package.  You will write the code for non-preemptive context
     switching:  Most people don't understand such things so, once again,
     you'll leave lab knowing something many do not.   This will give you
     a second view of execution (and some depth perception of the topic)
     as well as a more fluent handle on assembly code.
-
 
 ---------------------------------------------------------------------
 
