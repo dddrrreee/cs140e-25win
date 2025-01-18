@@ -33,11 +33,14 @@ less machinery than the fancy version.
 All of them are written to guard against or eliminate the common mistakes
 described below.
 
-Required reading:
+Usefufl reading:
+  - [thorough, concrete makefile tutorial](https://makefiletutorial.com/).
+
   - [make wikipedia page](https://en.wikipedia.org/wiki/Make_(software)).
   - [simple concrete makefiles](http://nuclear.mutantstargoat.com/articles/make/).
     While the domain name is weird, the `make` examples are concrete,
     simple, useful.
+  - [short makefile tutorial](https://www.lucavall.in/blog/crafting-clean-maintainable-understandable-makefile-for-c-project)
 
   - [Auto-dependency generation](https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/).  Weird site name (a theme!), but the 
     writer is or was the GNU `make` maintainer, so contents are high signal.
