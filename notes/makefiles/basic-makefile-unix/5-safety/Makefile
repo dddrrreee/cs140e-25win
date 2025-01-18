@@ -43,6 +43,7 @@ CC := gcc
 # from other directories.
 src_dirs :=  $(sort $(dir $(src)))
 CFLAGS += $(foreach d, $(src_dirs), -I$(d))
+LDFLAGS = 
 
 # remove all "~" and ".bak" files in all source dirs
 # easy to add other files (e.g., macos seems to puke 
@@ -89,8 +90,8 @@ $(TIME_STAMP): $(MK_LIST)
 	@mkdir -p $(dir $@)
 	@touch $@
 
-$(NAME): $(obj)
-	$(CC) $(CFLAGS) $(obj) -o $(NAME)
+$(NAME): $(obj) $(dep) 
+	$(CC) $(LDFLAGS) $(obj) -o $(NAME)
 
 # delete built-in rules for .c and .d
 %.o:%.c

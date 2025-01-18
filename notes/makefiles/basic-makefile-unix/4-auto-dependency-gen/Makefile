@@ -9,6 +9,7 @@
 # 
 NAME=main
 
+
 # standard dependency flags so gcc will generate the includes
 # that a file depends on.  "$*.d" places the .d file in the same
 # location as the .c
@@ -16,6 +17,10 @@ NAME=main
 #   https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/
 DEPFLAGS = -MT $@ -MMD -MP -MF $*.d
 CFLAGS = -O -Wall $(DEPFLAGS)
+CC = gcc
+# doesn't make sense to generate dependency files during linking.
+# so we have a different set of flags (empty for now)
+LDFLAGS = 
 
 # in general use the ":=" assignment b/c it will evaluate
 # the right hand side (RHS) once, at the assignment.
@@ -26,13 +31,13 @@ dep := $(src:.c=.d)
 
 all: $(NAME) test
 
-$(NAME): $(obj)
-	$(CC) $(CFLAGS) $(obj) -o $(NAME)
+$(NAME): $(obj) $(dep)
+	$(CC) $(LDFLAGS) $(obj) -o $(NAME)
 
 # note: we add each file's .d as a dependency to catch 
 # if (1) the .d got deleted or (2) the .d was put in a 
-# different location. easy to forget this and be 
-# completely unprotected.
+# different location. not having this guardrail has burned
+# use in the past.
 %.o: %.c  %.d
 	$(CC) $(CFLAGS) -c $<  -o $@
 
@@ -47,7 +52,9 @@ $(NAME): $(obj)
 # made during compilation. 
 $(dep): %.d: ;
 
-# print out the different variables.
+# print out the different variables.  we do it using
+# comments b/c it's weird, but you could also use
+# "echo" or "printf"
 print:
 	# src = <$(src)>
 	# obj = <$(obj)>
@@ -55,7 +62,7 @@ print:
 	# DEPFLAGS = <$(DEPFLAGS)>
 	
 ######################################################################
-# ~ same as previous
+# ~ same as previous makefiles but we also delete .d files
 
 test: $(NAME) 
 	./$(NAME) > out

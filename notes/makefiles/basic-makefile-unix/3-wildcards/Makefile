@@ -10,9 +10,9 @@
 #   current directory;
 #   (2)  and making all source files depend on this list. 
 #
-# for a big project, this approach is overkill, but for a 
-# small project gives you a quick-and-dirty + 
-# trivial-to-understand <makefile>.
+# for a big project, this brute-force approach to dependencies
+# is too imprecise, but for a small project gives you a 
+# quick-and-dirty + trivial-to-understand <makefile>.
 #
 # note: this makefile is a generic template.  the only thing 
 # you *would* need to change for a similarly constructed project 
@@ -22,13 +22,13 @@ CFLAGS = -O -Wall
 
 # get all headers: will make everything depend on them.  this
 # is a downside in general, but for small stuff we don't care
-# (next few modifications change this)
+# (next few makefile's change this)
 hdr = $(wildcard *.h)
-src = $(wildcard *.c)
 # get all source
+src = $(wildcard *.c)
+# compute the .o names from the .c source code
 obj = $(src:.c=.o)
 
-# below will work as long as you define <obj>, <hdr> and <NAME>
 all: $(NAME) test
 
 $(NAME): $(obj) $(hdr)
@@ -38,7 +38,7 @@ $(NAME): $(obj) $(hdr)
 	$(CC) $(CFLAGS) -c $<  -o $@
 
 ###################################################################
-# same as previous.
+# same as previous makefiles, but we exactly list out the .o's.
 
 test: $(NAME) 
 	./$(NAME) > out

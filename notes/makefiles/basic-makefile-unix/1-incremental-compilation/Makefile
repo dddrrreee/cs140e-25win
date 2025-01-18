@@ -1,5 +1,5 @@
-# similar to 0-most-basic but does incremental compilation 
-# by manually hardcoding the names and rules for .o files.
+# similar to 0-most-basic but does incremental compilation.
+# manually hardcodes the names and rules for .o files.
 #
 # the next makefile will do fancier versions.
 
@@ -8,8 +8,8 @@ CFLAGS := -Og -Wall -Werror
 
 all: main test
 
-# list the .o files that <main> depends on.
-# will rebuild if any of these changes.
+# specifies the .o files that <main> depends on.
+# will rebuild if any of these changes or is deleted.
 main: main.o a.o b.o c.o 
 	$(CC) a.o b.o c.o main.o -o main
 
@@ -31,7 +31,8 @@ main.o: main.c header.h
 	$(CC) $(CFLAGS) -c main.c -o main.o
 
 ##################################################################
-# below is the same as 0-most-basic
+# below is the same as 0-most-basic, except we also delete .o's
+# for <clean>
 
 # the `@` in front of the line causes make to not print the command 
 test: main

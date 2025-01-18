@@ -12,10 +12,8 @@ CFLAGS := -O -Wall
 all: main test
 
 main: main.o a.o b.o c.o
+	# note we could have used $$^ ($^)
 	$(CC) a.o b.o c.o main.o -o main
-
-# disable built-in matching.  good form but not necessary.
-%.o:%.c
 
 # pattern matching rule that generates a .o from a .c in the same
 # location.
@@ -28,9 +26,8 @@ main: main.o a.o b.o c.o
 #   - $< is the input .c file name
 #   - $@ is the output .o file name.
 %.o: %.c header.h
-	# doing %.o=$@ [this is $$@] and and %.c=$< [this is $$<]
+	# special vars: $$@ = %.o = $@ and $$< = %.c = $<
 	$(CC) $(CFLAGS) -c $<  -o $@
-
 
 ###############################################################
 # same as previous <Makefiles>
