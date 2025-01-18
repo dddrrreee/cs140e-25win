@@ -1,7 +1,7 @@
 ###########################################################
 # Below follows my current view of the "safest" approach to 
 # compiling a big multi-language (C, asm) project that spans
-# directories and putting the results in a <BUILD_DIR>
+# subdirectories and putting the results in a <BUILD_DIR>
 #
 # Limits:
 #   1. does not handle relative paths that go outside the
@@ -74,14 +74,17 @@
 # directory or its children. It is illegal to be higher in the directory 
 # structure.  (We don't check this)
 
+# every file in <PROGS> has a <main()>
 PROGS = main.c
 # all your common C files: note that unlike w VPATH there's no
-# danger in having multiple files with same name (e.g., foo.c)
+# danger in having multiple files with same name 
+# (e.g., foo/foo.c, foo.c, ...)
 C_SRC = foo/foo.c bar/bar.c a.c  foo.c
 # all your common asm files.
 ASM_SRC := asm.S
 
-# all prebuilt .o's: you'll have to generate this for your
+# all prebuilt .o's (if any).  we don't generate them (prebuilt)
+# but the are in the executable dependencies
 # system.
 PREBUILT_OBJS := prebuilt-b.o
 
@@ -122,9 +125,12 @@ endif
 ###############################################################
 # make all the different target names.
 
-# put all .o from every source in <BUILD_DIR>
+# compute the .o files for each file in PROGS and locate
+# it in <BUILD_DIR>
 prog_objs := $(patsubst %.c, $(BUILD_DIR)/%.o, $(PROGS))
+# compute the C source .o files
 csrc_objs := $(patsubst %.c, $(BUILD_DIR)/%.o, $(C_SRC))
+# compute the assembly .o  files
 asm_objs  := $(patsubst %.S, $(BUILD_DIR)/%.o, $(ASM_SRC))
 
 # every .o has a .d dependency file.
@@ -144,6 +150,9 @@ all_elf  := $(prog_objs:.o=.elf)
 # <MAKEFILE_LIST> (which can contain .d files)
 MK_LIST := $(filter-out %.d, $(MAKEFILE_LIST))
 
+# hack that we use to run "make clean" if the makefile
+# changes --- this forces everything to get rebuilt if
+# a compilation flag changes etc.
 TIME_STAMP := $(BUILD_DIR)/.timestamp
 ifneq ($(CLEAN_IF_MAKEFILE_CHANGES),0)
     DEPS    := $(TIME_STAMP)
