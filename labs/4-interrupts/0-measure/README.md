@@ -13,3 +13,7 @@ interesting things, so we do that to:
   - `measure.c` shows how much different things cost using the cycle
     counter.  It also shows a weird timing issue that comes up 
     with alignment.
+
+
+Also has a simple example of getting and printing the mode:
+  - `mode.c`

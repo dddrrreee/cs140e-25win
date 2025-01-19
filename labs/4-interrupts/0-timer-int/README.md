@@ -1,5 +1,7 @@
 ## A complete working ARM1176 timer interrupt example
 
+***before modifyig, make a copy of this directory***
+
 Two files:
   - `timer.c`: all the C code needed to setup hardware state
      so we can get timer interrupts.  contains a simple 

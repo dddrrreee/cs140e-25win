@@ -1,5 +1,4 @@
-SUBDIRS= 0-measure 
-# 0-timer-int 1-gprof 2-syscall
+SUBDIRS= 0-measure 0-timer-int # 1-gprof 2-syscall
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)
