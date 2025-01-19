@@ -24,7 +24,7 @@ at the disassembled result (as we have done already for many things).
 
 You should make sure you go through the code in:
 
-  - [0-timer-int](0-timer-int/README.md): this is a complete but
+  - [0-timer-int](0-timer-int/): this is a complete but
     concise working timer interrupt example.  You should run it and then
     go through every line to see what it does an why.  Also (important):
     modify different lines and see what happens and figure out why.
@@ -36,7 +36,7 @@ You should make sure you go through the code in:
     through it seveal times at least.  If you understand it the lab should
     be relatively straightforward.  If not, you have our sympathies.
 
-  - [0-measure](0-measure/README.md): some simple examples of timing
+  - [0-measure](0-measure/): some simple examples of timing
     and modes.  Useful for lab.  Quick and concrete.
 
 ---------------------------------------------------------------------------
