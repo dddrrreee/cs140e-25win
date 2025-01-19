@@ -22,7 +22,7 @@ at the disassembled result (as we have done already for many things).
 ---------------------------------------------------------------------------
 ### Code
 
-You should make sure you go through the code in:
+Super-necessary: go through all the code in:
 
   - [0-timer-int](0-timer-int/): this is a complete but
     concise working timer interrupt example.  You should run it and then
@@ -35,6 +35,9 @@ You should make sure you go through the code in:
     (code), how (code+documents), and why (documents).  You'll need to go
     through it seveal times at least.  If you understand it the lab should
     be relatively straightforward.  If not, you have our sympathies.
+
+
+Useful as well:
 
   - [0-measure](0-measure/): some simple examples of timing
     and modes.  Useful for lab.  Quick and concrete.
