@@ -20,6 +20,26 @@ figure some of it out by writing C code, compiling it with gcc and looking
 at the disassembled result (as we have done already for many things).
 
 ---------------------------------------------------------------------------
+### Code
+
+You should make sure you go through the code in:
+
+  - [0-timer-int](0-timer-int/README.md): this is a complete but
+    concise working timer interrupt example.  You should run it and then
+    go through every line to see what it does an why.  Also (important):
+    modify different lines and see what happens and figure out why.
+    Also (important): break it in different ways and see the symptoms
+    so that you start buildig up pattern matching.
+
+    I would cycle through it and the documents (below) to understand what
+    (code), how (code+documents), and why (documents).  You'll need to go
+    through it seveal times at least.  If you understand it the lab should
+    be relatively straightforward.  If not, you have our sympathies.
+
+  - [0-measure](0-measure/README.md): some simple examples of timing
+    and modes.  Useful for lab.  Quick and concrete.
+
+---------------------------------------------------------------------------
 ### Readings
 
 Non-optional primary sources in the current lab's `docs` directory
