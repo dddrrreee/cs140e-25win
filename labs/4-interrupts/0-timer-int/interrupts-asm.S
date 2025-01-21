@@ -1,6 +1,4 @@
-/*
- * Assembly code for interrupt handling.  
- */
+/* Assembly code for interrupt handling.  */
 #include "rpi-asm.h"
 
 /*
@@ -16,15 +14,18 @@
  *
  *  I : disables IRQ when = 1.
  *  F : disables FIQ when = 1.
- *  T : = 0 indicates ARM execution, = 1 is thumb execution.
- *      Mode = current mode.
+ *  T : = 0 indicates ARM execution, 
+ *      = 1 is thumb execution.  
+ *  Mode = current mode.
  */
 
 @ enable system interrupts by modifying cpsr.
-@    note: should make a version that returns previous state.
-.globl enable_interrupts
+@    note: should make a version that returns 
+@    previous state.
+@ <.globl> makes name visible to other files
+.globl enable_interrupts  
 enable_interrupts:
-    mrs r0,cpsr         @ move process status register (PSR) to r0
+    mrs r0,cpsr         @ move cpsr to r0
     bic r0,r0,#(1<<7)	@ clear 7th bit.
     msr cpsr_c,r0		@ move r0 back to PSR
     bx lr		        @ return.
@@ -33,11 +34,15 @@ enable_interrupts:
 .globl disable_interrupts
 disable_interrupts:
     mrs r0,cpsr		       
-    orr r0,r0,#(1<<7)	       @ set 7th bit: or in 0b100 0000
+    orr r0,r0,#(1<<7)	@ set 7th bit
     msr cpsr_c,r0
     bx lr
 
 @ the interrupt table that we copy to 0x0.
+@   - start = <_interrupt_table>
+@   - end = <_interrupt_table_end>
+@   - look at the disassembly
+@
 @ note: *it must be position independent since
 @ we copy it!*
 .globl _interrupt_table
@@ -69,49 +74,74 @@ _data_abort_asm:              .word data_abort_asm
 _interrupt_asm:               .word interrupt_asm
 _interrupt_table_end:   @ end of the table.
 
-@ only handler that should run since we only enable general interrupts
+@ only handler that should run since we 
+@ only enable general interrupts
 interrupt_asm:
-  @ <INT_STACK_ADDR> is a physical address we reserve.
+  @ NOTE:
+  @  - each mode has its own <sp> that persists when
+  @    we switch out of the mode (i.e., will be the same
+  @    when switch back).
+  @  - <INT_STACK_ADDR> is a physical address we reserve 
+  @   for exception stacks today.  we don't do recursive
+  @   exception/interupts so one stack is enough.
   mov sp, #INT_STACK_ADDR   
   sub   lr, lr, #4
 
-  push  {r0-r12,lr}         @ XXX: pushing too many registers: only need caller
-  @ vpush {s0-s15}	        @ uncomment if want to save caller-saved fp regs
+  push  {r0-r12,lr}         @ XXX: pushing too many 
+                            @ registers: only need caller
+                            @ saved.
 
   mov   r0, lr              @ Pass old pc as arg 0
-  bl    interrupt_vector    @ C function: expects C calling conventions.
+  bl    interrupt_vector    @ C function: expects C 
+                            @ calling conventions.
 
-  @ vpop {s0-s15}           @ pop caller saved fp regs
   pop   {r0-r12,lr} 	    @ pop integer registers
+                            @ this MUST MATCH the push.
+                            @ very common mistake.
 
   @ return from interrupt handler: will re-enable general ints.
   @ Q: what happens if you do "mov" instead?
-  movs    pc, lr        @ moves the link register into the pc and implicitly
-                        @ loads the PC with the result, then copies the 
-                        @ SPSR to the CPSR.
+  @ Q: what other instructions could we use?
+  movs    pc, lr        @ 1: moves <spsr> into <cpsr> 
+                        @ 2. moves <lr> into the <pc> of that
+                        @    mode.
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@ we don't generate any of these, will just panic and halt.
-@
-@ you can override these!
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ currently we don't use any of these, so just panic and
+@ and halt.  should not occur!
+
 reset_asm:
-  sub   lr, lr, #4
-  bl    reset_vector
-undefined_instruction_asm:
-  sub   lr, lr, #4
-  bl    undefined_instruction_vector
-software_interrupt_asm:
-  sub   lr, lr, #4
-  bl    syscall_vector
-prefetch_abort_asm:
-  sub   lr, lr, #4
-  bl    prefetch_abort_vector
-data_abort_asm:
-  sub   lr, lr, #4
-  bl    data_abort_vector
+    @ Q: if we delete this instruction what happens?
+    mov sp, #INT_STACK_ADDR   
+    @ Q: is <4> correct?  how to tell?
+    sub   r0, lr, #4
+    bl    reset_vector
 
+@ note: we compile this <.S> file with gcc 
+@ so that we can use C macro's to clean up.
+@ note the use of semi-colons!
+#define unexpected(fn, offset)      \
+    mov sp, #INT_STACK_ADDR;        \
+    sub   r0, lr, #(offset);        \
+    bl    fn
+
+@ Q: what are the right offsets for the following?
+undefined_instruction_asm:
+    unexpected(undefined_instruction_vector,4)
+software_interrupt_asm:
+    unexpected(syscall_vector,4)
+prefetch_abort_asm:
+    unexpected(prefetch_abort_vector,4)
+data_abort_asm:
+    unexpected(data_abort_vector,4)
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ simple demonstration of how to switch modes to get the
 @ banked lr.
+@
+@ note from the documents that SYSTEM has the same 
+@ registers as USER.  but, unlike user you can switch
+@ back from it.
 #define SUPER_MODE      0b10011
 get_super_lr:
 .globl get_super_lr

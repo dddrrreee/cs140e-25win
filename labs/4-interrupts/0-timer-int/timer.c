@@ -20,6 +20,10 @@
  */
 #include "rpi.h"
 
+// defined in <interrupts-asm.S>
+void disable_interrupts(void);
+void enable_interrupts(void);
+
 //*******************************************************
 // interrupt initialization and support code.
 
@@ -38,13 +42,13 @@ enum {
     IRQ_basic_pending   = IRQ_Base+0x00,    // 0x200
     IRQ_pending_1       = IRQ_Base+0x04,    // 0x204
     IRQ_pending_2       = IRQ_Base+0x08,    // 0x208
-    FIQ_control         = IRQ_Base+0x0c,    // 0x20c
-    Enable_IRQs_1       = IRQ_Base+0x10,    // 0x210
-    Enable_IRQs_2       = IRQ_Base+0x14,    // 0x214
-    Enable_Basic_IRQs   = IRQ_Base+0x18,    // 0x218
-    Disable_IRQs_1      = IRQ_Base+0x1c,    // 0x21c
-    Disable_IRQs_2      = IRQ_Base+0x20,    // 0x220
-    Disable_Basic_IRQs  = IRQ_Base+0x24,    // 0x224
+    IRQ_FIQ_control     = IRQ_Base+0x0c,    // 0x20c
+    IRQ_Enable_1        = IRQ_Base+0x10,    // 0x210
+    IRQ_Enable_2        = IRQ_Base+0x14,    // 0x214
+    IRQ_Enable_Basic    = IRQ_Base+0x18,    // 0x218
+    IRQ_Disable_1       = IRQ_Base+0x1c,    // 0x21c
+    IRQ_Disable_2       = IRQ_Base+0x20,    // 0x220
+    IRQ_Disable_Basic   = IRQ_Base+0x24,    // 0x224
 };
 
 // registers for ARM timer
@@ -63,12 +67,8 @@ enum {
 
 //**************************************************
 // one-time initialization of general purpose 
-// interrupt state
-static void interrupt_init(uint32_t ncycles) {
-    // defined in <interrupts-asm.S>
-    void disable_interrupts(void);
-    void enable_interrupts(void);
-
+// interrupt state.
+static void interrupt_init(void) {
     printk("about to install interrupt handlers\n");
 
     // turn off global interrupts.  (should be off
@@ -78,8 +78,8 @@ static void interrupt_init(uint32_t ncycles) {
     // put interrupt flags in known state by disabling
     // all interrupt sources (1 = disable).
     //  BCM2835 manual, section 7.5 , 112
-    PUT32(Disable_IRQs_1, 0xffffffff);
-    PUT32(Disable_IRQs_2, 0xffffffff);
+    PUT32(IRQ_Disable_1, 0xffffffff);
+    PUT32(IRQ_Disable_2, 0xffffffff);
     dev_barrier();
 
     // Copy interrupt vector table and FIQ handler.
@@ -101,25 +101,36 @@ static void interrupt_init(uint32_t ncycles) {
     for(int i = 0; i < n; i++)
         dst[i] = src[i];
     gcc_mb();
+}
 
+// initialize timer interrupts.
+// <prescale> can be 1, 16, 256. see the timer value.
+// NOTE: a better interface = specify the timer period.
+// worth doing as an extension!
+static 
+void timer_init(uint32_t prescale, uint32_t ncycles) {
     //**************************************************
     // now that we are sure the global interrupt state is
     // in a known, off state, setup and enable 
     // timer interrupts.
     printk("setting up timer interrupts\n");
+
+    // assume we don't know what was happening before.
+    dev_barrier();
     
     // bcm p 116
     // write a 1 to enable the timer inerrupt , 
     // "all other bits are unaffected"
-    PUT32(Enable_Basic_IRQs, ARM_Timer_IRQ);
+    PUT32(IRQ_Enable_Basic, ARM_Timer_IRQ);
 
     // dev barrier b/c the ARM timer is a different device
     // than the interrupt controller.
     dev_barrier();
 
-    // system timer interrupt */
-    /* Timer frequency = Clk/256 * Load --- so smaller = more frequent. */
+    // Timer frequency = Clk/256 * Load 
+    //   - so smaller <Load> = = more frequent.
     PUT32(ARM_Timer_Load, ncycles);
+
 
     // bcm p 197
     enum { 
@@ -132,30 +143,29 @@ static void interrupt_init(uint32_t ncycles) {
         ARM_TIMER_CTRL_ENABLE       = ( 1 << 7 ),
     };
 
+    uint32_t v = 0;
+    switch(prescale) {
+    case 1: v = ARM_TIMER_CTRL_PRESCALE_1; break;
+    case 16: v = ARM_TIMER_CTRL_PRESCALE_16; break;
+    case 256: v = ARM_TIMER_CTRL_PRESCALE_256; break;
+    default: panic("illegal prescale=%d\n", prescale);
+    }
+
     // Q: if you change prescale?
     PUT32(ARM_Timer_Control,
             ARM_TIMER_CTRL_32BIT |
             ARM_TIMER_CTRL_ENABLE |
             ARM_TIMER_CTRL_INT_ENABLE |
-            ARM_TIMER_CTRL_PRESCALE_16);
+            v);
 
     // done modifying timer: do a dev barrier since
     // we don't know what device gets used next.
     dev_barrier();
-
-    //**************************************************
-    // it's go time: enable global interrupts and we will 
-    // be live.
-
-    printk("gonna enable ints globally!\n");
-    // Q: what happens (&why) if you don't do?
-    enable_interrupts();
-    printk("enabled!\n");
 }
 
 // catch if unexpected exceptions occur.
 // these are referenced in <interrupt-asm.S>
-// none of them should be called for this code.
+// none of them should be called for our example.
 void fast_interrupt_vector(unsigned pc) {
     panic("unexpected fast interrupt: pc=%x\n", pc);
 }
@@ -183,54 +193,78 @@ static volatile unsigned cnt, period, period_sum;
 
 // called by <interrupt-asm.S> on each interrupt.
 void interrupt_vector(unsigned pc) {
+    // we don't know what the client code was doing, so
+    // start with a device barrier in case it was in
+    // the middle of using a device (slow: you can 
+    // do tricks to remove this.)
     dev_barrier();
+
+    // get the interrupt source: typically if you have 
+    // one interrupt enabled, you'll have > 1, so have
+    // to disambiguate what the source was.
     unsigned pending = GET32(IRQ_basic_pending);
 
-    // if this isn't true, could be a GPU interrupt (as discussed in Broadcom):
-    // just return.  [confusing, since we didn't enable!]
+    // if this isn't true, could be a GPU interrupt 
+    // (as discussed in Broadcom): just return.  
+    // [confusing, since we didn't enable!]
     if((pending & ARM_Timer_IRQ) == 0)
         return;
 
-    // Checkoff: add a check to make sure we have a timer interrupt
-    // use p 113,114 of broadcom.
-
-    /* 
-     * Clear the ARM Timer interrupt - it's the only interrupt we have
-     * enabled, so we don't have to work out which interrupt source
-     * caused us to interrupt 
-     *
-     * Q: what happens, exactly, if we delete?
-     */
+    // Clear the ARM Timer interrupt: 
+    // Q: what happens, exactly, if we delete?
     PUT32(ARM_Timer_IRQ_Clear, 1);
 
-    /*
-     * We do not know what the client code was doing: if it was touching a 
-     * different device, then the broadcom doc states we need to have a
-     * memory barrier.   NOTE: we have largely been living in sin and completely
-     * ignoring this requirement for UART.   (And also the GPIO overall.)  
-     * This is probably not a good idea and we should be more careful.
-     */
-    dev_barrier();    
+    // note: <staff-src/timer.c:timer_get_usec_raw()> 
+    // accesses the timer device, which is different 
+    // than the interrupt subsystem.  so we need
+    // a dev_barrier() before.
+    dev_barrier();
+
     cnt++;
 
     // compute time since the last interrupt.
     static unsigned last_clk = 0;
-    unsigned clk = timer_get_usec();
+    unsigned clk = timer_get_usec_raw();
     period = last_clk ? clk - last_clk : 0;
     period_sum += period;
     last_clk = clk;
 
-    // Q: what happens (&why) if you uncomment the print statement?
+    // we don't know what the client was doing, 
+    // so, again, do a barrier at the end of the
+    // interrupt handler.
+    //
+    // NOTE: i think you can make an argument that 
+    // this barrier is superflous given that the timer
+    // access is a read that we wait for, but for the 
+    // moment we live in simplicity: there's enough 
+    // bad stuff that can happen with interrupts that
+    // we don't need to do tempt entropy by getting cute.
+    dev_barrier();    
+
+    // Q: what happens (&why) if you uncomment the 
+    // print statement?  
     // printk("In interrupt handler at time: %d\n", clk);
 }
 
 // simple driver: initialize and then run. 
 void notmain() {
-    // Q: if you change 0x100?
-    interrupt_init(0x100);
+    //**************************************************
+    // interrupt setup.
 
+    // setup general interrupt subsystem.
+    interrupt_init();
 
+    // now setup timer interrupts.
+    //  - Q: if you change 0x100?
+    //  - Q: if you change 16?
+    timer_init(16, 0x100);
 
+    // it's go time: enable global interrupts and we will 
+    // be live.
+    printk("gonna enable ints globally!\n");
+    // Q: what happens (&why) if you don't do?
+    enable_interrupts();
+    printk("enabled!\n");
 
     //**************************************************
     // loop until we get N interrupts, tracking how many
