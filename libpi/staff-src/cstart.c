@@ -2,6 +2,18 @@
 #include "cycle-count.h"
 #include "memmap.h"
 
+// called to get the absolute end of the memory used
+// by the program: later in the quarter we will append
+// data to the end of the .bin file so the symbol
+// <__heap_start__> (see <libpi/memmap>) won't be the
+// actual end.  in that case you'll have to make
+// a version of <cstart.c> that knows how to find the
+// true end.  for now, we can just return 
+// <__heap_start__>
+void *program_end(void) {
+    return __heap_start__;
+}
+
 // called to setup the C runtime and initialize commonly
 // used subsystems.
 //

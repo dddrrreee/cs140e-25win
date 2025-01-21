@@ -234,6 +234,10 @@ void caches_enable(void);
 void caches_disable(void);
 int caches_is_enabled(void);
 
+// defined in <cstart.c> returns the true end of
+// the program bytes --- can be used as the 
+// start of the heap etc.
+void *program_end(void);
 
 int memiszero(const void *_p, unsigned n);
 
