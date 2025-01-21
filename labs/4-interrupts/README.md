@@ -57,6 +57,9 @@ Turn-in:
   3. `2-syscall`: `make check` passes.   In particular, for `1-syscall.c`
       You can switch to User level, run a system call, and resume.
 
+Run the autograder as before but change the lab to `lab4`. If the autograder fails,
+ask one of the TAs to manually check you off
+
 -----------------------------------------------------------------
 #### Background: Why interrupts
 
