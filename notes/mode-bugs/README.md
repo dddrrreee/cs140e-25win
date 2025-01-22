@@ -33,7 +33,7 @@ that we use in this lab:
 
  - User (`0b10000`) : this is user mode, no privileges.  Privileged
    instruction gives a fault.
- - IRQ (`0b10001`) : mode set on interrupt, privileged
+ - IRQ (`0b10010`) : mode set on interrupt, privileged
  - Supervisor (`0b10011`) : supervisor mode, privileged
  - System (`0b11111`) : system, privileged
 
