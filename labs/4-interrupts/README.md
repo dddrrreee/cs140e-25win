@@ -4,7 +4,6 @@
   <img src="images/glow-pi.png" width="450" />
 </p>
 
-
 ***Make sure you understand the readings in the [PRELAB](PRELAB.md)]***: 
   - how the hardware level works for arm exceptions, how to work with 
     modes, how to use the compiler to figure out low level information,
@@ -57,8 +56,8 @@ Turn-in:
   3. `2-syscall`: `make check` passes.   In particular, for `1-syscall.c`
       You can switch to User level, run a system call, and resume.
 
-Run the autograder as before but change the lab to `lab4`. If the autograder fails,
-ask one of the TAs to manually check you off
+Run the autograder as before but change the lab to `lab4`. If the
+autograder fails, ask one of the TAs to manually check you off
 
 -----------------------------------------------------------------
 #### Background: Why interrupts
@@ -214,34 +213,43 @@ You will implement two versions:
      code to switch to user level, and then handle two trivial system
      calls.
 
-##### `0-syscall.c`
+##### `0-syscall.c` : call system call from system level.
 
-Look in `2-syscall` and write the needed code in:
+Look in `0-syscall.c` and write the needed code in:
 
   1. `interrupts-asm.S:software_interrupt_asm`: forward system call
-     exceptions to C code.  Similar to the timer interrupt assembly
+     exceptions to the C code handler (`0-syscall.c:syscall_vector`).  
+     Similar to the timer interrupt assembly
      this trampoline will need to: (1) save all caller registers,  (2)
      jump to `syscall_vector`, (3) restore all caller registers and (4)
      jump back after the instruction that issued the exception.
 
      You should be able to largely rip off the timer interrupt code
-     to forward system call.  
-
-     ***NOTE: we are doing a weird thing: invoking system calls (fault
-     handler will run `SUPER`) from code already running at `SUPER` mode.
-     You will need to handle the save and restore slightly differently.***
+     to forward system call.   ***HOWEVER: you should not load the 
+     stack pointer.  Just leave it.***  
+     To minimize moving parts we are doing a weird thing: invoking system calls (which
+     will run at `SUPER`) from code already running at `SUPER` mode.
+     The next step (`1-syscall.c`) will do it the right way.
 
   2. `0-syscall.c:syscall_vector`: finish the system call vector code
      (should just be a few lines) by extracting the system call number
      from the actual `swi` instruction (pointed to by `pc`).  You want
      to act on system call 1 and reject all other calls with a `-1`.
 
-     You can look in the list file to see how it's encoded.  
+     You should look in the list file to see how it's encoded and make
+     sure the `pc` address matches.  
 
 This doesn't take much code, but you will have to think carefully about
 which registers need to be saved, etc.
 
-##### `1-syscall.c`
+Checkoff:
+  - If you modify the makefile to run this one test, `make check` 
+    should pass.  If it doesn't you can just run the code manually
+    and compare.  Or compare the `0-syscall.test` file 
+    that gets generated to the given `0-syscall.out` file looking
+    only at the `TRACE` statements.
+
+##### `1-syscall.c`: system call from user level.
 
 This is a real system call called from `USER` level.  You'll need to:
 
@@ -252,16 +260,23 @@ This is a real system call called from `USER` level.  You'll need to:
 
   2. Implement `syscall-asm.S:run_user_code_asm`: this will switch to
      user mode, set the stack pointer register to a given stack value,
-     and jump to a give code address.
+     and jump to a give code address.  The easiest (and recommended
+     way) to do this is the `cps` instruction.
+
+                cps #USER_MODE
+
+     Where `USER_MODE` is defined using the bits in A2-2.  You'll have to
+     do a prefetch flush after doing `cps`.  (See arm1176.pdf, 3-79,
+     where the `Rd` register is just a scratch register set to 0.)
 
      For hints: look at `notes/mode-bugs/bug4-asm.S` for how to roughly
-     do what you want at a different level.
+     do what you want at a different level.   You
 
   3. Finish implementing `1-syscall.c:syscall_vector`.  This is
      mainly just checking that you are at the right level.
 
-If this works, congratulations!  You have a working user-level system
-call.  This small amount of code is really all there is to it.
+If `make check` passes, congratulations!  You have a working user-level
+system call.  This small amount of code is really all there is to it.
 
 -----------------------------------------------------------------------------
 ### lab extensions:
