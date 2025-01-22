@@ -1,16 +1,4 @@
 /*
- * PLEASE MAKE A COPY OF THIS DIRECTORY BEFORE MODIFYING.  We
- * might still make changes before class.
- *
- * PLEASE MAKE A COPY OF THIS DIRECTORY BEFORE MODIFYING.  We
- * might still make changes before class.
- *
- * PLEASE MAKE A COPY OF THIS DIRECTORY BEFORE MODIFYING.  We
- * might still make changes before class.
- *
- * PLEASE MAKE A COPY OF THIS DIRECTORY BEFORE MODIFYING.  We
- * might still make changes before class.
- *
  * Complete working timer-interrupt code.
  *  - the associated assembly code is in <interrupts-asm.S>
  *  - Search for "Q:" to find the various questions.   Change 
