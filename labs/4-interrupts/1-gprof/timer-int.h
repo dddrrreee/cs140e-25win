@@ -8,8 +8,14 @@ enum {
     ARM_Timer_Load      = ARM_Timer_Base + 0x00, // p196
     ARM_Timer_Value     = ARM_Timer_Base + 0x04, // read-only
     ARM_Timer_Control   = ARM_Timer_Base + 0x08,
+
     ARM_Timer_IRQ_Clear = ARM_Timer_Base + 0x0c,
-    // ...
+
+    // Errata fo p198: 
+    // neither are register 0x40C raw is 0x410, masked is 0x414
+    ARM_Timer_IRQ_Raw   = ARM_Timer_Base + 0x10,
+    ARM_Timer_IRQ_Masked   = ARM_Timer_Base + 0x14,
+
     ARM_Timer_Reload    = ARM_Timer_Base + 0x18,
     ARM_Timer_PreDiv    = ARM_Timer_Base + 0x1c,
     ARM_Timer_Counter   = ARM_Timer_Base + 0x20,
