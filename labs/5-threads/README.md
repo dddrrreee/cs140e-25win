@@ -208,6 +208,11 @@ you need, time to write the thread code.
 ----------------------------------------------------------------------
 ### Part 1: getting run-to-completion threads working (20 minutes)
 
+For the rest of the lab you'll only be modifying:
+  - `rpi-thread.c`: the main thread code.
+  - `rpi-thread-asm.S`: the assembly code you'll need (based on
+    part 0).
+
 We've tried to break down the lab into isolated pieces so you can test
 each one.  The first is to get a general feel for the `rpi_thread`
 interfaces by getting "run-to-completion" (RTC) threads working: these
