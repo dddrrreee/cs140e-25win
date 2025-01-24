@@ -6,8 +6,15 @@
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 ***Errata***:
+  - `code-asm-checks`: there are no .out files: you have to figure
+    out if the answer is right.
   - the `code-asm-checks/Makefile`: the test is `2-where-push-one.c`
     not `2--where-push.c`
+  - `2--where-push.c`: `push` implicitly uses the stack pointer 
+    `sp`.  so you'll have to (1) save the `sp` to a caller 
+    reg, (2) move the pointer argument to the `sp`, (3) 
+    do the `push`, (4) undo everything.
+
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
