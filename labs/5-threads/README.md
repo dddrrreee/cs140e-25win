@@ -1,6 +1,8 @@
 ## Writing a non-preemptive threads package
 
-
+***Errata****
+  - the `code-asm-checks/Makefile`: the test is `2-where-push-one.c`
+    not `2--where-push.c`
 
 
 ***MAKE SURE YOU***:
