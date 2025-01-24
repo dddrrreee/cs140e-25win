@@ -176,10 +176,3 @@ As a sidenote, if you like figuring this kind of stuff out, retargeting a
 compiler is fun --- do all the integer ALU ops, then memory, then calling
 conventions, then float.   Each problem is big enough to be interesting,
 but not so big you get tired.  Pretty soon the sun comes up.
-
-## Questions
-
-Not very thorough example questions. For each, write some C code and compile
-it to answer the question.
-
-  1. Give the assembly instruction to 

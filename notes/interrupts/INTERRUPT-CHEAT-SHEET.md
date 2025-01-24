@@ -160,11 +160,15 @@ Exception handlers:
 ### Broadcom ch 7
 
 Interrupts are similar to a device in that have to figure out how to:
-  0. Disable all during setup.
-  1. Set all interrupt state to known values.
+  0. Disable all during setup, otherwise can get an interrupt
+     in the middle of setting them up.  
+  1. Initialize state: Set all interrupt state to known values.
   2. Configure interrupt sources (can have multiple).
   3. Enable.  
-  4. When get one: figure out which it was and then clear it.
+  4. When get an interrupt: figure out which it was and then clear it.
+     Do not assume you know the interrupt just b/c you think you
+     setup a single source!  Could have made a mistake.  Code could
+     get re-used with multiple.  Should sanity check.
 
 Interrupts:
    - Must clear them, or when you jump back, will get it immediately again.
@@ -172,7 +176,6 @@ Interrupts:
    - You can get synchronous exceptions in the exception handler (e.g., 
      division by zero, page fault) so make sure you don't!   It will
      destroy your state unless you took steps to allow nested interrupts.
-
 
 Broadcom:
   - Check "basic bending register" to see source.
