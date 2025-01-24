@@ -6,6 +6,11 @@
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 ***Errata***:
+  - IF YOU GET A REDZONE ERROR: this means you are corrupting
+    one or more bytes in the first 4096 bytes of the pi memory (presumably
+    writing to a null pointer).  So fix this.  You can add more redzone
+    checks to narrow down.
+
   - Part 1: the `1-tests-run-*.c` tests 
     will differ in a single line in the `.out` 
     files (since
