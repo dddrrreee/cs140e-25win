@@ -1,0 +1,97 @@
+#include "rpi.h"
+#include "backtrace.h"
+
+
+static inline int in_code(uint32_t addr) {
+    extern uint32_t __code_start__, __code_end__;
+    uint32_t *pc = (void*)addr;
+    return pc >= &__code_start__  && pc < &__code_end__;
+}
+
+struct bt {
+    struct bt *next;
+    uint32_t sp;
+    uint32_t lr;
+    uint32_t pc;
+};
+
+static void print_ent(const char *msg, struct bt *bt) {
+    output("pc=%x, lr=%x, sp=%x, next=%x\n", bt->pc, bt->lr, bt->sp, bt->next);
+}
+
+static uint32_t first_inst(struct bt *bt) {
+    return bt->pc - 12;
+}
+
+static int valid_first_inst(struct bt *bt) {
+    uint32_t pc = first_inst(bt);
+    uint32_t x = GET32(pc);
+
+    // if this is not true, we stop looking?
+    enum { expected = 0xe1a0c00d };
+    if(x != expected) {
+        panic("invalid instruction at pc=%x: have %x, expected %x\n", pc, x, expected);
+        return 0;
+    }
+    return 1;
+}
+
+const char *name_f(uint32_t pc) {
+    uint32_t x = GET32(pc - 4);
+    uint32_t len = x & 0xffffff;
+    uint32_t tag = x >> 24;
+    if(tag != 0xff) {
+        panic("invalid length? %d at pc=%x\n", len, pc);
+        return 0;
+    }
+    // debug("len=%d\n", len);
+
+    const char *str = (void*)(pc - 4 - len);
+    // output("string = %s\n", str);
+    if(str[len-1] != 0)
+        panic("string is not terminated\n");
+
+    unsigned n = strlen(str);
+    if(n > len-1)
+        panic("strlen(%s)=%d, expected <=%d\n", str, n,len-1);
+    return str;
+}
+
+struct bt *bt_next(struct bt *bt) {
+    assert(bt->next);
+    return (void*)(((uint32_t *)bt->next) - 3);
+}
+
+static void bt_print(struct bt *bt, unsigned n) {
+    bt = bt_next(bt);
+    if(!bt->next) {
+        output("done b/c null\n");
+        return;
+    }
+    
+    // first one better be ok.
+    if(!valid_first_inst(bt))
+        output("done b/c invalid instruction\n");
+    else {
+        output("%d: name=<%s>:", n, name_f(first_inst(bt)));
+        print_ent("", bt);
+        bt_print(bt,n+1);
+    }
+}
+
+// will walk all the way up.   not sure.
+void backtrace_print(void) {
+    uint32_t *fp = __builtin_frame_address (0);
+    struct bt *bt = (void*)(fp-3);
+
+    print_ent("first bt", bt);
+    
+    // first one better be ok.
+    if(!valid_first_inst(bt))
+        panic("invalid\n");
+
+    const char *name = name_f(first_inst(bt));
+    output("name=<%s>\n", name);
+
+    bt_print(bt,0);
+}

@@ -1,6 +1,7 @@
 #include "rpi.h"
 #include "cycle-count.h"
 #include "memmap.h"
+#include "redzone.h"
 
 // called to get the absolute end of the memory used
 // by the program: later in the quarter we will append
@@ -65,6 +66,10 @@ void _cstart() {
     // quarter so we do it here so it can't be forgotten.
     // i don't think any downside.
     cycle_cnt_init();
+
+    // hack to catch errors where they write to the first
+    // 4k of memory.
+    redzone_init();
 
     // call user's <notmain> (should add argv)
     notmain(); 
