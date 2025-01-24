@@ -1,5 +1,11 @@
 ## Writing a non-preemptive threads package
 
+<p align="center">
+  <img src="images/../lab-memes/threads-fr.jpg" width="450" />
+</p>
+
+
+
 ***MAKE SURE YOU***:
   - Read the [PRELAB](PRELAB.md).
   - Read the [THREAD](THREAD.md) writeup.
