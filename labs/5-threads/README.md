@@ -6,6 +6,14 @@
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 ***Errata***:
+
+  - In general, whenever you switch threads, set
+    `rpi-thread.c:cur_thread` to the thread you're 
+     switching to.
+
+  - When an `assert`, `demand` or `panic` happens, it will give
+    the file and line number that the problem happened.
+
   - IF YOU GET A REDZONE ERROR: this means you are corrupting
     one or more bytes in the first 4096 bytes of the pi memory (presumably
     writing to a null pointer).  So fix this.  You can add more redzone
