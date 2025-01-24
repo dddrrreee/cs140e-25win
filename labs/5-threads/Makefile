@@ -1,4 +1,4 @@
-SUBDIRS=  # code-threads code-asm-checks
+SUBDIRS=  code-threads code-asm-checks
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)

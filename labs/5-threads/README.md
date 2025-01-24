@@ -403,8 +403,7 @@ Our hack: have our trampoline (from part 2) that calls the thread code
 simply call `rpi_exit` if the intial call to `code` returns.
 
 
-If your trampoline in part 2 works as expected, this should "just work".
-
+Tests:
    - `5-test-implicit-exit.c`: should run and print `SUCCESS`.
    - `5-test-implicit-exit-run-N.c`: this is the same program as part 1,
      but the behavior will now change with a single print from 
