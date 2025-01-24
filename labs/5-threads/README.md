@@ -209,12 +209,29 @@ Now you have code that can mechanically validate the key low-level facts
 you need, time to write the thread code.
 
 ----------------------------------------------------------------------
-### Part 1: getting run-to-completion threads working (20 minutes)
+### Now write threads!  `code-threads`.
+
+Before starting:
+  - run `make checkoff` in `code-threads`.  It should pass.
+  - Then change the `Makefile` to use your code:
+
+        COMMON_SRC += rpi-thread-asm.S 
+        # STAFF_OBJS += staff-rpi-thread-asm.o
+
+        COMMON_SRC += rpi-thread.c
+        # STAFF_OBJS += staff-rpi-thread.o
+
 
 For the rest of the lab you'll only be modifying:
   - `rpi-thread.c`: the main thread code.
   - `rpi-thread-asm.S`: the assembly code you'll need (based on
     part 0).
+  - If a test fails, you should probably do `make run` first so see if
+    it panic'd.
+
+----------------------------------------------------------------------
+### Part 1: getting run-to-completion threads working (20 minutes)
+
 
 We've tried to break down the lab into isolated pieces so you can test
 each one.  The first is to get a general feel for the `rpi_thread`

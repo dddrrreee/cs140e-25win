@@ -41,9 +41,6 @@ PROGS = $(wildcard ./2-test*.c)
 PROGS = $(wildcard ./1-test*.c)
 
 
-# PROGS = $(wildcard ./1-test*.c)
-# PROGS = 1-test-run-one.c
-
 ######################################################################
 # should not have to modify below.
 #
