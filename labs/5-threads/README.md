@@ -1,8 +1,5 @@
 ## Writing a non-preemptive threads package
 
-<p align="center">
-  <img src="../lab-memes/threads-fr.jpg" width="450" />
-</p>
 
 
 
@@ -417,3 +414,7 @@ at a level most CS people do not.
 ### Extensions
 
 There's a ton of useful extensions that are not written:  Ask us :)
+
+<p align="center">
+  <img src="../lab-memes/threads-fr.jpg" width="400" />
+</p>
