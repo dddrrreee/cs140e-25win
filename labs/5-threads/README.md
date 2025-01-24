@@ -443,6 +443,10 @@ Congratulations!  Now you have a simple, but working thread implementation
 and understand the most tricky part of the code (context-switching)
 at a level most CS people do not.
 
+---------------------------------------------------------------------
+### Checkoff:
+Run the autograder with 'lab5' as the repo variable. Make sure your github repo is updated and the sunet you input is correct
+
 
 ----------------------------------------------------------------------
 ### Extensions
