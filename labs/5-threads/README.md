@@ -209,7 +209,7 @@ Now you have code that can mechanically validate the key low-level facts
 you need, time to write the thread code.
 
 ----------------------------------------------------------------------
-### Now write threads!  `code-threads`.
+### Now write threads in `code-threads`!
 
 Before starting:
   - run `make checkoff` in `code-threads`.  It should pass.
