@@ -1,7 +1,7 @@
 ## Writing a non-preemptive threads package
 
 <p align="center">
-  <img src="images/../lab-memes/threads-fr.jpg" width="450" />
+  <img src="../lab-memes/threads-fr.jpg" width="450" />
 </p>
 
 
