@@ -6,6 +6,12 @@
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 ***Errata***:
+  - Part 1: the `1-tests-run-*.c` tests 
+    will differ in a single line in the `.out` 
+    files (since
+    you haven't implemented `rpi_exit()`).  This is
+    ok.  Just make sure they run.
+
   - `code-asm-checks`: there are no .out files: you have to figure
     out if the answer is right.
   - the `code-asm-checks/Makefile`: the test is `2-where-push-one.c`
