@@ -93,12 +93,12 @@ The unix side code is split into two directories:
 Make sure you look through:
   1. `1-unix-side/put-code.c`: this holds the starter code you will extend
      out into a full implementation that sends code to the pi.
-  2. `libunix/read-file.c`: you will implement this (see below).
-  3. `libunix/find-ttyusb.c`: you will implement this (see below).
-  4. `libunix/libunix.h`: this has all the routines you can use.
-  5. `libunix/demand.h`: this has a variety of helpful macros to simplify
+  2. `1-unix-side/my-install.c`: the driver for the unix-side bootloader you
+      won't have to modify this.
+  3. `libunix/read-file.c`: you will implement this.
+  4. `libunix/find-ttyusb.c`: you will implement this.
+  5. `libunix/libunix.h`: this has all the routines you can use.
+  6. `libunix/demand.h`: this has a variety of helpful macros to simplify
      error handling / checking.  You can see examples by using `grep` in
      the `libunix` directory.
 
-And, look but DO NOT MODIFY:
-  1. `1-unix-side/my-install.c`: the driver for the unix-side bootloader.
