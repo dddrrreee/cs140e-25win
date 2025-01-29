@@ -4,6 +4,31 @@
   <img src="images/robot-pi.png" width="450" />
 </p>
 
+#### Clarifications and errata
+
+Note: you can see the `PUT` and `GET` operations being done b/n the pi
+and Unix by using the `--trace-control` option:
+
+        my-install --trace-control checkoff/hello.bin
+
+        TRACE:simple_boot: sending 3372 bytes, crc32=cf4943ae
+        BOOT:waiting for a start
+        TRACE:GET32:11112222 [GET_PROG_INFO]
+        TRACE:PUT32:33334444 [PUT_PROG_INFO]
+        TRACE:PUT32:8000 [UNKNOWN]
+        TRACE:PUT32:d2c [UNKNOWN]
+        TRACE:PUT32:cf4943ae [UNKNOWN]
+        TRACE:GET32:55556666 [GET_CODE]
+        TRACE:GET32:cf4943ae [UNKNOWN]
+        TRACE:PUT32:77778888 [PUT_CODE]
+        TRACE:GET32:9999aaaa [BOOT_SUCCESS]
+        BOOT:bootloader: Done.
+        listening on ttyusb=</dev/ttyUSB0>
+        hello world
+        DONE!!!
+
+
+#### Intro
 
 Last's weeks labs were intense --- we take a bit of a breather
 lab: no assembly, weird bugs from register corruptions, etc.  
