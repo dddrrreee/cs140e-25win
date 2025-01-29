@@ -30,6 +30,7 @@ char *str2dupf(const char *src1, const char *fmt, ...) {
     return strdup(dst);
 }
 
+#if 0
 // doesn't check destination size.
 char *strcpyf(char *dst, const char *fmt, ...) {
     char buf[4096];
@@ -42,6 +43,7 @@ char *strcpyf(char *dst, const char *fmt, ...) {
 
     return strcpy(dst, buf);
 }
+#endif
 
 char *vstrdupf(const char *fmt, va_list ap) {
     char buf[4096];

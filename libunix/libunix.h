@@ -65,9 +65,11 @@ uint32_t our_crc32_inc(const void *buf, unsigned size, uint32_t crc);
 // fill in <fmt,..> using <...> and strcat it to <dst>
 char *strcatf(char *dst, const char *fmt, ...);
 
-// return a strdup's string.
+// print the format string into a buffer and return 
+// an allocated copy of it.
 char *strdupf(const char *fmt, ...);
-char *strcpyf(char *dst, const char *fmt, ...);
+// print the format string into a buffer and return an
+// allocated copy of it 
 char *vstrdupf(const char *fmt, va_list ap);
 // concat src1 with the result of fmt... and return strdup'd result
 char *str2dupf(const char *src1, const char *fmt, ...);
