@@ -4,10 +4,9 @@ For this lab, you should implement the helper functions below and read
 through the lab carefully; otherwise it's going to be a long lab.
 
 The big new thing:
-
-    - There's now a `libunix` directory at the top level (same as `libpi`)
-      that holds some unix specific routines.  We'll add to this over
-      the quarter.
+  - There's now a `libunix` directory at the top level (same as `libpi`)
+    that holds some unix specific routines.  We'll add to this over
+    the quarter.
 
 ### 1. Implement two Unix support routines.
 
