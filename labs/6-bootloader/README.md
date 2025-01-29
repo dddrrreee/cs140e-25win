@@ -21,7 +21,11 @@ the code down to the bare metal.  The only code that will run when you
 boot (and the only code you run to boot) will either be stuff you wrote,
 or simple library routines we give you (which you can also replace!).
 
-The lab has two parts:
+The lab has three parts:
+  0. [Write the prelab code](PRELAB.md): you'll write code to find the 
+     pi device on your laptop and a simple routine to read in a file.  
+     This part should not take long.
+
   1. [Write the unix side `my-install`](#step-1-write-the-unix-side-my-install)
      (named to differentiate from `pi-install`)
      and make sure that works.

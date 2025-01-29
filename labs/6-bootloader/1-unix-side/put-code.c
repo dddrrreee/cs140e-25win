@@ -12,6 +12,8 @@
  * helper code: you shouldn't have to modify this.
  */
 
+
+#ifndef __RPI__
 // write_exact will trap errors.
 void put_uint8(int fd, uint8_t b)   { write_exact(fd, &b, 1); }
 void put_uint32(int fd, uint32_t u) { write_exact(fd, &u, 4); }
@@ -49,6 +51,8 @@ uint32_t get_uint32(int fd) {
     u |= get_uint8(fd) << 24;
     return u;
 }
+
+#endif
 
 
 #define boot_output(msg...) output("BOOT:" msg)
