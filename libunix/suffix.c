@@ -1,6 +1,5 @@
 #include <string.h>
 #include "libunix.h"
-#include "staff-libunix.h"
 
 int suffix_cmp(const char *s, const char *suffix) {
     int n0 = strlen(s), n1 = strlen(suffix);
