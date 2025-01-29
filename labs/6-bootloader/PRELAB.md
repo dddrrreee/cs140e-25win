@@ -73,7 +73,7 @@ Make sure you look through:
       code that you will extend out into a full implementation that
       receives code from the UNIX side.
 
-  2. `pi-side/main.c` has the driver that calls `get-code.h`.
+  2. `2-pi-side/main.c` has the driver that calls `get-code.h`.
 
 It's worth looking at the other files to.  In particular, compare the `boot-start.s` 
 here to the `staff-start.S` in `libpi`:
