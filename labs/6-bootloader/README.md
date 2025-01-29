@@ -259,3 +259,24 @@ to receive data, it has to move promptly.
 If you forget this limitation, and (for example) print using `putk` when
 a message is arriving, you'll almost certainly lost some arriving bytes,
 and also get confused.  Ask me how I know!
+
+
+#### Extensions
+
+There's useful [EXTENSIONS](EXTENSIONS.md).  However, by far the most
+useful will be to make sure your pi-side code is rock solid, even under
+weird errors.  The booloader is the lowest part of the system, so any
+bug will both effect the most programs and (generally) be the hardest
+to debug.
+
+A comprehensive to check the code is to take the traces the `my-install`
+emits and write a Unix-side replay program that will play them back to
+the pi, systematically introducing errors and checking that each leads to 
+the pi rebooting with an error:
+ 1. replay the trace, and truncate after the first byte, checking that the 
+    pi does not lock up, but should timeout and reboot.  Then replay and
+    truncate after the second byte, etc.
+ 2. replay the trace, and corrupt the first byte, and make sure this gets detected
+    by the pi and lead to a reboot.  Then replay and corrupt the 2nd byte, etc.
+
+If your pi-side code passes these tests you'll be surprised if it breaks later.
