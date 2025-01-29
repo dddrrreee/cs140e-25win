@@ -133,10 +133,6 @@ has_data_timeout(unsigned timeout) {
 //      Its from this loop (since the LED goes on for each 
 //      received packet)
 static void wait_for_data(unsigned usec_timeout) {
-    do {
-        boot_put32(GET_PROG_INFO);
-    } while(!has_data_timeout(usec_timeout));
-    return;
     boot_todo("wait_for_data: implement this routine");
 }
 
