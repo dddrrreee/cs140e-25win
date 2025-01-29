@@ -1,1 +1,0 @@
-staff-find-ttyusb.c:find_ttyusb_helper:38:PANIC:did not find any tty in /dev: pi is not connected?
