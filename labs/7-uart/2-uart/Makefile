@@ -1,5 +1,10 @@
 ###############################################################
-# for the moment ignore the input tests.
+# uncomment this to build yours
+# COMMON_SRC += uart.c
+
+PROGS =  output-test-0-hello.c  
+PROGS += output-test-1-hello-disable.c  
+PROGS += output-test-3-emit.c
 
 # swap these if your bootloader doesn't work.
 BOOTLOADER = my-install
@@ -9,11 +14,11 @@ BOOTLOADER = pi-install
 RUN=0
 
 # we use a custom cstart
-COMMON_SRC := cstart.c uart.c
+COMMON_SRC += cstart.c 
 
-PROGS = output-test-0-hello.c  
-PROGS += output-test-1-hello-disable.c  
-PROGS += output-test-3-emit.c
+L := $(CS140E_2025_PATH)/libpi/
+STAFF_OBJS := $(L)/staff-objs/staff-sw-uart.o
+
 
 # if doing checkoff use both uart and cstart.
 ifdef CHECKOFF
