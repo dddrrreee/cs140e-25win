@@ -332,13 +332,12 @@ Re-install your bootloader with the new uart code:
 </p>
 
 
-#### ***NOTE:WE ARE UPDATING THIS PART***
-#### ***NOTE:WE ARE UPDATING THIS PART***
-#### ***NOTE:WE ARE UPDATING THIS PART***
-#### ***NOTE:WE ARE UPDATING THIS PART***
-#### ***NOTE:WE ARE UPDATING THIS PART***
-#### ***NOTE:WE ARE UPDATING THIS PART***
-#### ***NOTE:WE ARE UPDATING THIS PART***
+#### ***NOTE: if you see this, do an update***
+#### ***NOTE: if you see this, do an update***
+#### ***NOTE: if you see this, do an update***
+#### ***NOTE: if you see this, do an update***
+#### ***NOTE: if you see this, do an update***
+#### ***NOTE: if you see this, do an update***
 
 
 Checkoff summary:
