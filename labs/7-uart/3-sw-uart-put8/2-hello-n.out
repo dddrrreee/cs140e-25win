@@ -1,0 +1,34 @@
+TRACE:notmain:about to print `hello world` 30x
+TRACE:notmain:if your pi locks up, it means you are not transmitting
+TRACE: from sw-uart: WORKED!!
+TRACE: hello from sw-uart 0!
+TRACE: hello from sw-uart 1!
+TRACE: hello from sw-uart 2!
+TRACE: hello from sw-uart 3!
+TRACE: hello from sw-uart 4!
+TRACE: hello from sw-uart 5!
+TRACE: hello from sw-uart 6!
+TRACE: hello from sw-uart 7!
+TRACE: hello from sw-uart 8!
+TRACE: hello from sw-uart 9!
+TRACE: hello from sw-uart 10!
+TRACE: hello from sw-uart 11!
+TRACE: hello from sw-uart 12!
+TRACE: hello from sw-uart 13!
+TRACE: hello from sw-uart 14!
+TRACE: hello from sw-uart 15!
+TRACE: hello from sw-uart 16!
+TRACE: hello from sw-uart 17!
+TRACE: hello from sw-uart 18!
+TRACE: hello from sw-uart 19!
+TRACE: hello from sw-uart 20!
+TRACE: hello from sw-uart 21!
+TRACE: hello from sw-uart 22!
+TRACE: hello from sw-uart 23!
+TRACE: hello from sw-uart 24!
+TRACE: hello from sw-uart 25!
+TRACE: hello from sw-uart 26!
+TRACE: hello from sw-uart 27!
+TRACE: hello from sw-uart 28!
+TRACE: hello from sw-uart 29!
+TRACE:notmain:if you see `WORKED` above, sw uart worked!

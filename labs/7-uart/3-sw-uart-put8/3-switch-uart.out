@@ -1,0 +1,16 @@
+TRACE:notmain:test 1: about to print `hello world` 10x
+TRACE:notmain:if your pi locks up, it means you are not transmitting
+TRACE:WORKED:	hello from sw-uart: worked!
+TRACE:WORKED=0:	hello from sw-uart!
+TRACE:WORKED=1:	hello from sw-uart!
+TRACE:WORKED=2:	hello from sw-uart!
+TRACE:WORKED=3:	hello from sw-uart!
+TRACE:WORKED=4:	hello from sw-uart!
+TRACE:WORKED=5:	hello from sw-uart!
+TRACE:WORKED=6:	hello from sw-uart!
+TRACE:WORKED=7:	hello from sw-uart!
+TRACE:WORKED=8:	hello from sw-uart!
+TRACE:WORKED=9:	hello from sw-uart!
+TRACE:notmain:if you see `WORKED` above, sw uart worked!
+TRACE:notmain:WORKED: override successful: hello using sw-uart!
+TRACE:notmain:reset done: using hw uart: printed 64 characters

@@ -1,0 +1,2 @@
+TRACE:hello
+TRACE:notmain:if you see `hello` above, sw uart worked!
