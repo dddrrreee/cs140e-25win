@@ -2,13 +2,13 @@
 
 
 
-############################################################
+------------------------------------------------
 #### Clarification errata
 
 Note:
   - do the GPIO pins first (top of page 10) "GPIO pins should
     be setup first before enabling the UART"
-############################################################
+------------------------------------------------
 
 
 <p align="center">
