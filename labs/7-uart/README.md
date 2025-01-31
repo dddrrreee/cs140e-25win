@@ -73,7 +73,7 @@ Show that:
 There are tons and tons of [EXTENSIONS](./EXTENSIONS.md)
 
 -------------------------------------------------------------------------
-#### The general goals
+### The general goals
 
 The main goal of this lab is to try to take the confusing prose and
 extract the flow chart for how to enable the miniUART with the baud rate
@@ -198,7 +198,7 @@ In either case, in the final part of the lab you'll implement bit-banged
 UART yourself.
   
 -----------------------------------------------------------------------
-##### Part 2. `2-fake-pi` 
+### Part 2. cross check your UART `2-fake-pi` 
 
 UART bugs are incredibly nasty.   Unfortunately, a broken UART driver
 can easily work on simple tests but fail on more complicated ones.
