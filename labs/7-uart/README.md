@@ -115,9 +115,9 @@ Check that everything works.
   2. If that works, uncomment the `Makefile` line so that it uses
      the local `uart.c`
 
-            # COMMON_SRC += uart.c
+            COMMON_SRC += uart.c
 
-  3. Check that `make run` gives `must implement` errors.
+  3. Check that `make run` gives "must implement" errors.
 
 #### Write the code in `uart.c`
 
@@ -160,6 +160,9 @@ General:
      devices you MUST use a `dev_barrier()`.
    - Its not always clear when X and Y are different
      devices.
+   - We assume we don't know what the client code
+     was doing, so as with the interrupt handler and unlike GPIO code:
+     each time you come into or leave the uart code, do a device barrier.
    - Pay attenton for errata!   There are some serious
      ones here.  If you have a week free you'd learn 
      alot figuring out what these are (esp hard given
@@ -180,22 +183,19 @@ A possibly-nasty issue:
 
 #### Hack to make things easier
 
-Historically a problem with writing UART code for
-this class (and for human history) is that when 
-things go wrong you can't print since doing so uses
-uart.  Thus, debugging is very old school circa
-1950s, which modern brains arne't built for out of
-the box.   you have two options:
+Historically a problem with writing UART code for this class (and for
+human history) is that when things go wrong you can't print since doing
+so uses uart.  Thus, debugging is very old school circa 1950s, which
+modern brains aren't built for out of the box.   You have two options:
+
   1. Think hard.  we recommend this.
   2. Use the included bit-banging software UART routine
      to print.   This makes things much easier.
      but if you do make sure you delete it at the 
      end, otherwise your GPIO will be in a bad state.
 
-In either case, in the next part of the lab you'll
-implement bit-banged UART yourself.
-
-
+In either case, in the final part of the lab you'll implement bit-banged
+UART yourself.
   
 -----------------------------------------------------------------------
 ##### Part 2. `2-fake-pi` 
