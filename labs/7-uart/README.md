@@ -273,28 +273,26 @@ NOTE:
 My `2-fake-pi/tests-uart/0-uart-init.out`:
 
 ```
-    TRACE: out file for <0-uart-init>
-    TRACE:0: calling pi code
-    TRACE:1: dev_barrier
-    TRACE:2: GET32(0x20200004) = 0x643c9869
-    TRACE:3: PUT32(0x20200004) = 0x643ca869
-    TRACE:4: GET32(0x20200004) = 0x643ca869
-    TRACE:5: PUT32(0x20200004) = 0x643d2869
-    TRACE:6: dev_barrier
-    TRACE:7: GET32(0x20215004) = 0x0
-    TRACE:8: PUT32(0x20215004) = 0x1
-    TRACE:9: dev_barrier
-    TRACE:10: UART: PUT32(0x20215060) = 0x0
-    TRACE:11: UART: turning UART off PUT32(20215060)=0
-    TRACE:12: UART: PUT32(0x20215044) = 0x0
-    TRACE:13: UART: PUT32(0x20215048) = 0x6
-    TRACE:14: UART: PUT32(0x2021504c) = 0x3
-    TRACE:15: UART: PUT32(0x20215050) = 0x0
-    TRACE:16: UART: PUT32(0x20215060) = 0x3
-    TRACE:17: UART: PUT32(0x20215068) = 0x10e
-    TRACE:18: UART: turned UART on PUT32(20215060)=3
-    TRACE:19: dev_barrier
-    TRACE: pi exited cleanly: 20 calls to random
+TRACE:0: calling pi code
+TRACE:1: dev_barrier [0]
+TRACE:2: GET32(0x20200004) = 0x643c9869
+TRACE:3: PUT32(0x20200004) = 0x643ca869
+TRACE:4: GET32(0x20200004) = 0x643ca869
+TRACE:5: PUT32(0x20200004) = 0x643d2869
+TRACE:6: dev_barrier [1]
+TRACE:7: GET32(0x20215004) = 0x0
+TRACE:8: PUT32(0x20215004) = 0x1
+TRACE:9: dev_barrier [2]
+TRACE:10: UART: PUT32(0x20215060) = 0x0 [is on! off=0]
+TRACE:11: UART: turning UART off PUT32(20215060)=0
+TRACE:12: UART: PUT32(0x20215044) = 0x0 [buffered]
+TRACE:13: UART: PUT32(0x20215048) = 0x6 [buffered]
+TRACE:14: UART: PUT32(0x2021504c) = 0x3 [buffered]
+TRACE:15: UART: PUT32(0x20215050) = 0x0 [buffered]
+TRACE:16: UART: PUT32(0x20215060) = 0x3 [buffered]
+TRACE:17: UART: PUT32(0x20215068) = 0x10e [buffered]
+TRACE:18: UART: turned UART on PUT32(20215060)=3
+TRACE:19: dev_barrier [3]
 ```
 
 Some notes:
