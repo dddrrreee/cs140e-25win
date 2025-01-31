@@ -55,30 +55,19 @@ but if you want to play in hard mode, doing the hardware UART without
 any help is historically accurate.
 
 Show that:
-   1. You have a quick way of switching directories, especially switching to
-      libpi and back.  Try setting up aliases based on the `pushd` and `popd`
-      commands.  Don't keep re-typing-out `cd ../../../libpi` and `cd
-      ../labs/8-uart/whatever`; that's a waste of your lab time.
-  
-   2. `2-uart`: `make checkoff` passes.  You should first ensure you
-       can pass the tests one by one to make debugging easier.
-     
+   1. `1-uart`: put your `uart.c` in `libpi/src` and
+      update the `libpi/Makefile`.   `make checkoff` in `1-uart` passes.
+      Remake your bootloader and put it on your sd card.
+
       Your `uart.c` code should make it clear why you did what you did,
       and supporting reasons --- i.e., have page numbers and partial
       quotes for each thing you did.
 
-   3. You should put your `uart.c` in `libpi/src` and
-      update the `libpi/makefile`.   Remake your bootloader and put it
-      on your sd card.
-
-      You should then make sure that `make check` and `make checkoff`
-      in lab 7 still works.
-
-   4. Your fake pi implementation for `uart.c` gives the
+   2. Your fake pi implementation for `uart.c` gives the
       same hash as everyone else.  Note, there are multiple ways to do
-      same thing, so maybe do the first one as a way to resolve ambiguity.
+      same thing, so always set the the lower addresses before the higher.
 
-   5. Your software UART can reliably print and echo text between the pi
+   3. Your software UART can reliably print and echo text between the pi
       and your laptop.
 
 There are tons and tons of [EXTENSIONS](./EXTENSIONS.md)
@@ -114,9 +103,10 @@ you have what you need.
 -----------------------------------------------------------------------
 ### Part 1. implement a UART device deriver `1-uart/uart.c`
 
-##### tl;dr
+#### Before you start
 
-Before you start:
+Check that everything works.
+
   1. Check that `make check` in `1-uart` works.
 
             % cd 1-uart
@@ -129,7 +119,7 @@ Before you start:
 
   3. Check that `make run` gives `must implement` errors.
 
-##### What to do
+#### Write the code in `uart.c`
 
 Our general development style will be to write a new piece of
 functionality in a private lab directory where it won't mess with anything
