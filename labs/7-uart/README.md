@@ -200,8 +200,17 @@ UART yourself.
 -----------------------------------------------------------------------
 ##### Part 2. `2-fake-pi` 
 
-We extend the `fake-pi.c` code from `3-cross-checking` to handle
-UART and AUX writes.
+UART bugs are incredibly nasty.   Unfortunately, a broken UART driver
+can easily work on simple tests but fail on more complicated ones.
+We'll use the cross-checking idea from lab 3 to compare the `PUT32` and
+`GET32` that your code against everyone else.  Our mantra: If everyone
+matches and one person was right, then everyone was right.
+
+To do this, we
+extend the `fake-pi.c` code from `3-cross-checking` to handle 
+UART and AUX writes.  If you look in `2-fake-pi/Makefile` you'll
+see that we link in your `libpi/src/gpio.c` and `../1-uart/uart.c`.
+There are simple tests for the UART in `2-fake-pi/tests-uart`
 
 To check your output:
 ```
@@ -220,8 +229,6 @@ To check your output:
 ```
 
 NOTE:
-  - The fake pi uses the `libpi/src/uart.c`: either make changes there
-    or 
   - You might get different output if you do things differently than
     we do.  If so, you should have agreement in a group that your
     output makes sense (and matches theirs!)
@@ -263,16 +270,12 @@ My `2-fake-pi/tests-uart/0-uart-init.out`:
 
 Some notes:
 
-  1.  If you look in the `2-fake-pi/Makefile` you see it's getting your
-      `gpio.c` and `uart.c` from `libpi/src/` and pulling them into
-      fake-pi.
-
-  2. If you look in `fakepi.c` you see there is some logic to buffer
+  1. If you look in `fakepi.c` you see there is some logic to buffer
      the UART writes while the TX and RX is disabled (the control
      register). When the control is turned on, all buffered writes 
      get written.
 
-  3. `cd` into `3-fake-pi/tests-uart` and run the test for
+  2. `cd` into `2-fake-pi/tests-uart` and run the test for
      `0-uart-init.c`.  You may have addresses written in order (there
      are multiple legal orders). If you don't match ours,  check with
      someone else and have some reason that the reorder you do is ok.
@@ -286,9 +289,11 @@ Some notes:
 
 
 -----------------------------------------------------------------------
-#### Part 3: `libpi/uart.c` + 
+#### Part 3: install your `uart.c`!
 
-Now that your UART works compared to everyone else, install it.
+Now that your UART works compared to everyone else, install in
+libpi and use it the in the bootloader.
+
 
 Swap out the `uart.c` in the `libpi/Makefile` to use yours:  
 
@@ -325,6 +330,18 @@ Re-install your bootloader with the new uart code:
 <p align="center">
   <img src="images/debug-print.jpg" width="550" />
 </p>
+
+
+
+***NOTE:WE ARE UPDATING THIS PART***
+***NOTE:WE ARE UPDATING THIS PART***
+***NOTE:WE ARE UPDATING THIS PART***
+***NOTE:WE ARE UPDATING THIS PART***
+***NOTE:WE ARE UPDATING THIS PART***
+***NOTE:WE ARE UPDATING THIS PART***
+***NOTE:WE ARE UPDATING THIS PART***
+***NOTE:WE ARE UPDATING THIS PART***
+
 
 Checkoff summary:
    1. Implement the two `sw_uart_init_helper` and `sw_uart_put8` 
