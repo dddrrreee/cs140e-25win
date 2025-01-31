@@ -172,9 +172,9 @@ General:
 
 A possibly-nasty issue: 
 
-  1. If you test using the bootloader (recommended!), that code obviously
-     already initializes the UART.  As a result, your code might appear
-     to work when it does not.
+  1. Given that we load all the programs using the bootloader,
+     that code obviously already initializes the UART.  As a result,
+     your code might appear to work when it does not.
 
   2. To get around this issue, when everything seems to work, change
      the `Makefile` to use `output-test-1-hello-disable.c`.
