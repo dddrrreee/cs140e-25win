@@ -4,6 +4,10 @@
   <img src="images/uart-meme.jpg" width="450" />
 </p>
 
+Make sure you've read the 
+[miniUART cheat sheet](../../notes/devices/miniUART.md).
+
+
 By the end of this lab, you'll have written your own device driver for
 the pi's mini-UART hardware, which is what communicates with the TTY-USB
 device you plug into your laptop.  This driver is the last "major" piece
@@ -487,7 +491,26 @@ NOTE: debugging:
 
 
 ---------------------------------------------------------------------
-## Extension: `sw_uart_get8`
+### Extensions.
+
+Other extensions are in [EXTENSIONS](EXTENSIONS.md)
+
+#### Trace `uart_init()`
+
+Change your tracing code from lab 3 to be able to trace UART.  You'll have
+to buffer the `PUT32` and `GET32` so that you can dump them later,
+otherwise you'll be trying to print when UART is being initialized,
+which won't work.
+
+#### Change the baud
+
+As we make more complicated programs, the bootloading overhead will add
+up (you've seen this in past checkoffs).  So an interesting puzzle is
+how fast you can make the baud rate for your bootloader.  Note you'll
+have to change the Unix side too and, at some point, the unix won't
+be able to keep up.
+
+#### Add input: `sw_uart_get8`
 
 Adding input is good.  Two issues:
   1. The GPIO pins (obvious) have no buffering, so if you are reading
