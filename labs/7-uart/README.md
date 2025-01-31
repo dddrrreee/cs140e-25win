@@ -11,6 +11,8 @@ Note:
     the AUX enable.  Then set the uart.
   - figure out all registers you can ignore and set them to
     the default values.
+  - for cross checking, set the UART registers in ascending
+    order when possible.
 ------------------------------------------------
 
 
