@@ -352,23 +352,14 @@ Re-install your bootloader with the new uart code:
 </p>
 
 
-#### ***NOTE: if you see this, do an update***
-#### ***NOTE: if you see this, do an update***
-#### ***NOTE: if you see this, do an update***
-#### ***NOTE: if you see this, do an update***
-#### ***NOTE: if you see this, do an update***
-#### ***NOTE: if you see this, do an update***
-
-
 Checkoff summary:
    1. Implement the two `sw_uart_init_helper` and `sw_uart_put8` 
-      routines in `sw-uart.c`.  
+      routines in `3-sw-uart-put8/sw-uart.c`.  
 
-   2. Switch `libpi/Makefile` to use your code.
+   2. `make checkoff` should pass: it just tests that you can 
+      print `hello`.
 
-   3. `make checkoff` should pass: it just tests that you can 
-     print `hello`.
-
+   3. Switch `libpi/Makefile` to use your code.
 
 One of the hardest things about writing the hardware UART driver is that
 there is zero visibility into it when things go wrong.  
@@ -378,11 +369,10 @@ there is zero visibility into it when things go wrong.
     code, but the difficulty in debugging made it one of the 
     hardest labs in some ways.
 
-So this year we won't do that.  To mitigate this problem, before starting
-on the hardware we'll do a general purpose hack and write a software
-UART implementation that uses GPIO to  "bit-bang" the UART protocol.
-(Jonathan Kula did this in 2021's class as part of his final project.)
-This will let you debug the hardware UART driver using print statements.
+So this year we didn't do that and used a software version that uses
+GPIO to  "bit-bang" the UART protocol so you could debug the hardware
+UART driver using print statements.  (Jonathan Kula did this in 2021's
+class as part of his final project.)  You'll now build this.
 
 Two additional advantages of bit-banging:
 
@@ -416,95 +406,15 @@ the protocol to transmit a byte `B` at a baud rate B is pretty simple.
      The A+ runs at `700MHz` so that is 700 * 1000 * 1000 cycles per
      second or about `6076` cycles per bit.)
 
+To initialize:
+  1. Setup the given GPIO pins as input (RX) and output (TX).
+  2. Make sure the TX line has its correct default value.
+
 To transmit:
   1. write a 0 (start) for T.
   2. write each bit value in the given byte for T (starting at bit 0, 
      bit 1, ...).
   3. write a 1 (stop) for at-least T.
-
-
-What to do:
-  1. Implement `wait_ncycles_exact` in `1-sw-uart-put8/wait-routines.h`.
-     And use `1-test-delay.c` to test it.  This test uses your routine
-     to repeatedly delay by a fixed amount, measures the actual amount,
-     and then prints out the error.  If you do things right you should
-     get fairly low error.  E.g., I had about 45 cycles of error in 
-     total for 10 samples:
-
-```
-        trial=0: measured = 601, expected 600, err = 1, tot err = 1
-        trial=1: measured = 1200, expected 1200, err = 0, tot err = 1
-        trial=2: measured = 1808, expected 1800, err = 8, tot err = 9
-        trial=3: measured = 2407, expected 2400, err = 7, tot err = 16
-        trial=4: measured = 3003, expected 3000, err = 3, tot err = 19
-        trial=5: measured = 3608, expected 3600, err = 8, tot err = 27
-        trial=6: measured = 4207, expected 4200, err = 7, tot err = 34
-        trial=7: measured = 4803, expected 4800, err = 3, tot err = 37
-        trial=8: measured = 5408, expected 5400, err = 8, tot err = 45
-        trial=9: measured = 6000, expected 6000, err = 0, tot err = 45
-    total error = 45 cycles, out of 6000 total cycles
-```
-
-  2. Using `wait_ncycles_exact` you should be able to implement
-     a bit-banged UART routine to emit a 8-bit character
-     `bitbang_uart_put8` in `2-test-sw-put8.c`.
-
-     The most common problem people run into when doing so is that
-     their timings are off, which will make printing always (or, worse,
-     sometimes) fail.  Again, we want visibility.  To get it we 
-     use the logging code above and check when writes are occuring.
-
-     The file has code and an example (`log_example()`) on how to time
-     `gpio_writes` easily to check that you are doing `gpio_write`'s
-     at the right time and with the right values.  Do the same thing
-     for your bit-banged code.  If your timing is reasonable, and the
-     values are correct the code should just work.
-
-     When running `bitbang_uart_put8(&sw, 'h')` I get:
-
-```
-    sw uart: cycles per bit=6076 for baud=115200
-    done with sw-uart example: time log has 10 entries:
-        0: v=0: [value of first reading]
-        1: v=0: measured = 6137, expected 6076, err = 61, tot err = 61
-        2: v=0: measured = 12224, expected 12152, err = 72, tot err = 133
-        3: v=0: measured = 18275, expected 18228, err = 47, tot err = 180
-        4: v=1: measured = 24315, expected 24304, err = 11, tot err = 191
-        5: v=0: measured = 30424, expected 30380, err = 44, tot err = 235
-        6: v=1: measured = 36503, expected 36456, err = 47, tot err = 282
-        7: v=1: measured = 42585, expected 42532, err = 53, tot err = 335
-        8: v=0: measured = 48661, expected 48608, err = 53, tot err = 388
-        9: v=1: measured = 54795, expected 54684, err = 111, tot err = 499
-    total error = 499 cycles, out of 60760 total cycles
-```
-     If you get something similar your code should just work.
-
-  3. Now implement the two routines in `sw-uart.c`.  You'll need
-     to setup the transmit and receive GPIO pins (output and input
-     respectively) and drop in your bitbangged code.  When you
-     do this, `3-hello.c` should just work.  If you want to 
-     play around you can uncomment the staff binary.
-
-  4. Switch your `libpi/Makefile` to use `sw-uart.c` by
-     adding:
-
-            # libpi/Makefile
-            SRC += ../labs/8-uart/1-sw-uart-put8/sw-uart.c
-
-      To the start commenting `sw-uart.c` out this directory's `Makefile`.
-      `make check` should still work.
-
-NOTE: debugging:
-
-  - To use your softare UART code in the next step, you would just include
-    `sw-uart.h` into (`uart.c`), create a software UART structure using
-    `sw_uart_init` and then use the print routines.
-
-  - COMMON MISTAKE: running the software uart will destroy some of
-    the hardware UART's state (the GPIO pins), so put these last in setup
-    or make sure you remove all uses of the software uart when you want
-    to run with the hardware.
-
 
 ---------------------------------------------------------------------
 ### Extensions.
