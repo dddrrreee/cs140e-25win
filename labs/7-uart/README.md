@@ -332,15 +332,13 @@ Re-install your bootloader with the new uart code:
 </p>
 
 
-
-***NOTE:WE ARE UPDATING THIS PART***
-***NOTE:WE ARE UPDATING THIS PART***
-***NOTE:WE ARE UPDATING THIS PART***
-***NOTE:WE ARE UPDATING THIS PART***
-***NOTE:WE ARE UPDATING THIS PART***
-***NOTE:WE ARE UPDATING THIS PART***
-***NOTE:WE ARE UPDATING THIS PART***
-***NOTE:WE ARE UPDATING THIS PART***
+#### ***NOTE:WE ARE UPDATING THIS PART***
+#### ***NOTE:WE ARE UPDATING THIS PART***
+#### ***NOTE:WE ARE UPDATING THIS PART***
+#### ***NOTE:WE ARE UPDATING THIS PART***
+#### ***NOTE:WE ARE UPDATING THIS PART***
+#### ***NOTE:WE ARE UPDATING THIS PART***
+#### ***NOTE:WE ARE UPDATING THIS PART***
 
 
 Checkoff summary:
@@ -471,8 +469,8 @@ What to do:
   4. Switch your `libpi/Makefile` to use `sw-uart.c` by
      adding:
 
-        # libpi/Makefile
-        SRC += ../labs/8-uart/1-sw-uart-put8/sw-uart.c
+            # libpi/Makefile
+            SRC += ../labs/8-uart/1-sw-uart-put8/sw-uart.c
 
       To the start commenting `sw-uart.c` out this directory's `Makefile`.
       `make check` should still work.
@@ -491,6 +489,7 @@ NOTE: debugging:
 
 ---------------------------------------------------------------------
 ## Extension: `sw_uart_get8`
+
 Adding input is good.  Two issues:
   1. The GPIO pins (obvious) have no buffering, so if you are reading
      from the RX pin when the input arrives it will disappear.
