@@ -86,6 +86,10 @@ int uart_can_putc(void);
 // flush out the tx fifo
 void uart_flush_tx(void);
 
+
+// forcibly disable the uart.
+void hw_uart_disable(void);
+
 /***************************************************************************
  * simple timer functions.
  */
