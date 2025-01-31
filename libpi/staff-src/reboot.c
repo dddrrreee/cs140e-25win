@@ -2,7 +2,7 @@
 #include "rpi.h"
 
 void rpi_reboot(void) {
-    uart_flush_tx();
+//    uart_flush_tx();
     delay_ms(10);
 
     // is there a way to speed this up?
