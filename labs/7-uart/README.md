@@ -8,6 +8,8 @@
 Note:
   - do the GPIO pins first (top of page 10) "GPIO pins should
     be setup first before enabling the UART"
+  - figure out all registers you can ignore and set them to
+    the default values.
 ------------------------------------------------
 
 
