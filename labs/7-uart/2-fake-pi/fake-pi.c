@@ -130,6 +130,7 @@ enum {
     aux_periph = (GPIO_BASE + 0x15004),
     uart_start = (GPIO_BASE + 0x15040),
     uart_cntrl = (GPIO_BASE + 0x15060),
+    uart_stat = (GPIO_BASE + 0x15064),
     uart_end = (uart_start + 12*4)
 
 };
@@ -207,6 +208,8 @@ int uart_addr_get(uint32_t *v, uint32_t addr) {
     dev_mem_t *p = uart_addr_lookup(addr);
     if(!p)
         return 0;
+    if(addr == uart_stat)
+        p->v = fake_random();
     *v = p->v;
     return 1;
 }
