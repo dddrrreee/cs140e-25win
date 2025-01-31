@@ -6,6 +6,7 @@
 #### Clarification errata
 
 Note:
+  - The final part 3 sw-uart is pushed!
   - do the GPIO pins first (top of page 10) "GPIO pins should
     be setup first before enabling the UART".  Then do 
     the AUX enable.  Then set the uart.
