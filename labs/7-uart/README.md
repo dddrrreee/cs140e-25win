@@ -6,6 +6,14 @@
 #### Clarification errata
 
 Note:
+  - the staff uses `lrc` and you are most likely using `stat`
+    so the checksums for routines other than `uart_init` 
+    likely won't match.  make sure you do match with another
+    group.
+
+    then: please post your checksum to ed so we can all agree.
+  - if your fake-pi is not terminating do a pull.  lmk if 
+    that doesn't fix it.
   - The final part 3 sw-uart is pushed!
   - do the GPIO pins first (top of page 10) "GPIO pins should
     be setup first before enabling the UART".  Then do 
