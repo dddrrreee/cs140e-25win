@@ -1,5 +1,13 @@
 ## Lab: write your own UART implementation.
 
+
+#### Clarification errata
+
+Note:
+  - do the GPIO pins first (top of page 10) "GPIO pins should
+    be setup first before enabling the UART"
+
+
 <p align="center">
   <img src="images/uart-meme.jpg" width="450" />
 </p>
