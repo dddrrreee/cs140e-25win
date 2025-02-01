@@ -169,9 +169,9 @@ On your local machine:
 
 To checkoff:
 - First make sure you have manually made sure your code works on your computer.
-- Reclone the autograder from here: http://github.com/dghosef/140e-dumb-autograder. Or pull and fix the conflict
+- Reclone the autograder from here: http://github.com/dghosef/140e-autograder. Or pull and fix the conflict
 - Modify the repo, sunet, and lab variables in `sender.py`. The lab one should be set to 'lab3'
-- Run `sender.py`. The output will be pushed to the checkoff directory of http://github.com/dghosef/140e-dumb-autograder
+- Run `sender.py`. The output will be pushed to the checkoff directory of http://github.com/dghosef/140e-autograder
 - Make sure the checksums make sense
  
 - Let Joe know if something isn't working
