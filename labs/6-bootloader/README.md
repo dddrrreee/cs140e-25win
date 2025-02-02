@@ -27,6 +27,9 @@ and Unix by using the `--trace-control` option:
         hello world
         DONE!!!
 
+Errata:
+  1. For part 2 (pi-side) you have to copy the kernel.img to
+     the sd card manually: `make install` can't do this for you.
 
 #### Intro
 
