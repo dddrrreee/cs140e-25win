@@ -30,9 +30,8 @@ Low-level ARM readings for the lab:
     build your own version soon.  You should try to get a reasonable
     feel for what is going on, so the lab is not entirely a black box.
 
+  - [cheat sheet for chapter 13](../../notes/debug-hw/DEBUG-cheat-sheet.md)
+    to help with the above.
+
   - [fault registers](./docs/arm1176-fault-regs.pdf): These are useful
     for figuring out which fault happened.
-
-
-Since the documents can be a bit much, we also give a 
-[cheat sheet for chapter 13](https://github.com/dddrrreee/cs140e-24win/blob/main/notes/debug-hw/DEBUG-cheat-sheet.md).

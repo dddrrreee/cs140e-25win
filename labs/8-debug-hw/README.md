@@ -1,4 +1,6 @@
+
 ## Using debug hardware to catch mistakes
+
 
 ***NOTE: This is undergoing many changes, but the final lab will use these pieces so is worth reading.***
 
