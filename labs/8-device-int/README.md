@@ -23,7 +23,8 @@ notes:
        fault;
 
     2. It lets us use relative jumps rather than absolute (since the
-       jump table doesn't move), which will be faster;
+       jump table doesn't move), which will be faster since it does
+       not require a memory load;
 
     3. We won't have to do anything special when we enable the icache
        (or dcache) since we don't copy code and thus don't have to make
