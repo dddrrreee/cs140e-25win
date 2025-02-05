@@ -4,6 +4,12 @@
 #### Errata and clarifications.
 
 notes:
+  - Part 4:  once the logic analyzer code works, make sure you switch
+    the `4-logic-analyze/Makefile` to use your `sw-uart.c`.  you may
+    also have to switch your `libpi/Makefile` to use `libpi/src/sw-uart.c`
+    if you haven't already (and copy `sw-uart.c` from last lab there if you
+    didn't already).
+
   - the  `2-gpio-int/Makefile` references 2024: you should change to 2025.
 
   - Part 1: the vector base register is an extension for the arm 1176
