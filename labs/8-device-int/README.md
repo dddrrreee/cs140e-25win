@@ -25,6 +25,12 @@ notes:
     we enable the icache (or dcache) since we don't copy code (and thus
     don't have to make the icache consistent w/ memory or the dcache).
 
+    1. A
+
+    2. B
+    
+    3. C
+
 
 ---------------------------------------------------------------------------
 <p align="center">
