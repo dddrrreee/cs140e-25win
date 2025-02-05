@@ -1,5 +1,19 @@
 ## Lab: device interrupts 
 
+---------------------------------------------------------------------------
+#### Errata and clarifications.
+
+notes:
+  - the  `2-gpio-int/Makefile` references 2024: you should change to 2025.
+
+  - Part 1: some of the reasons we do the vector base reg:  (1) we want to
+    be able to protect page 0 so segfaults will actually fault and
+    (2) it's much easier to flip stuff around and (3) it lets us use
+    relative jumps rather than absolute (since the jump table doesn't
+    move) which will be faster.
+
+
+---------------------------------------------------------------------------
 <p align="center">
   <img src="images/glowing-rpi.png" width="450" />
 </p>
