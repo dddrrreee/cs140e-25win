@@ -32,6 +32,8 @@ Check-off:
   5. Ideally: You have the basic `sw_uart_get8` interrupt working and can send
      back and forth.
 
+     Run the autograder. Make sure you have the correct PROGS, COMMON_SRC, and STAFF_SRC in all of the makefiles.
+
 There are a ton of [EXTENSION](./EXTENSIONS.md).  We actually have a
 bunch that are not written, so ask if you want :).
 
