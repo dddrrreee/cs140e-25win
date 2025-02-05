@@ -21,8 +21,11 @@ to GPIO.
 
 Check-off:
   1. `1-vector-base` passes `make check` and you see about a 30% speedup
-      from changing `ldr` to the relative branch `b` instruction.
-  2. `2-gpio-int` passes `make check` with all the tests.
+      from changing `ldr` to the relative branch `b` instruction.  You
+      copy your `vector-base.h` to `libpi/include/vector-base.h`
+  2. `2-gpio-int` passes `make check` with all the tests.  You copy 
+      `gpio-int.c` to your `libpi/src` and change the `libpi/Makefile`
+      to use it..
   3. `3-handlers-gpio-int` passes `make check` with all the tests.
   4. `4-logic-analyzer`: Your `sw_uart_put8` gives
      reasonable values for its timings (around 6000 cycles).
