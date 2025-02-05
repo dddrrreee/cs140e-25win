@@ -1,0 +1,100 @@
+TRACE:0: calling pi code
+TRACE:TRACE:1: dev_barrier
+TRACE:2: GET32(0x20200040) = 0x625558ec
+TRACE:3: dev_barrier
+TRACE:TRACE:4: dev_barrier
+TRACE:5: GET32(0x20200040) = 0x238e1f29
+TRACE:6: dev_barrier
+TRACE:TRACE:7: dev_barrier
+TRACE:8: GET32(0x20200040) = 0x46e87ccd
+TRACE:9: dev_barrier
+TRACE:TRACE:10: dev_barrier
+TRACE:11: GET32(0x20200040) = 0x3d1b58ba
+TRACE:12: dev_barrier
+TRACE:TRACE:13: dev_barrier
+TRACE:14: GET32(0x20200040) = 0x507ed7ab
+TRACE:15: dev_barrier
+TRACE:TRACE:16: dev_barrier
+TRACE:17: GET32(0x20200040) = 0x2eb141f2
+TRACE:18: dev_barrier
+TRACE:TRACE:19: dev_barrier
+TRACE:20: GET32(0x20200040) = 0x41b71efb
+TRACE:21: dev_barrier
+TRACE:TRACE:22: dev_barrier
+TRACE:23: GET32(0x20200040) = 0x79e2a9e3
+TRACE:24: dev_barrier
+TRACE:TRACE:25: dev_barrier
+TRACE:26: GET32(0x20200040) = 0x7545e146
+TRACE:27: dev_barrier
+TRACE:TRACE:28: dev_barrier
+TRACE:29: GET32(0x20200040) = 0x515f007c
+TRACE:30: dev_barrier
+TRACE:TRACE:31: dev_barrier
+TRACE:32: GET32(0x20200040) = 0x5bd062c2
+TRACE:33: dev_barrier
+TRACE:TRACE:34: dev_barrier
+TRACE:35: GET32(0x20200040) = 0x12200854
+TRACE:36: dev_barrier
+TRACE:TRACE:37: dev_barrier
+TRACE:38: GET32(0x20200040) = 0x4db127f8
+TRACE:39: dev_barrier
+TRACE:TRACE:40: dev_barrier
+TRACE:41: GET32(0x20200040) = 0x216231b
+TRACE:42: dev_barrier
+TRACE:TRACE:43: dev_barrier
+TRACE:44: GET32(0x20200040) = 0x1f16e9e8
+TRACE:45: dev_barrier
+TRACE:TRACE:46: dev_barrier
+TRACE:47: GET32(0x20200040) = 0x1190cde7
+TRACE:48: dev_barrier
+TRACE:TRACE:49: dev_barrier
+TRACE:50: GET32(0x20200040) = 0x66ef438d
+TRACE:51: dev_barrier
+TRACE:TRACE:52: dev_barrier
+TRACE:53: GET32(0x20200040) = 0x140e0f76
+TRACE:54: dev_barrier
+TRACE:TRACE:55: dev_barrier
+TRACE:56: GET32(0x20200040) = 0x3352255a
+TRACE:57: dev_barrier
+TRACE:TRACE:58: dev_barrier
+TRACE:59: GET32(0x20200040) = 0x109cf92e
+TRACE:60: dev_barrier
+TRACE:TRACE:61: dev_barrier
+TRACE:62: GET32(0x20200040) = 0xded7263
+TRACE:63: dev_barrier
+TRACE:TRACE:64: dev_barrier
+TRACE:65: GET32(0x20200040) = 0x7fdcc233
+TRACE:66: dev_barrier
+TRACE:TRACE:67: dev_barrier
+TRACE:68: GET32(0x20200040) = 0x1befd79f
+TRACE:69: dev_barrier
+TRACE:TRACE:70: dev_barrier
+TRACE:71: GET32(0x20200040) = 0x41a7c4c9
+TRACE:72: dev_barrier
+TRACE:TRACE:73: dev_barrier
+TRACE:74: GET32(0x20200040) = 0x6b68079a
+TRACE:75: dev_barrier
+TRACE:TRACE:76: dev_barrier
+TRACE:77: GET32(0x20200040) = 0x4e6afb66
+TRACE:78: dev_barrier
+TRACE:TRACE:79: dev_barrier
+TRACE:80: GET32(0x20200040) = 0x25e45d32
+TRACE:81: dev_barrier
+TRACE:TRACE:82: dev_barrier
+TRACE:83: GET32(0x20200040) = 0x519b500d
+TRACE:84: dev_barrier
+TRACE:TRACE:85: dev_barrier
+TRACE:86: GET32(0x20200040) = 0x431bd7b7
+TRACE:87: dev_barrier
+TRACE:TRACE:88: dev_barrier
+TRACE:89: GET32(0x20200040) = 0x3f2dba31
+TRACE:90: dev_barrier
+TRACE:TRACE:91: dev_barrier
+TRACE:92: GET32(0x20200040) = 0x7c83e458
+TRACE:93: dev_barrier
+TRACE:TRACE:94: dev_barrier
+TRACE:95: GET32(0x20200040) = 0x257130a3
+TRACE:96: dev_barrier
+TRACE:event detected = 0
+TRACE:event detected = 0
+TRACE: pi exited cleanly: 39 calls to random

@@ -1,0 +1,5 @@
+TRACE:notmain:checking that loopback works: connect 20,21
+TRACE:notmain:writing 1 to 20
+TRACE:notmain:success: read 1!
+TRACE:notmain:success: read 0!
+TRACE:notmain:SUCCESS: test passed!
