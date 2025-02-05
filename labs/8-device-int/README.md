@@ -22,7 +22,8 @@ notes:
     it's much easier to flip stuff around (3) it lets us use relative
     jumps rather than absolute (since the jump table doesn't move)
     which will be faster; (4) we won't have to do anything special if
-    we enable the icache (or dcache) since we don't copy code.
+    we enable the icache (or dcache) since we don't copy code (and thus
+    don't have to make the icache consistent w/ memory or the dcache).
 
 
 ---------------------------------------------------------------------------
