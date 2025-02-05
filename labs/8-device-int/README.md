@@ -3,7 +3,7 @@
 ---------------------------------------------------------------------------
 #### Errata and clarifications.
 
-notes:
+Notes:
 
   - Part 1: the vector base register is an extension for the arm 1176
     processor, but isn't in the general arm family.  it's a good reason
@@ -32,6 +32,8 @@ notes:
     stop using the staff) if you haven't already (and copy `sw-uart.c`
     from last lab there if you didn't already).
 
+  - Part 4: `make check` doesn't work (we don't know what to compare to)
+    so do a `make run` and see that the cycles are around 6000.
 
 ---------------------------------------------------------------------------
 <p align="center">
