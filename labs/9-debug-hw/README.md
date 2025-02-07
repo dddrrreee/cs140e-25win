@@ -154,6 +154,23 @@ to check the size and offset to detect mistakes.
     error,
   - You will have to modify the test `1-watchpt-test.c` where it
     has `todo()` invocations.
+  - We provide small setup so you can register exception handlers
+    dynamically (see `staff-full-except.c`).  The calls:
+
+            // install exception handlers: see <staff-full-except.c>
+            full_except_install(0);
+            full_except_set_data_abort(watchpt_fault);
+
+    Initialize the full exception system and registers `watchpt_fault`
+    as the handler to call on data aborts.
+
+  - These exception handlers take the full set of registers 
+    (the 16 general purpose registers plus the `cpsr`) in a
+    17-entry array (`reg_t`).  You can call `switchto` (from
+    `switchto.h`) to context switch to the registers.   This
+    lets you switch between different threads.  It also lets
+    you build a pre-emptive thread scheduler (next week).
+  
 
 So far this quarter we've been vulnerable to load and stores of NULL
 (address 0).  For example, if you run this code it will execute
