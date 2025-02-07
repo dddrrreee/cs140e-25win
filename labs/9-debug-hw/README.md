@@ -240,8 +240,11 @@ To set a watchpoint you can follow the recipe on 13-47.
   4. After finishing your modifications of cp14, make sure you do a
      `prefetchflush` (see below) to make sure the processor refetches
      and re-decodes the instructions in the instuction prefetch buffer.
-  5. Implement the code in the `data_abort_int` handler to check if the
-     exception is from a debug exception and, if so crash with an error.
+  5. Implement the code in the data abort handler
+     to check if the exception is from a debug exception and, if not
+     crash with an error, otherwise handle it.  (The test already
+     does this.)
+
 
 For the WCR: We don't want linking (which refers to the use of context id's).
 We do want:
