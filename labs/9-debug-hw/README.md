@@ -5,7 +5,8 @@
 ------------------------------------------------------------------
 ### Errata and clarifications.
 
-  - Delete the semi-colon.  Original:
+  - Delete the semi-colon in `mini-step.c:mismatch_off`.  
+    Original:
 
             // disable mis-matching by just turning it off in bcr0
             void mismatch_off(void) {
