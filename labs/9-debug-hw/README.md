@@ -73,7 +73,7 @@ virtual memory, and if you continue to do OS or embedded stuff, will be
 very useful in the future.
 
 ### Checkoff
-   - Run lab9 on the autograder
+   - Run lab9 on the autograder. Please make sure you have added/committed all files include libpi/src/vector-base.h
    - The tests for 1 and 2 pass.
    - You code isn't ugly and has comments where you got the instructions from.
    - Possibly a part 3.
