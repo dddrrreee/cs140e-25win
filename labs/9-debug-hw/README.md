@@ -226,7 +226,7 @@ We do want:
    - Enabled.
    - Byte address select for all accesses (0x0, 0x1, 0x2, 0x3).
 
-When you are done, `2-watchpt-test.c` should pass and print `SUCCESS`.
+When you are done, `1-watchpt-test.c` should pass and print `SUCCESS`.
 
 After any modification to a co-processor 14 register, you have to do a 
 `PrefetchFLush`:
