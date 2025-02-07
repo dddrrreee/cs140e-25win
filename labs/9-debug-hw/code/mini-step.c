@@ -61,6 +61,8 @@ void mismatch_off(void) {
     todo("turn mismatch off, but don't modify anything else");
 }
 
+// set a mismatch fault on the pc register in <r>
+// context switch to <r>
 void mismatch_run(regs_t *r) {
     uint32_t pc = r->regs[REGS_PC];
 

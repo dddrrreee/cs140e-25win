@@ -6,7 +6,7 @@
 #include "switchto.h"
 
 //*******************************************************
-// these three routines can be used in isolation.  you
+// these four routines can be used in isolation.  you
 // would have to check for a mismatch fault in the 
 // exception handler.
 
@@ -22,7 +22,9 @@ void mismatch_off(void);
 //     mismatch_pc_set(0);
 uint32_t mismatch_pc_set(uint32_t pc);
 
-
+// set a mismatch fault on the pc register in <r>
+// context switch to <r>
+void mismatch_run(regs_t *r);
 
 //*******************************************************
 // the following routines build on the primitives above,
