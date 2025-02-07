@@ -5,6 +5,10 @@
 ------------------------------------------------------------------
 ### Errata and clarifications.
 
+  - Part 1: you are supposed to modify `1-watchpt-test.c`.
+    The panic about `b` is just a way of indicating where
+    you should modify.
+
   - Delete the semi-colon in `mini-step.c:mismatch_off`.  
     Original:
 
