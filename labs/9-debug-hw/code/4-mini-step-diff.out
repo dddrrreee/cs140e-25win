@@ -1,0 +1,45 @@
+TRACE:notmain:---------------------------------------------
+TRACE:notmain:going to run difference handler
+TRACE:notmain:about to run nop10()!
+TRACE: cnt=0: pc=0x8044:  {first instruction}
+TRACE: cnt=1: pc=0x8048:  {no changes}
+TRACE: cnt=2: pc=0x804c:  {no changes}
+TRACE: cnt=3: pc=0x8050:  {no changes}
+TRACE: cnt=4: pc=0x8054:  {no changes}
+TRACE: cnt=5: pc=0x8058:  {no changes}
+TRACE: cnt=6: pc=0x805c:  {no changes}
+TRACE: cnt=7: pc=0x8060:  {no changes}
+TRACE: cnt=8: pc=0x8064:  {no changes}
+TRACE: cnt=9: pc=0x8068:  {no changes}
+TRACE: cnt=10: pc=0x806c:  {no changes}
+TRACE:notmain:done nop10()!
+TRACE:notmain:about to run mov_ident()!
+TRACE: cnt=0: pc=0x80a0:  {first instruction}
+TRACE: cnt=1: pc=0x80a4:  {no changes}
+TRACE: cnt=2: pc=0x80a8:
+TRACE:	r1 changed: old=0x0, new=0x1
+TRACE: cnt=3: pc=0x80ac:
+TRACE:	r2 changed: old=0x0, new=0x2
+TRACE: cnt=4: pc=0x80b0:
+TRACE:	r3 changed: old=0x0, new=0x3
+TRACE: cnt=5: pc=0x80b4:
+TRACE:	r4 changed: old=0x0, new=0x4
+TRACE: cnt=6: pc=0x80b8:
+TRACE:	r5 changed: old=0x0, new=0x5
+TRACE: cnt=7: pc=0x80bc:
+TRACE:	r6 changed: old=0x0, new=0x6
+TRACE: cnt=8: pc=0x80c0:
+TRACE:	r7 changed: old=0x0, new=0x7
+TRACE: cnt=9: pc=0x80c4:
+TRACE:	r8 changed: old=0x0, new=0x8
+TRACE: cnt=10: pc=0x80c8:
+TRACE:	r9 changed: old=0x0, new=0x9
+TRACE: cnt=11: pc=0x80cc:
+TRACE:	r10 changed: old=0x0, new=0xa
+TRACE: cnt=12: pc=0x80d0:
+TRACE:	r11 changed: old=0x0, new=0xb
+TRACE: cnt=13: pc=0x80d4:
+TRACE:	r12 changed: old=0x0, new=0xc
+TRACE: cnt=14: pc=0x80d8:
+TRACE:	r13 changed: old=0x108000, new=0xd
+TRACE:notmain:done mov_ident()!

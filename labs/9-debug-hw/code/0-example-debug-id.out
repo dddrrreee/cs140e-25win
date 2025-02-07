@@ -1,0 +1,5 @@
+TRACE:notmain:checking debug_id and inline function give same output
+TRACE:notmain:r=0x15121007
+TRACE:notmain:have 2 watchpoints
+TRACE:notmain:have 6 breakpoints
+TRACE:notmain:SUCCESS: read debug register correctly.

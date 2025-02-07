@@ -1,0 +1,11 @@
+TRACE:notmain:INITIAL VALUE: addr 0x0 = 0xdeadbeef
+TRACE:notmain:set watchpoint for addr 0x0
+TRACE:notmain:should see a store fault!
+TRACE:watchpt_fault:faulting instruction at pc=0x8024, next instruction pc=0x8028
+TRACE:watchpt_fault:store fault at pc=0x8028
+TRACE:notmain:SUCCESS: correctly got a fault on addr=0x0, val=0xfaf0faf0
+TRACE:notmain:setting watchpoint for addr 0x0
+TRACE:notmain:should see a load fault!
+TRACE:watchpt_fault:faulting instruction at pc=0x802c, next instruction pc=0x8030
+TRACE:watchpt_fault:load fault at pc=0x8030
+TRACE:notmain:SUCCESS GET32 fault worked!
