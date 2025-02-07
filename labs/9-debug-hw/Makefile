@@ -1,4 +1,4 @@
-SUBDIRS= #code
+SUBDIRS= 0-bit-ops code
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)

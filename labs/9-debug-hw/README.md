@@ -1,13 +1,9 @@
 
 ## Using debug hardware to catch mistakes
 
-
-***NOTE: This is undergoing many changes, but the final lab will use these pieces so is worth reading.***
-
 <p align="center">
   <img src="images/fetch-quest-task.png" width="450" />
 </p>
-
 
 Today is a "fetch-quest" style lab that has you setup simple breakpoint
 and watchpoints.  It should mostly be defining inline assembly routines
@@ -16,12 +12,13 @@ useful lab.
 
 Reminder:
   - Do the readings in the [./PRELAB.md](./PRELAB.md) first!    
-  - The hardware documents you need are in `./docs`:
-    `arm1176-ch13-debug.pdf` is the debug hardware chapter for our
-    arm1176 chip and the (shorter) excerpt `arm1176-fault-regs.pdf`
-    gives the fault registers.
-  - There is a [cheat sheet](./../../notes/debug-hw/DEBUG-cheat-sheet.md) that summarizes a
-    lot of the page numbers and rules .
+
+All the readings you need:
+  - [Debug hardware chapter 13 for our arm1176 chip](./docs/arm1176-ch13-debug.pdf)
+
+  - [Debug hardware cheat sheet](./../../notes/debug-hw/DEBUG-cheat-sheet.md)
+    summarizes a the page numbers and rules (don't sleep on these).
+  - [Fault registers](./docs/arm1176-fault-regs.pdf).
 
 The ARM chip we use, like many machines, has a way to set both
 *breakpoints*, which cause a fault when the progam counter is set to
@@ -108,14 +105,15 @@ We have examples for each.
 ##### Inline assembly for debug co-processor
 
 A good way to get started is to see how to define inline assembly to 
-access the debug ID register(`DIDR`).
-
-For this:
-  - Review the end of the [debug hardware cheat sheet](./DEBUG-cheat-sheet.md)
+access the debug ID register(`DIDR`).  For this:
+  - Review the end of the 
+    [debug hardware cheat sheet](./../../notes/debug-hw/DEBUG-cheat-sheet.md)
     where it discusses how to emit assembly.
-  - The end of `armv6-debug.h` where it defines routines to access the debug 
-    register.
-   - Optional: define your own `cp14_didr_get()` routine to access it.
+  - The `armv6-debug-impl.h` where it defines the 
+    routine `cp14_debug_id_get` to access the debug register.
+    
+            coproc_mk_get(debug_id, p14, 0, c0, c0, 0)
+
 
 ##### Bit-operations: `libc/bit-support.h`
 
@@ -131,8 +129,8 @@ can certainly write your own bit manipulation routines, it's easy to
 make a mistake.  There's a bunch of routines in `libc/bit-support.h`
 that you can use.
 
-The example program `0-example-bitops.c` shows some calls.  You can 
-modify it to test different things out.
+The example program `0-bit-ops/0-example-bitops.c` shows some calls.
+You can modify it to test different things out.
 
 ##### Bit-fields.
 
@@ -150,12 +148,12 @@ to check the size and offset to detect mistakes.
 ### Part 1:  set a simple watchpoint: `1-watchpt-test.c`
 
 ***NOTE:***
-     - When you compile the test you'll get "used but never defined errors":
-       you need to implement these routines.
-     - Add all inline assembly routines  to `armv6-debug-impl.h` along with
-       any helpers.
-     - You will have to modify the test `1-watchpt-test.c` where it
-       has `unimplemented()` invocations.
+  - Add all inline assembly routines  to `armv6-debug-impl.h` along with
+    any helpers.  For each one you add, check if there is a prototype
+    there already and delete it so you don't get a "multiple definition"
+    error,
+  - You will have to modify the test `1-watchpt-test.c` where it
+    has `todo()` invocations.
 
 So far this quarter we've been vulnerable to load and stores of NULL
 (address 0).  For example, if you run this code it will execute
@@ -189,7 +187,8 @@ Note:
 With that said, we inline some of the key facts below.
 
 To initialize co-processor 14:
-  - You'll need to install exception handlers (do not enable interrupts).
+  - We need to install exception handlers (do not enable interrupts):
+    the code does this for you.
   - You'll then need to enable any bits in the status register.
 
 To set a watchpoint you can follow the recipe on 13-47.
@@ -280,33 +279,17 @@ a single watchpoint:
      different routines.
 
 Two tests:
-  - `5-mini-watch-test.c` just re-does `1-watchpt-test.c` in the new interface.
-  - `6-mini-watch-byte-access.c` - checks that you fault on byte addresses.
+  - `3-mini-watch-test.c` just re-does `1-watchpt-test.c` in the new interface.
+  - `3-mini-watch-byte-access.c` - checks that you fault on byte addresses.
 
 -----------------------------------------------------------------------------
 ### Part 4: port your breakpoint code to a simple single-step
 
-NOTE you need to make three changes to compile:
-
-1. Add 
-
-        COMMON_SRC += mini-watch.c
-        COMMON_SRC += mini-step.c
-
-   To your makefile.
-
-2. Also change `mini-step.c:uart_can_putc` to `uart_can_put8`.
-3. If you get a `kmalloc` linking error you'll have to add 
-   it to `libpi/Makefile`:
-
-        STAFF_OBJS  +=  ./staff-objs/kmalloc.o
-
-
 Interface is in `mini-step.h`.  Your code should go in `mini-step.c`.
 You call it with a routine and it will run it in single-step mode.
 There are two tests :
-  - `7-mini-step-trace-only.c`: traces the pc values that run.
-  - `7-mini-step-diff.c`: prints the registers that changed when
+  - `4-mini-step-trace-only.c`: traces the pc values that run.
+  - `4-mini-step-diff.c`: prints the registers that changed when
     running (you can use this to infer instruction semantics).
 
 So for the example code:
@@ -326,7 +309,7 @@ So for the example code:
     806c:   e12fff1e    bx  lr
 ```
 
-`7-mini-step-diff.c` will result in:
+`4-mini-step-diff.c` will result in:
 
 ```
 TRACE:notmain:about to run nop10()!
@@ -343,6 +326,20 @@ TRACE: cnt=9: pc=0x8068:  {no changes}
 TRACE: cnt=10: pc=0x806c:  {no changes}
 TRACE:notmain:done nop10()!
 ```
+
+-----------------------------------------------------------------------------
+### Extension:  do the race condition checker from 240lx
+
+A brusque writeup of 
+[how to use single-stepping to do concurrency checking](https://github.com/dddrrreee/cs240lx-24spr/tree/main/labs/12-interleave-checker)
+
+This is a very cool trick, also good for final projects.
+-----------------------------------------------------------------------------
+### Extension:  make a instruction profiler.
+
+You've built a simple statistical sampling profiler: easy but misses
+stuff.  Now you can make a profiler that doesn't miss anything.  Bulid
+one, show that it works, use it to speed something up.
 
 -----------------------------------------------------------------------------
 ### Extension: make an always-on assertion system
