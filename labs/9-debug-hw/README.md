@@ -35,6 +35,9 @@
     obviously braindead.  Doesn't matter for our tests, but it's not a
     sensible pattern.
 
+  - comments for disable/enable are confusing: they should just 
+    RMW and set the single enable/disable bit.
+
 ------------------------------------------------------------------
 
 
