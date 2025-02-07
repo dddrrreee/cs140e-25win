@@ -90,7 +90,7 @@ get various of the fault registers:
 </td></tr></table>
 
 -----------------------------------------------------------------------------
-### 0: The pieces you need for this lab.
+### Part 0: The pieces you need for this lab.
 
 Much of this lab is using privileged instructions to read and write
 debug registers, typically after modifying a few bits within it.
