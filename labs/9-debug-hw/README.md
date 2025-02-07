@@ -29,6 +29,11 @@
                 if(!single_step_on_p)
                     panic("mismatch not turned on\n");
     
+  
+  - Generally the watchpoint tests have the bug that they set the
+    watchpoint address *after* they enable the watchpoint.  This is
+    obviously braindead.  Doesn't matter for our tests, but it's not a
+    sensible pattern.
 
 ------------------------------------------------------------------
 
