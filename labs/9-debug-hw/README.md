@@ -12,7 +12,9 @@
                 if(!single_step_on_p);      <---- bad semi-colon!
                     panic("mismatch not turned on\n");
 
+
     Fixed: 
+
             // disable mis-matching by just turning it off in bcr0
             void mismatch_off(void) {
                 if(!single_step_on_p)
