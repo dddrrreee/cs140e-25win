@@ -11,7 +11,7 @@ and calling them.  Should be  fairly mechanical, straightforward but
 useful lab.
 
 Reminder:
-  - Do the readings in the [./PRELAB.md](./PRELAB.md) first!    
+  - Do the readings in the [PRELAB.md](./PRELAB.md) first!    
 
 All the readings you need:
   - [Debug hardware chapter 13 for our arm1176 chip](./docs/arm1176-ch13-debug.pdf)
@@ -331,9 +331,10 @@ TRACE:notmain:done nop10()!
 ### Extension:  do the race condition checker from 240lx
 
 A brusque writeup of 
-[how to use single-stepping to do concurrency checking](https://github.com/dddrrreee/cs240lx-24spr/tree/main/labs/12-interleave-checker)
+[how to use single-stepping to do concurrency checking](https://github.com/dddrrreee/cs240lx-24spr/tree/main/labs/12-interleave-checker).
 
 This is a very cool trick, also good for final projects.
+
 -----------------------------------------------------------------------------
 ### Extension:  make a instruction profiler.
 

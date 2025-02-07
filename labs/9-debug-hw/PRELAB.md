@@ -12,7 +12,7 @@ of the key bits to hopefully help.
 Low-level ARM readings for the lab:
 
   - Re-read the armv6 chapter from the interrupts lab
-    (`6-interrupts/docs/armv6-interrupts.annot.pdf`).  You're going to
+    (`4-interrupts/docs/armv6-interrupts.annot.pdf`).  You're going to
     want to have a good grasp.
 
     Pay close attention to: the execution modes, which registers are
