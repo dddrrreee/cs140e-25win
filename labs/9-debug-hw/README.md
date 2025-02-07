@@ -9,6 +9,10 @@
     The panic about `b` is just a way of indicating where
     you should modify.
 
+  - All the `_set` and `_get` routines are just simple assembly
+    wrappers to write or read the given co-processor.  It's up
+    to the calller to pass in the right bits to write for `_set`.
+
   - Delete the semi-colon in `mini-step.c:mismatch_off`.  
     Original:
 
