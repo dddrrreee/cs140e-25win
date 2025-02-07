@@ -1,6 +1,6 @@
 // example of how to use the bitfield helpers.
 #include "rpi.h"
-#include "armv6-debug-impl.h"
+#include "../code/armv6-debug-impl.h"
 
 void notmain(void) {
     uint32_t u = ~0;
