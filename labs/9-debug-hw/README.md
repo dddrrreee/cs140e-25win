@@ -256,13 +256,13 @@ Test `2-brkpt-test.c` has a skeleton program to check that you can
 detect a simple breakpoint.  It sets a breakpdoint on `foo` and repeatedly
 calls it: the exception handler disables the breakpoint and returns.
 
-***NOTE:***
-     - When you compile the test you'll get "used but never defined errors":
-       you need to implement these routines.
-     - Add all inline assembly routines  to `armv6-debug-impl.h` along with
-       any helpers.
-     - You will have to modify the test `2-brkpt-test.c` where it
-       has `unimplemented()` invocations.
+***NOTE***:
+  - When you compile the test you'll get "used but never defined errors":
+    you need to implement these routines.
+  - Add all inline assembly routines  to `armv6-debug-impl.h` along with
+    any helpers.
+  - You will have to modify the test `2-brkpt-test.c` where it
+    has `unimplemented()` invocations.
 
 To modify part 2: note if we jump to `NULL` --- this will require setting
 a breakpoint instead of a watchpoint and handling the exception in the
