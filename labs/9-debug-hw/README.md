@@ -38,6 +38,8 @@
   - comments for disable/enable are confusing: they should just 
     RMW and set the single enable/disable bit.
 
+  - The mismatch routines need better comments describing, sorry.
+
 ------------------------------------------------------------------
 
 
