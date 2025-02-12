@@ -247,11 +247,11 @@ is problem is to just check which mode we are at, something like:
 ```
 
 This might be a good idea to just get things working.  However, all
-extensions need a more general approach of multiple threads.  So 
-you should run `B()` as a second thread either instead of or in 
-addition to.
+extensions need a more general approach of multiple threads.  So you
+should run `B()` as a second thread after the above works (or just skip
+to using second thread immediately).
 
-You can do so by:
+You can run B() as a seperate thread by:
  1. Adapt the the `run_A` code to create a second thread.  Note: b/c
     of armv6 restrictions make sure you are allocating the stack to be
     8-byte aligned.  You'll need to change the code so on exit it does
@@ -259,7 +259,7 @@ You can do so by:
 
  2. Have a thread queue that you put the threads on and dequeue (as usual).
  3. Adapt your single step handler to use a `switchto` to the next thread
-    rather than calling B directly.
+    rather than calling B() directly.
  4. For some code you wo't be able to run the sequential check as-is, so 
     either disable it, or make sure your threads can handle "running 
     sequentially".
