@@ -6,6 +6,12 @@ Notes:
   - Use the tests in `code/tests` (not `code/tests-2.0`) unless you
     do extensions.  The `code-tests-2.0` require `yield()`.
 
+  - As the `breakpoint.h` header file states: these routines will
+    be very close to those in `mini-step.h` so adapting your code from
+    lab 9 should be quick.  We have renamed them b/c there was some
+    variations in how people built theirs b/c the lab 9 README was
+    unclear on exact functionality.
+
 ---------------------------------------------------------------
 
 ### Intro
