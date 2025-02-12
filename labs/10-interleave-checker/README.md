@@ -12,6 +12,9 @@ Notes:
     variations in how people built theirs b/c the lab 9 README was
     unclear on exact functionality.
 
+  - The trylock discussion has been simplified, so look at the
+    README.
+
 ---------------------------------------------------------------
 
 ### Intro
