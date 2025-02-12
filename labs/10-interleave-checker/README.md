@@ -241,7 +241,24 @@ Why:
   - Note: you could also achieve the same result by (1) by adding new
     system calls or (2) changing the code to check if its at user-level
     and, if not, call the function directly.  We don't do so b/c most
-    of the extensions need two threads.
+    of the extensions need two threads.  But if you want to, something
+    like the following in `check-interleave.h` should work:
+
+```
+// check-interleave.h
+static inline int sys_lock_try(volatile int *l) {
+    // in rpi-inline-asm.h
+    uint32_t cpsr = cpsr_get();
+
+    // libpi/include/cpsr-util.h
+    if(mode_get(cpsr) == USER_MODE)
+        return syscall_invoke_asm(SYS_TRYLOCK, l);
+    else
+        todo("just call the trylock directly\n");
+}
+```
+
+
 
 You can do so by:
  1. Adapt the the `run_A` code to create a second thread.  Note: b/c
