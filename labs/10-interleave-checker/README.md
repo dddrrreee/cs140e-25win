@@ -226,39 +226,30 @@ one to another if needed.
 
 (Note, this isn't the only way we can acheive these two goals.)
 
-The most general way to implement this is to 
-run `B()` as a second thread.
-Why:
-  - Given how the exception trampoline code is written, we can't
-    call system calls from privileged code.  (Note: you could rewrite
-    your 140e `full-except.c` to do so if you want).
-
-    Thus, if B() is allowed to call the trylock code (it is) we need to
-    run B()'s code at user-level.  The most straightfoward way to do so
-    is to run it as a second thread.  This will also let us implement a
-    `yield` primitive (part 3, below) and switch multiple times.
-
-  - Note: you could also achieve the same result by (1) by adding new
-    system calls or (2) changing the code to check if its at user-level
-    and, if not, call the function directly.  We don't do so b/c most
-    of the extensions need two threads.  But if you want to, something
-    like the following in `check-interleave.h` should work:
+Adding a system call is pretty straightforward (you've done in several
+labs).  The challenge for us is that we can only call system calls from
+user-level not any privileged level (not fundamental --- this is just
+b/c of how we've implemented the code).  The easiest hack to handle this
+is problem is to just check which mode we are at, something like:
 
 ```
-        // check-interleave.h
-        static inline int sys_lock_try(volatile int *l) {
-            // in rpi-inline-asm.h
-            uint32_t cpsr = cpsr_get();
+    // check-interleave.h
+    static inline int sys_lock_try(volatile int *l) {
+        // in rpi-inline-asm.h
+        uint32_t cpsr = cpsr_get();
         
-            // libpi/include/cpsr-util.h
-            if(mode_get(cpsr) == USER_MODE)
-                return syscall_invoke_asm(SYS_TRYLOCK, l);
-            else
-                todo("just call the trylock directly\n");
-        }
+        // libpi/include/cpsr-util.h
+        if(mode_get(cpsr) == USER_MODE)
+            return syscall_invoke_asm(SYS_TRYLOCK, l);
+        else
+            todo("just call the trylock directly\n");
+    }
 ```
 
-
+This might be a good idea to just get things working.  However, all
+extensions need a more general approach of multiple threads.  So 
+you should run `B()` as a second thread either instead of or in 
+addition to.
 
 You can do so by:
  1. Adapt the the `run_A` code to create a second thread.  Note: b/c
