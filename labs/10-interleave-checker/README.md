@@ -36,11 +36,12 @@ For this lab you'll have to read the comments. Sorry :(
     You should look at the tests to see how the tool works.
 
 Checkoff:
- - Do part 1 and part 2.   
- - Add a couple non-ridiculous ai-generated tests and find bugs (or not
-   if it gets it right!)
-
- - Ideally (but not required) do part 3 and 4 or some extensions.
+ 1. Do part 1 and part 2.   
+ 2. Implement `breakpoint.h` and make sure you get the same results
+    as ours (should be trivial adaptation from last lab).
+ 3. Add a couple non-ridiculous ai-generated tests and find bugs (or not
+    if it gets it right!)
+ 4. Ideally (but not required) do part 3 and 4 or some extensions.
    This is a great extension lab.
 
 -----------------------------------------------------------------------
