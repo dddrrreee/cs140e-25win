@@ -36,9 +36,12 @@ For this lab you'll have to read the comments. Sorry :(
     You should look at the tests to see how the tool works.
 
 Checkoff:
- - pass the tests.
- - add a couple non-ridiculous ai-generated tests and find bugs (or not
+ - Do part 1 and part 2.   
+ - Add a couple non-ridiculous ai-generated tests and find bugs (or not
    if it gets it right!)
+
+ - Ideally (but not required) do part 3 and 4 or some extensions.
+   This is a great extension lab.
 
 -----------------------------------------------------------------------
 ### Background
@@ -312,16 +315,3 @@ There's an enormous number of extensions:
     locations are being read or written by hashing the register set for
     each thread and prune when the remaining context switches are  the
     same (or fewer) than a previous state.
-
-
-
-The best part of this class is when we don't build a simple minded version
-of a well known technique, but instead do something new that you'd want
-to claw your eyes out before attempting on an existing operating systems.
-
- - ideally as an extension you can do at least two context switches
-   and have some tests to show that this works (e.g., write some 
-   assembly so you know the exact number of instructions).
- - checked in: a new header (`code/is-mem.h`) for determining if a 
-   instruction is a load or a store.
- - tests rewritten to use yield (`tests-2.0`).
