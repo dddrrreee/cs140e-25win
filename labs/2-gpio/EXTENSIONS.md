@@ -22,16 +22,16 @@ some deep topics.
 
 What to do:
 
-1.  Hook up pin 20 from one pi (call this pi-1) to pin 21 of the other
+1.  Hook up pin 20 from one pi (call this pi-1) to pin 10 of the other
     (pi-2).
 
 2.  Plug pi-2 in and run `3-input.bin` input program.
 
-    % pi-install /dev/ttyUSB0 code/3-input.bin
+    % pi-install code/3-loopback.bin
 
 3.  Plug pi-1 in and run `1-blink.bin` program.
 
-    % pi-install /dev/ttyUSB1 code/1-blink.bin
+    % pi-install code/1-blink.bin
 
 4.  Success looks like:
 <p float="left">
