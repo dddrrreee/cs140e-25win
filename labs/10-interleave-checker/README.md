@@ -3,6 +3,16 @@
 ### Errata and clarifications.
 
 Notes:
+  - For tests that have errors: `make check` may not pass because
+    you might legitimately have a different number of errors than we do.
+
+    While checking at the machine code level makes the tool powerful,
+    it also means you may not match our tests if the number of machine
+    code instructions your compiler emitted for a test differs from ours.
+    Currently our stance is that you'll have to look at the tests to see
+    if they make sense (the pro argument for this is that it helps your
+    reason about what is going on).
+
   - Note: you'll have to cast-away the volatile when calling B
     from your single-step handler.  Something like:
 
