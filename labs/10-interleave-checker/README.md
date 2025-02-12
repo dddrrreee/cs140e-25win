@@ -3,6 +3,15 @@
 ### Errata and clarifications.
 
 Notes:
+  - Note: you'll have to cast-away the volatile when calling B
+    from your single-step handler.  Something like:
+
+            // call B
+            if(!c->B((void*)c)) {
+                ...
+
+    This is ugly (sorry) but is safe for what we are doing today.
+
   - Use the tests in `code/tests` (not `code/tests-2.0`) unless you
     do extensions.  The `code-tests-2.0` require `yield()`.
 
