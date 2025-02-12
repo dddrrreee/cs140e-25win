@@ -44,6 +44,8 @@ Checkoff:
  4. Ideally (but not required) do part 3 and 4 or some extensions.
    This is a great extension lab.
 
+Run it through the autograder with `lab10`
+
 -----------------------------------------------------------------------
 ### Background
 
