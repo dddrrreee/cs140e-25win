@@ -184,14 +184,18 @@ to compare the `pc` value against `A_terminated()` and if equal, turn
 single stepping off.  After doing so, the test output should do down
 dramatically.
 
-Easiest approach: change the makefile to only run
-`tests/0-epsilon-test.c`.
+Easiest approach: 
+  - change the Makefile to only run `tests/0-epsilon-test.c`.
 
 -----------------------------------------------------------------------
 ### Part 1: do a single switch from A() to B()
 
 For this make sure your code handles all tests tests besides test 4.
 Test 3 and 5 are reasonable; the others are trivial.  
+
+Don't be afraid to add print statements (that you can easily disable)
+to see which routine is running, and at what pc location.   You can add
+to the tests as well.
 
 -----------------------------------------------------------------------
 ### Part 2:  make a `sys_trylock()` for test 4.
