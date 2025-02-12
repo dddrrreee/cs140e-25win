@@ -3,6 +3,7 @@
 ### Errata and clarifications.
 
 Notes:
+
   - For tests that have errors: `make check` may not pass because
     you might legitimately have a different number of errors than we do.
 
@@ -12,6 +13,9 @@ Notes:
     Currently our stance is that you'll have to look at the tests to see
     if they make sense (the pro argument for this is that it helps your
     reason about what is going on).
+
+  - On the above note: Test 1 is not passing for a bunch of people.
+    You can skip it.
 
   - Note: you'll have to cast-away the volatile when calling B
     from your single-step handler.  Something like:
