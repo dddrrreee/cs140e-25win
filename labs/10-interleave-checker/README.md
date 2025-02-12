@@ -1,5 +1,16 @@
 ## Lab: using single stepping to check interleaving.
 
+### Errata and clarifications.
+
+Notes:
+  - Use the tests in `code/tests` (not `code/tests-2.0`) unless you
+    do extensions.  The `code-tests-2.0` require `yield()`.
+
+---------------------------------------------------------------
+
+### Intro
+
+
 Now that you have a single-step implementation, we'll use it to for
 something cool: writing a concurrency checker that is tiny but mighty.
 By the end you'll be able to race condition bugs difficult to catch with
