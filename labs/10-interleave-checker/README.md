@@ -120,28 +120,19 @@ This has several pieces:
      at the start of `check` do this.  This uses the code from 140e:
      you should be able to drop in your versions.
   2. We need to run A at user level in single stepping mode.  
-     The call to `run_A_at_userlevel` does this by:
-        - creating the initial register block for `A()`. The
-          register block `reg_t` is defined in `switchto.h` and is just 17
-          words to hold the 16 general purpose registers (r0 in offset 0,
-          r1 in offset 1, r15 --- the pc --- in offset 15) plus the
-          cpsr (in offset 16).  
-        - setting up mismatch by calling `brkpt_mismatch_start()`.
-
-        - calling `switchto_cswitch(&start_regs, r)` to save
-          the current registers and switch to those in `r`.
-          Note: this is very similar in spirit to your code in
-          `rpi-thread.c:rpi_thread_start` where we switch into
-          the first thread on the run-queue.
-
-
+     The call to `run_A_at_userlevel` does this.
   3. We need to set faults and handle them: `single_step_handler_full`
      does this.
 
 What `run_A_at_userlevel` does:
-  1. It creates a full register set for A that can be switched into
-     using `switchto_cswitch`.
-  
+  1. It creates a full register set (see `switchto.h:reg_t`) for A
+     that can be switched into using `switchto_cswitch`.
+
+     The register block `reg_t` is defined in `switchto.h` and is just
+     17 words to hold the 16 general purpose registers (r0 in offset 0,
+     r1 in offset 1, r15 --- the pc --- in offset 15) plus the cpsr
+     (in offset 16).
+
   2. The arm has 16 general purpose registers and the process status
      word.  We use the CPSR of the current execution and just swap
      the mode.  We set PC (r15) to the address of A().  We set the
