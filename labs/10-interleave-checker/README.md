@@ -4,6 +4,13 @@
 
 Notes:
 
+  - If you add threads (extension): make sure you use `switchto`
+    rather than `cswitch` in the exception handler. If you recall
+    from past labs we've gone with the convension of having all
+    exception handlers use the same stack.   Instead you should
+    save the registers passed into the handler, and use a switchto
+    to go from one to the other.
+
   - For tests that have errors: `make check` may not pass because
     you might legitimately have a different number of errors than we do.
 
