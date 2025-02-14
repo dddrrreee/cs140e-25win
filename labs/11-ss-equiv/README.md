@@ -307,8 +307,6 @@ do the rest of it in the next few stages.
 ------------------------------------------------------------------
 ### Part 2: saving all user registers: `2-reg-save-asm.S`
 
-***NOTE: If you see this, do a git pull: we probably cleaned up
-the prose ***
 
 Here you'll implement the assembly to save all registers in ascending
 order into a single 17-entry block of memory on the exception stack and
@@ -359,8 +357,6 @@ above together on Thursday, hopefully in a way that blows your mind.
 ---------------------------------------------------------------
 ## Part 3: saving and restoring privileged registers.
 
-***NOTE: If you see this, do a git pull: we probably cleaned up
-the prose ***
 
 In this part you'll write code to save and restore registers when
 you're coming from and going to privileged (not user mode).
@@ -436,13 +432,8 @@ that requires less thinking***
 ------------------------------------------------------------------
 ### Part 4: putting it all together: `2-code`
 
-***NOTE: If you see this, do a git pull: we've added more prose ***
-***NOTE: If you see this, do a git pull: we've added more prose ***
-***NOTE: If you see this, do a git pull: we've added more prose ***
-***NOTE: If you see this, do a git pull: we've added more prose ***
-***NOTE: If you see this, do a git pull: we've added more prose ***
-***NOTE: If you see this, do a git pull: we've added more prose ***
-
+***NOTE: we will do this part next tuesday to give you more
+time for valentine's day and midterms***
 
 The code for this part is setup so you can flip routines back and forth.
 As is, everything should pass "out of the box".
