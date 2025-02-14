@@ -235,6 +235,11 @@ You should do them in the following order:
      don't care about.  You can see an example of where we use `msr` in
      `libpi/staff-start.S`
 
+
+Great: you now are able to (1) read and write banked registers of other
+modes (both privileged and user-level) and (2) switch between privileged
+modes.  We'll now setup the code to switch to user mode.
+
 ---------------------------------------------------------------
 ## Part 1: using `rfe` to switch to user level
 
