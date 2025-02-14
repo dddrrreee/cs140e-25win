@@ -16,6 +16,10 @@ NOTE:
 
 Mistake:
 
+  - Part 2: the pc in the system call handler should be `80e4` (the
+    pc after the swi instruction), not `80e0` (the pc of the swi
+    instruction).
+
   - The comment for `mem_user_sp_get` is backwards (it was
     the comment for `_set`).  It should be:
 
@@ -334,7 +338,8 @@ There are two different tests:
      instruction, triggering a system call exception.  This makes saving
      easy to debug: `r0-r14` in the 17-entry register block should have
      its offset as a value.  `r15` should be the pc of the swi instruction
-     (for me `80e0`) and r16 should have `USER` as a mode.
+     (the swi instruction is at address `80e0`, and so the pc in 
+     the system call handler should be `80e4`) and r16 should have `USER` as a mode.
 
      If you look at the system call handler `2-reg-save.c:do_syscall`
      you can see that it dumps the registers, so that you can check them.
