@@ -4,9 +4,28 @@
   <img src="images/pi-ss-equiv.jpg" width="700" />
 </p>
 
+### Eratta and clarificatoins
+
 NOTE:
   - If you see a mistake: refetch the `README.md`.  If that 
     doesn't fix it let us know!
+
+
+Mistake:
+
+  - The comment for `mem_user_sp_get` is backwards (it was
+    the comment for `_set`).  It should be:
+
+```
+        MK_FN(mem_user_sp_get)
+            @ store the user mode <sp> register into memory
+            @ pointed to by <r0>
+            stm r0, {sp}^
+            bx lr
+```
+
+---------------------------------------------------------------
+### Overview
 
 By the end of this lab you'll have your own simple pre-emptive threads
 package and it won't actually be that hard.  Crucially, it will *work*
@@ -194,9 +213,8 @@ You should do them in the following order:
         @ store the user mode sp into the address passed as the 
         @ first parameter (i.e., in r0)
         MK_FN(mem_user_sp_get)
-            @ dereference the address held in <r0> 
-            @ and write the 32-bit result into user 
-            @ mode <sp> register.
+            @ store the user mode <sp> register into memory
+            @ pointed to by <r0>
             stm r0, {sp}^
             bx lr
 ```
