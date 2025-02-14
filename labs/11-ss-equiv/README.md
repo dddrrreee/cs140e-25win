@@ -200,14 +200,15 @@ You should do them in the following order:
      any mode (other than USER) so that you can read and write registers
      at any privileged mode.
 
-     You should use `msr` instruction with the `_c` modifier to to set
+     You should use the `msr` instruction with the `_c` modifier to to set
      the `cpsr` mode using a register:
 
             msr cpsr_c, r0
 
-    Followed by a prefetch_flush that uses a caller saved register 
-    you don't care about.
-    You can see an example of where we use `msr` in `libpi/staff-start.S`
+
+     Followed by a prefetch_flush that uses a caller saved register you
+     don't care about.  You can see an example of where we use `msr` in
+     `libpi/staff-start.S`
 
 ---------------------------------------------------------------
 ## Part 1: using `rfe` to switch to user level
