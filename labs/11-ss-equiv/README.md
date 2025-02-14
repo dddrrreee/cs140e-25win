@@ -8,7 +8,7 @@ NOTE:
   - If you see a mistake: refetch the `README.md`.  If that 
     doesn't fix it let us know!
 
-By the end of today you'll have your own simple pre-emptive threads
+By the end of this lab you'll have your own simple pre-emptive threads
 package and it won't actually be that hard.  Crucially, it will *work*
 to the point that we'll be surprised if your code has a bug in it.
 The reason for this strong claim is that you will use the debugging
