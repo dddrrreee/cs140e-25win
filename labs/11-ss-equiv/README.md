@@ -26,6 +26,22 @@ BUGS:
             bx lr
 ```
 
+  - This doesn't matter for today, but the routine:
+
+```
+        static inline void
+        mode_get_lr_sp(uint32_t mode, uint32_t *sp, uint32_t *lr) {
+            if(mode == USER_MODE)
+                mode_get_lr_sp(SYS_MODE, sp, lr);
+            else
+                mode_get_lr_sp(mode, sp, lr);
+        }
+```
+
+    Should be to `mode_get_lr_sp_asm`.  (Thanks Andrew!)
+
+
+
 NOTE:
   - If you see a mistake: re-fetch the `README.md`.  If that 
     doesn't fix it let us know!
