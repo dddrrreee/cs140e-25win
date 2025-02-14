@@ -312,10 +312,10 @@ a larger one (test 2):
     17-entry array and eliminates the need for a trampoline used in
     `1-rfe-asm.S` to setup the stack pointer.
 
-    What to do: You'll write `1-rfe-asm.S:switch_to_user_asm` to load
-    user mode registers `r0-r14` and then do an `rfe` to load r15 and
-    the CPSR.  This is just a matter of copying and modifying some of
-    your part 1 assembly.
+    What to do: You'll write `1-rfe-asm.S:switch_to_user_asm` to do an
+    `ldm` to load user mode registers `r0-r14` and then do an `rfe`
+    to load r15 and the CPSR.  This is just a matter of copying and
+    modifying some of your part 1 assembly.
 
     ***Note, the test in its current form only validates `r0-r3`, `sp`,
     `pc` and mode (we will do the others below).***
