@@ -49,6 +49,7 @@ pre-emptive thread package that works.
 Checkoff:
   1. `make check` passes in `1-code` with all tests.
   1. `make check` passes in `2-code` with all tests.
+  2. Run the autograder. Make sure you have written and pushed your own 3-tests too
 
 ---------------------------------------------------------------
 ## Background: pre-emption and context switching.
