@@ -6,7 +6,7 @@
 
 ### Errata and clarifications
 
-Big happy announcement:
+***Big happy announcement***:
   - PART 4 is for tuesday.  Just do part 1-3 today.
 
 NOTE:
