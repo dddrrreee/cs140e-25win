@@ -11,6 +11,11 @@
 
 BUGS:
 
+  - Not really a bug but a common unclarity:
+    for part 3 you should Implement a `switchto_priv_asm` that will
+    switch-to a privileged mode.  It can assume it will never be used
+    to switch to the user.  Part 3 discusses this.
+
   - Part 2: the pc printed in the system call handler should be `80e4`
     (the pc after the swi instruction), not `80e0` (the pc of the swi
     instruction).
@@ -414,6 +419,13 @@ What to do:
     mode (presumably not `SUPER` or `SYS`).  You already have the pieces
     for this so it's mainly a re-enforcement.
 
+  - For the full test: Implement a `switchto_priv_asm` that will switch-to
+    a privilege mode rather than user mode (as `switchto_user_asm` does).
+    The easiest way is to switch to the right mode using `msr`:
+
+            msr   cpsr_cxsf, r1
+
+    do a `prefetch_flush` and then `ldm` all 16 general purpose registers.
 
 Important notes:
 
