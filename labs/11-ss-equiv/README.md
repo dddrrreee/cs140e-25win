@@ -127,13 +127,13 @@ pointer (sp) and return register (lr) from a privileed interrupt context.
 #### Banked registers
 
 <p align="center">
-  <img src="images/banked-registers.png" width="400" />
+  <img src="images/banked-registers.png" />
 </p>
 
 #### cpsr layout
 
 <p align="center">
-  <img src="images/cpsr-layout.png" width="400" />
+  <img src="images/cpsr-layout.png" />
 </p>
 
 ---------------------------------------------------------------
