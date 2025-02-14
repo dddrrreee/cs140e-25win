@@ -45,9 +45,11 @@ BUGS:
 NOTE:
   - If you see a mistake: re-fetch the `README.md`.  If that 
     doesn't fix it let us know!
-  - Extension: save and restore the user-mode registers in as many 
+
+Extensions:
+  - Save and restore the user-mode registers in as many 
     different ways as possible.  You'll definitely understand
-    things
+    things at a deeper level.
   - Replace the `switchto` and `context_switch` in last two labs
     with yours.  Very educational!
 
