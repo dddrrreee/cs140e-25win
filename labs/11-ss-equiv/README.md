@@ -124,6 +124,18 @@ Thus, you'll have to write code to read and write the registers at one
 level from another --- for the most part, the unprivileged user stack
 pointer (sp) and return register (lr) from a privileed interrupt context.
 
+#### Banked registers
+
+<p align="center">
+  <img src="images/banked-registers.png" width="400" />
+</p>
+
+#### cpsr layout
+
+<p align="center">
+  <img src="images/cpsr-layout.png" width="400" />
+</p>
+
 ---------------------------------------------------------------
 ## Part 0: Reading and writing user registers 
 
