@@ -9,12 +9,7 @@
 ***Big happy announcement***:
   - PART 4 is for tuesday.  Just do part 1-3 today.
 
-NOTE:
-  - If you see a mistake: re-fetch the `README.md`.  If that 
-    doesn't fix it let us know!
-
-
-Mistake:
+BUGS:
 
   - Part 2: the pc in the system call handler should be `80e4` (the
     pc after the swi instruction), not `80e0` (the pc of the swi
@@ -30,6 +25,10 @@ Mistake:
             stm r0, {sp}^
             bx lr
 ```
+
+NOTE:
+  - If you see a mistake: re-fetch the `README.md`.  If that 
+    doesn't fix it let us know!
 
 ---------------------------------------------------------------
 ### Overview
