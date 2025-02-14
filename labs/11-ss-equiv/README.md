@@ -1,4 +1,4 @@
-## Single step equivalance checking
+## Pre-emptive threads, checked with single step equivalance 
 
 <p align="center">
   <img src="images/pi-ss-equiv.jpg" width="700" />
