@@ -4,6 +4,10 @@
   <img src="images/pi-ss-equiv.jpg" width="700" />
 </p>
 
+NOTE:
+  - If you see a mistake: refetch the `README.md`.  If that 
+    doesn't fix it let us know!
+
 By the end of today you'll have your own simple pre-emptive threads
 package and it won't actually be that hard.  Crucially, it will *work*
 to the point that we'll be surprised if your code has a bug in it.
@@ -139,6 +143,7 @@ pointer (sp) and return register (lr) from a privileed interrupt context.
 ---------------------------------------------------------------
 ## Part 0: Reading and writing user registers 
 
+
 This lab depends on correctly figuring out low-level machine facts: how
 to change modes, how to access registers in one mode from another, etc.
 So we'll first do these parts in isolated, easy to debug pieces.
@@ -270,6 +275,9 @@ do the rest of it in the next few stages.
 ------------------------------------------------------------------
 ### Part 2: saving all user registers: `2-reg-save-asm.S`
 
+***NOTE: If you see this, do a git pull: we probably cleaned up
+the prose ***
+
 Here you'll implement the assembly to save all registers in ascending
 order into a single 17-entry block of memory on the exception stack and
 pass that to the system call exception handler.  This is the other half
@@ -318,6 +326,9 @@ above together on Thusrday, hopefully in a way that blows your mind.
 
 ---------------------------------------------------------------
 ## Part 3: saving and restoring privileged registers.
+
+***NOTE: If you see this, do a git pull: we probably cleaned up
+the prose ***
 
 In this part you'll write code to save and restore registers when
 you're coming from and going to privileged (not user mode).
