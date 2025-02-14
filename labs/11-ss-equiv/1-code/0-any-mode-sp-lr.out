@@ -1,0 +1,4 @@
+TRACE:notmain:-----------------------------------------------------------
+TRACE:notmain:part 4: now write and check mode_get_lr_sp_asm
+TRACE:notmain:sp=0xfeedface, lr=0xdeadbeef
+TRACE:notmain:-----------------------------------------------------------

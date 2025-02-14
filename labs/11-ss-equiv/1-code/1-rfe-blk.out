@@ -1,0 +1,4 @@
+TRACE:notmain:about to jump to pc= with cpsr=0x10
+TRACE:rfe_c_code:sp=, should equal INT_STACK_ADDR=0x9000000
+TRACE:rfe_c_code:cpsr=0x10, mode=USER MODE
+TRACE:rfe_c_code:SUCCESS: we are at user level!

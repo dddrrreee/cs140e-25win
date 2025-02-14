@@ -1,0 +1,8 @@
+TRACE:notmain:-----------------------------------------------------------
+TRACE:notmain:part 1: get/set USER sp/lr by switching to SYSTEM and back
+TRACE:notmain:	got USER sp=0xfeedface
+TRACE:notmain:	got USER lr=0xdeadbeef
+TRACE:notmain:about to do  random runs
+TRACE:notmain:success for  random runs!
+TRACE:notmain:SUCCESS: part 1 passed
+TRACE:notmain:-----------------------------------------------------------

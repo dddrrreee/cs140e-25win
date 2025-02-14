@@ -1,0 +1,14 @@
+TRACE:notmain:-----------------------------------------------------------
+TRACE:notmain:part 2: set/get USER sp/lr using ldm/stm with ^
+TRACE:notmain:	got USER sp=0xfeedface
+TRACE:notmain:	got USER lr=0xdeadbeef
+TRACE:notmain:about to do  random runs
+TRACE:notmain:success for  random runs!
+TRACE:notmain:SUCCESS: part 2 passed
+TRACE:notmain:-----------------------------------------------------------
+TRACE:notmain:-----------------------------------------------------------
+TRACE:notmain:part 3: set/get USER sp/lr using single ldm/stm ^ instruction
+TRACE:notmain:	got USER sp=0xfeedface
+TRACE:notmain:	got USER lr=0xdeadbeef
+TRACE:notmain:part 3: passed
+TRACE:notmain:-----------------------------------------------------------

@@ -1,0 +1,24 @@
+TRACE:notmain:about to enable
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=0
+TRACE:notmain:MMU is off!
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=1
+TRACE:notmain:MMU is off!
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=2
+TRACE:notmain:MMU is off!
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=3
+TRACE:notmain:MMU is off!
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=4
+TRACE:notmain:MMU is off!
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=5
+TRACE:notmain:MMU is off!
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=6
+TRACE:notmain:MMU is off!
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=7
+TRACE:notmain:MMU is off!
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=8
+TRACE:notmain:MMU is off!
+TRACE:notmain:MMU ON: hello from virtual memory!  cnt=9
+TRACE:notmain:MMU is off!
+TRACE:notmain:we wrote without vm: got 0xdeadbeef
+TRACE:fault_handler:SUCCESS!: got a fault on address=0x200000
+TRACE:fault_handler:all done: going to reboot
