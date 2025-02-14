@@ -221,6 +221,10 @@ You should do them in the following order:
             bx lr
 ```
 
+     If you get confused about the semantics don't forget to look closely
+     at the test!  (True for all the other parts, too.)
+
+
   3. `0-any-mode-sp-lr.c` generalize the mode switching method for
      any mode (other than USER) so that you can read and write registers
      at any privileged mode.
