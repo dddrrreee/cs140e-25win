@@ -200,11 +200,13 @@ You should do them in the following order:
      any mode (other than USER) so that you can read and write registers
      at any privileged mode.
 
-     You should use `msr` instruction with the `_c` modifiero to to set
-     the `cpsr` mode using a register.
+     You should use `msr` instruction with the `_c` modifier to to set
+     the `cpsr` mode using a register:
 
             msr cpsr_c, r0
 
+    Followed by a prefetch_flush that uses a caller saved register 
+    you don't care about.
     You can see an example of where we use `msr` in `libpi/staff-start.S`
 
 ---------------------------------------------------------------
@@ -238,12 +240,13 @@ a larger one (test 2):
     32-bit words (as you would use with process switching) instead of
     a 2-entry one.
 
-    What to do: You should write the code `1-rfe-asm.S:blk_rfe_asm` to
-    handle a 17-entry array with the `pc` at word offset 15, and the
-    `cpsr` you want to restore at word offset 16.  This differs from our
-    example where the pc was at offset 0 and cpsr was at word offset 1
-    (so byte offset 4).  All you have to do is add the right constant
-    value to the sp register before doing the rfe instruction.
+    What to do: You should write the code `1-rfe-asm.S:blk_rfe_asm`
+    to handle a 17-entry array with the `pc` at word offset 15 (byte
+    offset 15*4), and the `cpsr` you want to restore at word offset 16
+    (byte offset 16*4).  This differs from our example where the pc
+    was at offset 0 and cpsr was at word offset 1 (so byte offset 4).
+    All you have to do is add the right constant value to the sp register
+    before doing the rfe instruction.
 
     (NOTE: It's a trivial change, but you want this correct before doing
     the next step.)
@@ -389,6 +392,11 @@ that requires less thinking***
 ------------------------------------------------------------------
 ### Part 4: putting it all together: `2-code`
 
+***NOTE: If you see this, do a git pull: we've added more prose ***
+***NOTE: If you see this, do a git pull: we've added more prose ***
+***NOTE: If you see this, do a git pull: we've added more prose ***
+***NOTE: If you see this, do a git pull: we've added more prose ***
+***NOTE: If you see this, do a git pull: we've added more prose ***
 ***NOTE: If you see this, do a git pull: we've added more prose ***
 
 
