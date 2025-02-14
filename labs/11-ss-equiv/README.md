@@ -11,8 +11,8 @@
 
 BUGS:
 
-  - Part 2: the pc in the system call handler should be `80e4` (the
-    pc after the swi instruction), not `80e0` (the pc of the swi
+  - Part 2: the pc printed in the system call handler should be `80e4`
+    (the pc after the swi instruction), not `80e0` (the pc of the swi
     instruction).
 
   - The comment for `mem_user_sp_get` is backwards (it was
