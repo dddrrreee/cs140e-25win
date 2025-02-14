@@ -159,25 +159,25 @@ each part at a time.  This is a pretty mechanical fetch quest.
 
 You should do them in the following order:
 
-  1. `0-cps-user-sp-lr.c`: get the USER `sp` and `lr` registers
-     by using the `cps` instruction to swith to `SYS_MODE` (which has the
+  1. `0-cps-user-sp-lr.c`: get the USER SP and LR registers
+     by using the `cps` instruction to switch to `SYS_MODE` (which has the
      same registers as USER) and back.  The `0-user-sp-lr-asm.S` file has
      a example for `cps_user_sp_get` but you should fill in the others.
 
 ```
-@ 0-user-sp-lr-asm.S: get USER mode's sp and return the 
-@ result in r0.
-MK_FN(cps_user_sp_get)
-    cps #SYS_MODE
-    prefetch_flush(r1);   @ note we have to use a caller reg
-
-    @ USER And SYSTEM share the same sp/lr/cpsr
-    mov r0, sp
-
-    cps #SUPER_MODE
-    prefetch_flush(r1);
-
-    bx lr
+        @ 0-user-sp-lr-asm.S: get USER mode's sp and return the 
+        @ result in r0.
+        MK_FN(cps_user_sp_get)
+            cps #SYS_MODE
+            prefetch_flush(r1);   @ note we have to use a caller reg
+        
+            @ USER And SYSTEM share the same sp/lr/cpsr
+            mov r0, sp
+        
+            cps #SUPER_MODE
+            prefetch_flush(r1);
+        
+            bx lr
 
 ```
 
@@ -186,14 +186,14 @@ MK_FN(cps_user_sp_get)
       user registers.  The routine `mem_user_sp_get` has an example:
 
 ```
-@ store the user mode sp into the address passed as the 
-@ first parameter (i.e., in r0)
-MK_FN(mem_user_sp_get)
-    @ dereference the address held in <r0> 
-    @ and write the 32-bit result into user 
-    @ mode <sp> register.
-    stm r0, {sp}^
-    bx lr
+        @ store the user mode sp into the address passed as the 
+        @ first parameter (i.e., in r0)
+        MK_FN(mem_user_sp_get)
+            @ dereference the address held in <r0> 
+            @ and write the 32-bit result into user 
+            @ mode <sp> register.
+            stm r0, {sp}^
+            bx lr
 ```
 
   3. `0-any-mode-sp-lr.c` generalize the mode switching method for
