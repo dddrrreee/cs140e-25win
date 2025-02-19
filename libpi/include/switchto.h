@@ -6,6 +6,10 @@
 // exception trampoline should save in these
 // locations.
 enum {
+    REGS_R0 = 0,
+    REGS_R1 = 1,
+    REGS_R2 = 2,
+
     REGS_SP = 13,
     REGS_LR = 14,
     REGS_PC = 15,
