@@ -54,9 +54,9 @@ Mechanically:
 
 Checkoff:
   1. `make checkoff` works in `code`.  You have to delete
-     our `staff-breakpoint.o` , `staff-switchto-asm.o`
-     and `staff-full-except-asm.o`.  Note, you built the    
-     `breakpoint.h` interface in lab 10.
+     our `staff-breakpoint.o` , `staff-switchto-asm.o` and
+     `staff-full-except-asm.o`.  Note, you built the `breakpoint.h`
+     interface in lab 10.
 
   2. You have a final project description turned in.
 
