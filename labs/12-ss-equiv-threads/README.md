@@ -59,11 +59,15 @@ Checkoff:
      `breakpoint.h` interface in lab 10.
 
   2. You have a final project description turned in.
+
   3. You do something interesting cool with the threads package.
-     Will add ideas.
-  4. You can rerun with matching (note: this is being added,
-     check back).
-  5. There are absolutely a bazillion extensions (will add)
+     See Part 2 below.
+
+     One big option: run in privileged mode with matching (discussed
+     in Part 2, also counts as an extension).
+
+There are absolutely a bazillion extensions.  You can easily
+do a final project based off this lab.
   
 ----------------------------------------------------------------------
 ### Part 1: start replacing routines and make sure tests pass.
