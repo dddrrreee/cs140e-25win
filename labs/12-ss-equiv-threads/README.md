@@ -89,6 +89,10 @@ Maybe the easiest way to start:
      To help understand you should look at the `full-except.c` code which
      gets called from it.
 
+  3. Replace our `staff-breakpoint.o` with yours from lab 10.
+     You might have put that code in your `mini-step.c` which is
+     fine.
+
 How to check:
  - You should be able to run "make checkoff".  This will compare all
    the 0, 1, and 2 tests to their out files.  It will also run tests
@@ -107,6 +111,7 @@ NOTE:
 
 Do something interesting or cool with the equivalance threads.
 Some easy things:
+
 
   - We always switch every instruction.  This won't necessarily
     find all bugs.  It's good to have a mode than can randomly switch.
@@ -141,6 +146,9 @@ Some easy things:
     can add other routines (such as `wait()`).  This 
     involves adding new system calls.  AFAIK these should
     work fine with hashes.
+
+  - Add a working lock, trylock or other mutual exclusion
+    system calls.
 
   - A bigger thing (which counts as an extension) is to do your
     interleave checker for real now that we have threads --- we
