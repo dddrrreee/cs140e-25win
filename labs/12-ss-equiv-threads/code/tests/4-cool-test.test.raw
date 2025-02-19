@@ -1,0 +1,28 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/4-cool-test.bin>: about to boot
+TRACE:simple_boot: sending 18916 bytes, crc32=179ab7ba
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+ENABLE
+hello from 1
+hello from 2
+hello from 3
+hello from 4
+hello from 5
+hello from 6
+hello from 7
+hello from 8
+---------------------------------------------------
+about to do quiet run
+hhhhhhhheeeeeeeelllllllllllllllloooooooo        ffffffffrrrrrrrroooooooommmmmmmm        87654321
+
+
+
+
+
+
+
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up

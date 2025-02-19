@@ -1,0 +1,4 @@
+TRACE:equiv_syscall_handler:thread=1 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
