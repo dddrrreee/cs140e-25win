@@ -14,8 +14,8 @@
 
 NOTE:
   - You have to drop in your own `breakpoint.c` from lab 10
-    and delete ours from the `Makefile`.  (Or `mini-step.c` if it
-    implemented the `breakpoint.h` interface).
+    and delete ours from the `Makefile`.  (You might have put these
+    `breakpoint.h` implementations in `mini-step.c` which is fine.)
 
   - Part 2 has many more suggestions now if you do a pull.
 
@@ -55,7 +55,8 @@ Mechanically:
 Checkoff:
   1. `make checkoff` works in `code`.  You have to delete
      our `staff-breakpoint.o` , `staff-switchto-asm.o`
-     and `staff-full-except-asm.o`.
+     and `staff-full-except-asm.o`.  Note, you built the    
+     `breakpoint.h` interface in lab 10.
 
   2. You have a final project description turned in.
   3. You do something interesting cool with the threads package.
