@@ -112,6 +112,18 @@ Some easy things:
 
             #include "pi-random.h"
 
+    Also, `pi_random()` uses division, and the ARM doesn't have it.
+    So we also have to include a gcc library to emulate it by adding
+    the following to the end of the `code/Makefile`
+
+            LIB_POST += $(CS140E_2025_PATH)/lib/libgcc.a
+
+    Before the line:
+
+            include $(CS140E_2025_PATH)/.../Makefile.robust
+
+    Finally(!), do a git pull of libpi to update the makefile.
+
     And can then just call it:
 
             uint32_t v = pi_random();
