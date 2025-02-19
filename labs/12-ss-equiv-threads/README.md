@@ -165,8 +165,36 @@ Some easy things:
     As a side effect this will make it clear why we use VM, but is
     actually cool.
 
-  - Even better than the above is something cool you come up with.
 
+  - Add timer interrupts and check that the hashes remain the same.
+    Note: You will need to enable interrupts in the thread's CPSR.
+    This will change the hashes.  The general way to handle this is to
+    remap the CPSR bits during hashing: (1) verify that the current
+    CPSR has interrupts turned on (7th bit is 0), (2) make a copy of
+    the regs to hash, (3) disable interrupts in the copy of the CPSR
+    (7th bit set to 1), (4) hash the registers.
+
+    (Re-mapping CPSR bits let's you play around with machine state
+    but still validate that nothing changed in the equivalance
+    hashes.)
+
+    A few notes:
+      - Our libpi isn't thread safe.  The easiest way to handle this
+        is to leave the CPSR disabled in kernel mode.  However, depending
+        on how long handling debug exceptions takes, this means you will
+        always get a timer interrupt on every instruction.  You might
+        need to increase the timer period significantly.  In any case
+        should check how many interrupts occur during each thread to
+        make sure you have them on at user level.
+
+      - You should verify that interrupts are off for
+        your prefetch handler and for your system call handler for 
+        similar reasons.
+
+      - You'll have to add a routine to `staff-full-except.c` to 
+        handle interrupts.
+
+  - Even better than all the above is something cool you come up with!
 
 With all that said the best thing to do is the following:
 
@@ -183,7 +211,7 @@ you have to know the exact pc to match on.
 
 The easiest quick and dirty hack is to run on on code that does
 not branch --- this means that the next PC to match on is the 
-current PC plus 4 bytes.
+current PC+4 bytes.
 
 Fortunately we have a bunch of routines in `staff-start.S` 
 that don't use branch at all.
@@ -205,7 +233,13 @@ So the basic algorithm:
      `full-except.c` code to patch the registers.
   4. You'll also have to add routines to match and disable matching.
      Note, that you should do matching on `bvr1` and `bcr1` since
-     single stepping is using `bvr0` and `bcr0`.
+     single stepping is using `bvr0` and `bcr0`.  If you don't
+     do this then as soon as the code calls mis-match, your matching
+     will get overwritten and stop working.
+
+  5. Common mistake is to miss a place to put the matching calls:
+     you should search through the code for mismatch calls and make sure
+     these are paired with match calls for threads in match mode.
 
 The less hacky way which is even more of a major extension is to
 handle code that branches by:
@@ -215,30 +249,43 @@ handle code that branches by:
  3. Then rerun the routine at SYSTEM mode, but instead of mismatching
     do matching (using the addresses in the array).
 
-#### A different method
+#### A different method: rerun one instruction.
 
-Another way to test the privileged and unpriviledged is to run the thread
-at user as normal, but each time you get a mismatch exception, make a
-copy of the registers and rerun exactly that one single instruction using
-matching at a higher privilege and make sure the registers are the same.
+A smaller code (I think) but more IQ intensive method to test
+privileged and unpriviledged switching as follows:
+  1. Add a `reg_t` field to the thread block that holds a copy
+     of the previous registers (e.g., `reg_t prev_regs;`). 
+  2. Run each thread at USER as normal;
+  3. Each time you get a mismatch exception:
+     A. Record the registers passed to the exception handler.
+     B. Rerun exactly that one single instruction using
+       `prev_regss` at a higher privilege;
+     C. Compare the registers from (B) to those from (A)
+        and make sure they are the same.
+     
+        (Note this will require some cleverness since this
+        will be two different exception invocations.)
 
 Note:
   - The way our exceptions work, we don't handle recursive 
     faults.  You could change this. Or you could record
     enough state that you can remember where you were.
-  - Also, this potentially won't work if the instruction modifies
+  - This technique won't always work with device memory.
+  - Also potentially won't work if the instruction modifies
     memory in a way that running it a second time gives a different
     answer.  The easiest way to start is with the stackless
     routines in `staff-start.S` which don't write memory.  You
     can then scale up to more complex.  
 
-Once you have this, you can then repurpose it to detect which instructions
-are not virtualizabe by turning it into an automatic checker that detects
-when an instruction fundamentally behaves differently at user mode and
-privileged mode.
+The cool thing is that once you have this method working, you can
+then repurpose it to detect which instructions are not virtualizabe by
+turning it into an automatic checker that detects when an instruction
+fundamentally behaves differently at user mode and privileged mode.
 
 The ARM has several of these instructions buried in its massive
 ISA, so it's great to have an automatic method for finding them.
 
 There's not enough information here, so ask if this seems potentially
 interesting :)
+
+### Summary
