@@ -21,16 +21,8 @@ NOTE:
     the privileged routines out of the box.   
 
     You're strongly urged to do so as the "interesting" code you write.
-       1. Run a routine at USER level in single stepping mode, 
-          recording the instructions it ran in a per thread array.
-       2. Rerun the routine at SYSTEM mode, but instead of mismatching
-          do matching (using the addresses in the array), which does
-          work at privileged level.  
+    (See below).
 
-          If you make a copy of the saved registers in the SS handler
-          and swap modes from SUPER to USER, then the hash should
-          be the same.
-       3. This is a great check.
 
 ### intro
 
@@ -104,4 +96,49 @@ NOTE:
 ----------------------------------------------------------------------
 ### Part 2: do something cool / useful with your pre-emptive threads
 
-Will add a bunch of suggestions but you can do your own.
+
+#### Best extension
+
+The absolute best thing you can do --- and considered a major extension
+--- is to also test your privileged switching and exception trampolines.
+The way you do so is to run the threads at SYSTEM level (privileged)
+but use breakpoint *matching* (which works at privileged) rather than
+*mismatching* (which does not).
+
+The challenge here is that unlike mismatching, for matching
+you have to know the exact pc to match on. 
+
+The easiest quick and dirty hack is to run on on code that does
+not branch --- this means that the next PC to match on is the 
+current PC plus 4 bytes.
+
+Fortunately we have a bunch of routines in `staff-start.S` 
+that don't use branch at all.
+
+So the basic algorithm:
+  1. Fork the routines in `staff-start.S` and add a boolean to 
+     indicate you are running in matched mode.
+  2. In order to check that you get the same hash, before hashing
+     in the match handler make a copy of the registers,
+     and swap modes from SUPER to USER and then hash.  You should
+     get the same answer as your mismatch runs.
+  3. Note: you will have to change some assertions that check
+     that system calls only occur at user mode so that they work
+     at both USER and SYSTEM mode.  You'll have to change the
+     `full-except.c` code to patch the registers.
+  4. You'll also have to add routines to match and disable matching.
+
+The less hacky way which is even more of a major extension is to
+handle code that branches by:
+ 1. Run a routine at USER level in single stepping mode, 
+    recording the instructions it ran in a per thread array.
+ 2. Rerun at USER and make sure you get the same trace.
+ 3. Then rerun the routine at SYSTEM mode, but instead of mismatching
+    do matching (using the addresses in the array).
+
+#### other extensions
+
+Missing a bunch:
+  1. do random switching.
+  2. copy the stack in and out on cswitch so you can run multiple
+     routines at the same location (and get the same hashes).
