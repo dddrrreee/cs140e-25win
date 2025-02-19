@@ -171,8 +171,12 @@ Fortunately we have a bunch of routines in `staff-start.S`
 that don't use branch at all.
 
 So the basic algorithm:
-  1. Fork the routines in `staff-start.S` and add a boolean to 
-     indicate you are running in matched mode.
+  1. Fork the routines in `staff-start.S` and add a boolean to
+     the thread control block indicate you are running in matched mode.
+     You should probably also check the CPSR and if its in USER mode
+     assert that that match mode is false and if its SYSTEM mode that
+     its true.
+
   2. In order to check that you get the same hash, before hashing
      in the match handler make a copy of the registers,
      and swap modes from SUPER to USER and then hash.  You should
