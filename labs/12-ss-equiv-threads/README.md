@@ -1,8 +1,14 @@
 ## Equivalance checking finale.
 
+
 <p align="center">
   <img src="images/pi-threads.jpg" width="700" />
 </p>
+
+### clarifications and notes
+
+
+### intro
 
 Today's lab is a mid-term checkpoint.
 By the end of the lab we will verify that the breakpoint and
@@ -25,11 +31,14 @@ Mechanically:
 
 
 Checkoff:
-  - `make checkoff` works.
-  - You do something interesting cool with the threads package.
-    Will add ideas.
-  - You have a final project description turned in.
-  - There are absolutely a bazillion extensions (will add)
+  1. `make checkoff` works in `code`.
+  2. You have a final project description turned in.
+  3. You do something interesting cool with the threads package.
+     Will add ideas.
+  4. You can rerun with matching (note: this is being added,
+     check back).
+  5. There are absolutely a bazillion extensions (will add)
+  
 
 ----------------------------------------------------------------------
 ### Part 1: start replacing routines and make sure tests pass.
