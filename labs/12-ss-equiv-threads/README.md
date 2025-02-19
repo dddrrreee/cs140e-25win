@@ -4,6 +4,7 @@
   <img src="images/pi-threads.jpg" width="700" />
 </p>
 
+Today's lab is a mid-term checkpoint.
 By the end of the lab we will verify that the state switching assembly you wrote 
 in the last lab is correct by:
  1. Dropping it into a pre-emptive threads package;
@@ -11,7 +12,7 @@ in the last lab is correct by:
     that the threads behave 
     identically under all possible thread interleavings.
 
-Next week we will use this same basic approach to also verify that
+Next lab we will use this same basic approach to also verify that
 virtual memory works.
 
 Mechanically:
@@ -20,6 +21,12 @@ Mechanically:
     be able to swap things in and out.
 
  2. Once that works run the threads and check hashes (more on this later).
+
+
+Checkoff:
+  - `make checkoff` works.
+  - you have a final project description turned in.
+  - There are absolutely a bazillion extensions.
 
 ----------------------------------------------------------------------
 ### Part 1: start replacing routines and make sure tests pass.
