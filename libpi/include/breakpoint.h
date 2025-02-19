@@ -27,4 +27,11 @@ void brkpt_mismatch_set(uint32_t addr);
 //   2. breakpoint occured (13-11: use dscr)
 int brkpt_fault_p(void);
 
+// set a match breakpoint on <addr>,  use
+// bcr1 and bvr1
+void brkpt_match_set(uint32_t addr);
+
+// turn off matching (disable bcr1)
+void brkpt_match_stop(void);
+
 #endif
