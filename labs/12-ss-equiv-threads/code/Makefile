@@ -38,6 +38,9 @@ COMMON_SRC += full-except-asm.S
 # copy it over here.
 STAFF_OBJS += staff-breakpoint.o
 
+# we give you a kmalloc
+STAFF_OBJS += $(CS140E_2025_PATH)/libpi/staff-objs/kmalloc.o
+
 # as you replace routines comment these out.
 STAFF_OBJS += staff-full-except-asm.o
 STAFF_OBJS += staff-switchto-asm.o
