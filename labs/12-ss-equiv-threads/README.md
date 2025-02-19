@@ -59,23 +59,6 @@ Checkoff:
   5. There are absolutely a bazillion extensions (will add)
   
 ----------------------------------------------------------------------
-### Part 0: descriptions
-
-Different routines:
-  - `cswitchto_priv_asm`: this saves the current privileged context
-    (not USER context).  Similar to your threads package `rpi_yield()`, 
-    we don't need to save the caller registers.
- . and then switches to another privileged level. 
-    So you can set the cpsr to the mode you want and then load 
-    everything (similar to your `switchto_priv_asm`).
-
-  - `cswitchto_user_asm`: this saves the current priveleged context
-    (not USER) and then switches to another privileged level. 
-    So you can set the cpsr to the mode you want and then load 
-    everything (similar to your `switchto_priv_asm`).
-
-
-----------------------------------------------------------------------
 ### Part 1: start replacing routines and make sure tests pass.
 
 The code for this part is setup so you can flip routines back and forth.
