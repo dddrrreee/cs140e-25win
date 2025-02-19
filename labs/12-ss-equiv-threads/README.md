@@ -8,6 +8,10 @@
 ### clarifications and notes
 
 NOTE:
+  - the commment for `full-except-asm.S` for `syscall_full` is wrong:
+    you must set the `sp`.  (Fortunately the tests seem to catch this
+    dumb mistake.)
+
   - If you do a pull, there is a `code/switchto.h` that got added
     with a better type signature for `cswitch`.
 
