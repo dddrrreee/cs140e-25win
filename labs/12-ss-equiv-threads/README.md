@@ -26,8 +26,10 @@ Mechanically:
 
 Checkoff:
   - `make checkoff` works.
-  - you have a final project description turned in.
-  - There are absolutely a bazillion extensions.
+  - You do something interesting cool with the threads package.
+    Will add ideas.
+  - You have a final project description turned in.
+  - There are absolutely a bazillion extensions (will add)
 
 ----------------------------------------------------------------------
 ### Part 1: start replacing routines and make sure tests pass.
