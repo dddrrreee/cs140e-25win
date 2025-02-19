@@ -98,15 +98,29 @@ NOTE:
 
 Do something interesting or cool with the equivalance threads.
 Some easy things:
-  1. We always switch every instruction.  This won't necessarily
+  - We always switch every instruction.  This won't necessarily
      find all bugs.  It's good to have a mode than can randomly switch.
      Perhaps every 2 instructions on average, then every 3 instructions
      on average, etc.   But you can make whatever decision seems
      reasonable.
      
-  2. A bigger part (which counts as an extension) is to do your
-     interleave checker for real now that we have threads --- we
-     can currently check an arbitrary number of threads.
+  - You could add a yield (like your `rpi-threads.c` had) 
+    and some tests to check that it works.  Potentially
+    can add other routines (such as `wait()`).  This 
+    involves adding new system calls.  AFAIK these should
+    work fine with hashes.
+
+  - A bigger thing (which counts as an extension) is to do your
+    interleave checker for real now that we have threads --- we
+    can currently check an arbitrary number of threads.
+
+  - Another cool thing (not exactly trivial) is to run multiple
+    threads at the same location by copying their stack and data
+    in and out on switch (a form of swapping). This will make 
+    it clear why we use VM, but is actually cool.
+
+    It lets you run multiple routines at the same location with
+    the same stack and so get the same hashes.
 
 #### Best extension
 
@@ -147,9 +161,3 @@ handle code that branches by:
  3. Then rerun the routine at SYSTEM mode, but instead of mismatching
     do matching (using the addresses in the array).
 
-#### other extensions
-
-Missing a bunch:
-  1. do random switching.
-  2. copy the stack in and out on cswitch so you can run multiple
-     routines at the same location (and get the same hashes).
