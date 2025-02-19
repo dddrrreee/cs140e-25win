@@ -8,8 +8,8 @@
 ### clarifications and notes
 
 ***BUGS***:
-  - the commment for `full-except-asm.S` for `syscall_full` is wrong:
-    you must set the `sp`.  (Fortunately the tests seem to catch this
+  - the comment for `full-except-asm.S:syscall_full` is wrong:
+    you *must* set the `sp`.  (Fortunately the tests seem to catch this
     dumb mistake.)
 
 NOTE:
