@@ -228,6 +228,11 @@ Note:
   - The way our exceptions work, we don't handle recursive 
     faults.  You could change this. Or you could record
     enough state that you can remember where you were.
+  - Also, this potentially won't work if the instruction modifies
+    memory in a way that running it a second time gives a different
+    answer.  The easiest way to start is with the stackless
+    routines in `staff-start.S` which don't write memory.  You
+    can then scale up to more complex.  
 
 Once you have this, you can then repurpose it to detect which instructions
 are not virtualizabe by turning it into an automatic checker that detects
