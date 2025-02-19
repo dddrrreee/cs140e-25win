@@ -5,10 +5,11 @@
 </p>
 
 Today's lab is a mid-term checkpoint.
-By the end of the lab we will verify that the state switching assembly you wrote 
+By the end of the lab we will verify that the breakpoint and
+state switching assembly you wrote 
 in the last lab is correct by:
- 1. Dropping it into a pre-emptive threads package;
- 2. Use your breakpoint code from the previous labs to verify 
+ 1. Dropping it into a crazy pre-emptive threads package;
+ 2. Use single step hashing verify 
     that the threads behave 
     identically under all possible thread interleavings.
 
@@ -65,3 +66,8 @@ How to check:
 
 NOTE: 
  - will be checking in more description.
+
+----------------------------------------------------------------------
+### Part 2: do something cool / useful with your pre-emptive threads
+
+Will add a bunch of suggestions but you can do your own.
