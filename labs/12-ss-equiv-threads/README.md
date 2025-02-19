@@ -17,8 +17,6 @@ NOTE:
     and delete ours from the `Makefile`.  (You might have put these
     `breakpoint.h` implementations in `mini-step.c` which is fine.)
 
-  - Part 2 has many more suggestions now if you do a pull.
-
   - If you do a pull, there is a `code/switchto.h` that got added
     with a better type signature for `cswitch`.
 
@@ -30,7 +28,7 @@ NOTE:
     (See below).
 
 
-### intro
+### overview
 
 Today's lab is a mid-term checkpoint.
 By the end of the lab we will verify that the breakpoint and
