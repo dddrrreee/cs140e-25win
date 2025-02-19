@@ -1,10 +1,15 @@
 #ifndef __SWITCHTO_H__
 #define __SWITCHTO_H__
+// some changes for lab 14
+
+// wrappers for switchto and cswitch routines: checks if the
+// destination is user level or privileged so can call the 
+// right version.
 #include "cpsr-util.h"
 
-// offsets used for registers in <regs> array.
-// exception trampoline should save in these
-// locations.
+// offsets used for registers in <regs_t> array.
+// interrupt/exception trampoline should save 
+// the registers in these locations.
 enum {
     REGS_R0 = 0,
     REGS_R1 = 1,
@@ -16,25 +21,37 @@ enum {
     REGS_CPSR = 16
 };
 
-// in future: might need process pointer as well.
+// we keep things in a struct for some partial type checking.
 typedef struct {
-    // all 16 registers and cpsr
+    // all 16 general purpose registers + cpsr
     uint32_t regs[17];
 } regs_t;
+_Static_assert(sizeof(regs_t) == 4*17, "<regs_t> is wrong size");
 
 // get <sp> and <lr> for mode <mode>.
 //   raw, no checking: only works for privileged mode.
 void priv_get_sp_lr_asm(uint32_t mode, uint32_t *sp, uint32_t *lr);
 
-// defined in staff-exception-asm.S: get the <sp> and <lr>
-// from the mode in <r>
+// implemented in <staff-exception-asm.S>: given the saved
+// registers <r>, pull out the mode from (r->regs[16]) and 
+// store that mode's <sp> and <lr> into <r> at the right 
+// offsets in <r>
+//
+// we use this to patch up registers after saving them assuming
+// we came from user mode.   alternative approach: 
+// swap the exception handlers when doing a <switchto> based on 
+// where jumping to.   this is faster but more fragile since every 
+// location that switches the <cpsr> better update the exception 
+// vector.  
 static inline void mode_get_sp_lr(regs_t *r) {
     uint32_t mode = r->regs[REGS_CPSR];
 
-    // trivial to get this.
+    // the save code should have handled this;
+    // so we don't need.
     if(mode_get(mode) == USER_MODE)
-        panic("cannot handle user level\n");
+        panic("should not be trying to patch up user mode\n");
 
+    // NOTE: lab 13 had the name swapped.
     priv_get_sp_lr_asm(mode, 
         &r->regs[REGS_SP],
         &r->regs[REGS_LR]);
@@ -68,9 +85,14 @@ int switchto_save_regs(void (*fn)(uint32_t *regs, void *arg),
 typedef void (*switch_fn_t)(regs_t *) __attribute__((noreturn));
 
 // cswitch, saving current registers in <old> and 
-// loading the registers from <next>, jump to <fn>
-// when done.
-void cswitch_asm(regs_t *old, regs_t *next, switch_fn_t fn);
+// call the appropriate <switchto> routine on <new>
+//
+// this is a voluntary cswitch so it doesn't matter
+// if the current mode is priv or user.  it only matters 
+// where we are going.  (though obviously we would 
+// fault if we try to switch from user to priv)
+void cswitchto_user_asm(regs_t *old, regs_t *next);
+void cswitchto_priv_asm(regs_t *old, regs_t *next);
 
 // perhaps we should have a stack stealing snapshot?
 static inline void 
@@ -79,9 +101,10 @@ switchto_cswitch(regs_t *old, regs_t *next) {
 
     // could hardire into
     if(mode_get(next->regs[REGS_CPSR]) == USER_MODE) {
-        cswitch_asm(old, next, switchto_user_asm);
+        cswitchto_user_asm(old, next);
     } else {
-        cswitch_asm(old, next, switchto_priv_asm);
+        panic("switching to privilege\n");
+        cswitchto_priv_asm(old, next);
     }
 }
 
@@ -98,12 +121,12 @@ switchto_mk(
     uint32_t fn, 
     void *sp,
     uint32_t cpsr,
-    void (*on_exit)(int retv)) 
+    uint32_t on_exit)  // void (*on_exit)(int retv)) 
 {
     return (regs_t) { 
         .regs[REGS_PC] = fn,
         .regs[REGS_SP] = (uint32_t)sp,
-        .regs[REGS_LR] = (uint32_t)on_exit,
+        .regs[REGS_LR] = on_exit,
         .regs[REGS_CPSR] = cpsr
     };
 }
