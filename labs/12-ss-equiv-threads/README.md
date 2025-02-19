@@ -96,6 +96,17 @@ NOTE:
 ----------------------------------------------------------------------
 ### Part 2: do something cool / useful with your pre-emptive threads
 
+Do something interesting or cool with the equivalance threads.
+Some easy things:
+  1. We always switch every instruction.  This won't necessarily
+     find all bugs.  It's good to have a mode than can randomly switch.
+     Perhaps every 2 instructions on average, then every 3 instructions
+     on average, etc.   But you can make whatever decision seems
+     reasonable.
+     
+  2. A bigger part (which counts as an extension) is to do your
+     interleave checker for real now that we have threads --- we
+     can currently check an arbitrary number of threads.
 
 #### Best extension
 
