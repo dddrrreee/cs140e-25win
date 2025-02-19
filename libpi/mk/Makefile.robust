@@ -282,7 +282,7 @@ endif
 
 $(all_elf): %.elf: %.o %.d $(elf_objs) $(elf_deps) $(LINK_DEPS) $(LIBS)
 	@mkdir -p $(dir $@)
-	$(LD) $(START) $< $(elf_objs) -T $(MEMMAP) -o $@ $(LIBS)
+	$(LD) $(START) $< $(elf_objs) -T $(MEMMAP) -o $@ $(LIBS) $(LIB_POST)
 
 # every .elf gets disassembled into a .list.  use `-D` if
 # you want to see the C source. [Have an option?]
