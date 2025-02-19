@@ -100,10 +100,20 @@ Do something interesting or cool with the equivalance threads.
 Some easy things:
 
   - We always switch every instruction.  This won't necessarily
-     find all bugs.  It's good to have a mode than can randomly switch.
-     Perhaps every 2 instructions on average, then every 3 instructions
-     on average, etc.   But you can make whatever decision seems
-     reasonable.
+    find all bugs.  It's good to have a mode than can randomly switch.
+    Perhaps every 2 instructions on average, then every 3 instructions
+    on average, etc.   But you can make whatever decision seems
+    reasonable.  
+
+    If you recall in lab 11 we used `pi_random()`.  You'll need 
+    to include:
+
+            #include "pi-random.h"
+
+    And can then just call it:
+
+            uint32_t v = pi_random();
+
      
   - You could add a yield (like your `rpi-threads.c` had) 
     and some tests to check that it works.  Potentially
