@@ -7,6 +7,25 @@
 
 ### clarifications and notes
 
+NOTE:
+  - If you do a pull, there is a `code/switchto.h` that got added
+    with a better type signature for `cswitch`.
+
+  - The threading code as checked in only checks user level threads
+    so as a result *only checks user code* --- it won't be checking
+    the privileged routines out of the box.   
+
+    You're strongly urged to do so as the "interesting" code you write.
+       1. Run a routine at USER level in single stepping mode, 
+          recording the instructions it ran in a per thread array.
+       2. Rerun the routine at SYSTEM mode, but instead of mismatching
+          do matching (using the addresses in the array), which does
+          work at privileged level.  
+
+          If you make a copy of the saved registers in the SS handler
+          and swap modes from SUPER to USER, then the hash should
+          be the same.
+       3. This is a great check.
 
 ### intro
 
@@ -39,6 +58,22 @@ Checkoff:
      check back).
   5. There are absolutely a bazillion extensions (will add)
   
+----------------------------------------------------------------------
+### Part 0: descriptions
+
+Different routines:
+  - `cswitchto_priv_asm`: this saves the current privileged context
+    (not USER context).  Similar to your threads package `rpi_yield()`, 
+    we don't need to save the caller registers.
+ . and then switches to another privileged level. 
+    So you can set the cpsr to the mode you want and then load 
+    everything (similar to your `switchto_priv_asm`).
+
+  - `cswitchto_user_asm`: this saves the current priveleged context
+    (not USER) and then switches to another privileged level. 
+    So you can set the cpsr to the mode you want and then load 
+    everything (similar to your `switchto_priv_asm`).
+
 
 ----------------------------------------------------------------------
 ### Part 1: start replacing routines and make sure tests pass.
