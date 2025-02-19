@@ -13,6 +13,8 @@
     dumb mistake.)
 
 NOTE:
+  - Part 2 has many more suggestions now if you do a pull.
+
   - If you do a pull, there is a `code/switchto.h` that got added
     with a better type signature for `cswitch`.
 
