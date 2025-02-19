@@ -198,7 +198,8 @@ Some easy things:
 
 With all that said the best thing to do is the following:
 
-#### Best extension
+----------------------------------------------------------------------
+### The best Part 2
 
 The absolute best thing you can do --- and considered a major extension
 --- is to also test your privileged switching and exception trampolines.
@@ -292,4 +293,18 @@ ISA, so it's great to have an automatic method for finding them.
 There's not enough information here, so ask if this seems potentially
 interesting :)
 
+----------------------------------------------------------------------
 ### Summary
+
+Mistakes in context switching and exception trampolines are some of
+the hardest you can hit.  This lab has shown how to find them fairly
+easily by exploiting low-level debugging hardware.  You can generalize
+this approach to check many OS and non-OS properties.  (We will use it
+throughout virtual memory.)
+
+There are tons of final projects you can do based off of this lab.
+  - Combine it with your interleave checker.
+  - Tune the code aggressively  relying on the fact that
+    equivalance hashing detects bit-level mistakes.  Am curious how much
+    faster you can make it!
+  - Many others.
