@@ -251,16 +251,20 @@ handle code that branches by:
 
 #### A different method: rerun one instruction.
 
-A smaller code (I think) but more IQ intensive method to test
-privileged and unpriviledged switching as follows:
+A less code (I think) but more IQ intensive method to test privileged
+and unpriviledged switching is to rerun each instruction at a privileged
+mode after you get a mismatch exception and check that it produces the
+same registers.
+
+This would work as follows:
   1. Add a `reg_t` field to the thread block that holds a copy
      of the previous registers (e.g., `reg_t prev_regs;`). 
   2. Run each thread at USER as normal;
   3. Each time you get a mismatch exception:
-     A. Record the registers passed to the exception handler.
-     B. Rerun exactly that one single instruction using
+     1. Record the registers passed to the exception handler.
+     2. Rerun exactly that one single instruction using
        `prev_regss` at a higher privilege;
-     C. Compare the registers from (B) to those from (A)
+     3. Compare the registers from (ii) to those from (iii)
         and make sure they are the same.
      
         (Note this will require some cleverness since this
