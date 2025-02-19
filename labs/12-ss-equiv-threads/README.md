@@ -98,6 +98,7 @@ NOTE:
 
 Do something interesting or cool with the equivalance threads.
 Some easy things:
+
   - We always switch every instruction.  This won't necessarily
      find all bugs.  It's good to have a mode than can randomly switch.
      Perhaps every 2 instructions on average, then every 3 instructions
@@ -112,15 +113,20 @@ Some easy things:
 
   - A bigger thing (which counts as an extension) is to do your
     interleave checker for real now that we have threads --- we
-    can currently check an arbitrary number of threads.
+    can currently check an arbitrary number of threads.  You can
+    spin this up into a final project.
 
   - Another cool thing (not exactly trivial) is to run multiple
-    threads at the same location by copying their stack and data
-    in and out on switch (a form of swapping). This will make 
-    it clear why we use VM, but is actually cool.
+    threads using the same stack by copying their stack in and out on
+    switch (a form of swapping).  It lets you run multiple routines at
+    the same location with the same stack and so get the same hashes.
+    As a side effect this will make it clear why we use VM, but is
+    actually cool.
 
-    It lets you run multiple routines at the same location with
-    the same stack and so get the same hashes.
+  - Even better than the above is something cool you come up with.
+
+
+With all that said the best thing to do is the following:
 
 #### Best extension
 
