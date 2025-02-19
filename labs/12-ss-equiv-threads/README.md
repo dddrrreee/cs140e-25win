@@ -206,6 +206,8 @@ So the basic algorithm:
      at both USER and SYSTEM mode.  You'll have to change the
      `full-except.c` code to patch the registers.
   4. You'll also have to add routines to match and disable matching.
+     Note, that you should do matching on `bvr1` and `bcr1` since
+     single stepping is using `bvr0` and `bcr0`.
 
 The less hacky way which is even more of a major extension is to
 handle code that branches by:
@@ -215,3 +217,25 @@ handle code that branches by:
  3. Then rerun the routine at SYSTEM mode, but instead of mismatching
     do matching (using the addresses in the array).
 
+#### A different method
+
+Another way to test the privileged and unpriviledged is to run the thread
+at user as normal, but each time you get a mismatch exception, make a
+copy of the registers and rerun exactly that one single instruction using
+matching at a higher privilege and make sure the registers are the same.
+
+Note:
+  - The way our exceptions work, we don't handle recursive 
+    faults.  You could change this. Or you could record
+    enough state that you can remember where you were.
+
+Once you have this, you can then repurpose it to detect which instructions
+are not virtualizabe by turning it into an automatic checker that detects
+when an instruction fundamentally behaves differently at user mode and
+privileged mode.
+
+The ARM has several of these instructions buried in its massive
+ISA, so it's great to have an automatic method for finding them.
+
+There's not enough information here, so ask if this seems potentially
+interesting :)
