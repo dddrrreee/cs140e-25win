@@ -58,6 +58,16 @@ static inline uint32_t spsr_get(void) {
     return spsr;
 }
 
+// int on: 7th bit = 0 
+// int off: 7th bit = 1 
+static inline uint32_t int_enabled_p(uint32_t cpsr) {
+    uint32_t b = (cpsr >> 7)&1;
+    return b == 0;
+}
+static inline uint32_t interrupts_on_p(void) {
+    return int_enabled_p(cpsr_get());
+}
+
 // change the mode field mode in <cpsr> to <mode>: 
 // clear the carry flags, keep
 // keep interrupts, thumb, etc.
