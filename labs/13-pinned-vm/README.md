@@ -229,10 +229,14 @@ The tests for this:
   - `tests/1-test-basic-tutorial.c`  :  start here.  Tons of comments.
   - `tests/1-test-setup.c`  :  does a simple setup.
   - `tests/1-test-one-addr.c` :  sets up a single user address spaces 
-  - `tests/1-test-two-addr.c` :  sets up two user addresss spaces flips between them.  
+  - `tests/1-test-two-addr.c` :  sets up two user addresss spaces flips between them.    It also uses 16MB pages since we're running
+    out of TLB space. 
   - `tests/2-test-lookup.c`  : inserts and then checks that the mappings are in 
      the TLB.
-  - `tests/2-test-procmap.c`  : uses a simple procmap.
+  - `tests/2-test-procmap.c`  : uses a simple procmap.  This is 
+    one possible interface for wrapping things up.  You can 
+    (probably should) design your own since this is pretty simplistic
+    and rigid.
 
 If you want, you can ignore our starter code and write all that from scratch.
 If you want to use our stuff, there's a few helpers you implement.
