@@ -18,6 +18,7 @@ STAFF_OBJS += staff-mmu-asm.o
 STAFF_OBJS += staff-mmu-except.o  
 STAFF_OBJS += staff-mmu.o  
 STAFF_OBJS += staff-pinned-vm.o
+STAFF_OBJS += $(O)/staff-objs/kmalloc.o
 
 # define this if you need to give the device for your pi
 TTYUSB = 
