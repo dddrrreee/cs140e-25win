@@ -247,7 +247,7 @@ version is in
 We screenshot them below:
 
 <p align="center">
-  <img src="images/lockdown-asm.png"  />
+  <img src="images/lockdown-asm.png" width="600" />
 </p>
 
 ----------------------------------------------------------------------
