@@ -14,6 +14,11 @@ tl;dr: the goal:
      disambiguate the cause of exceptions (see part 4).
   4. I would do the tests in order.  The first one `1-test-basic-tutorial.c`
      has tons of comments.
+  5. One way to make things much easier is to run with our code 
+     and call `lockdown_print_entries` to see the exact
+     content of the TLB.  Makes it easy to check what bits
+     should be.  Though if you want Daniel mode do without :).
+
 
 Given that it's midterm week we'll do a fairly simple virtual memory
 (VM) lab that side-steps a major source of VM complexity --- the need
