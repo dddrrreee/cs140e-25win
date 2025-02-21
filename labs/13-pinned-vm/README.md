@@ -436,6 +436,15 @@ Useful domain pages:
   - B4-27: the location / size of the `domain` field in the segment page table entry.
   - B4-42: setting the domain register.
 
+  - The "Data Fault Status Register" to get the cause (b4-19,
+    b4-20, b4-43, b4-44).  And the "Combined Data/FAR" to get the fault
+    address (b4-44).
+
+  - Instruction fault status register (IFSR):
+<table><tr><td>
+<img src="images/ifsr-get.png"/>
+</td></tr></table>
+
 
 NOTE: (I don't think this applies today, but just in case): if you delete
 `staff-mmu-except.o` and your `panic` or `reboot` locks up, add this
