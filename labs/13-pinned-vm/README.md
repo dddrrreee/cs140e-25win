@@ -422,13 +422,26 @@ start with the exception code from `1-test-basic.c`.
 A domain fault.  Write a single test that:
   1. Tags the heap with its own domain id `d`.
   2. Removes permissions for `d`, does a load using `GET32`, and gets the fault.
-  3. In the fault handler, prints the `pc`, the ARMv6 "reason" for the 
-     fault (using the `dfsr`), re-enables the domain permissions, and returns.
+  3. In the fault handler: 
+        1. Verify that the `pc` equals the address for `GET32`;
+        2. Print the pc and the ARMv6 "reason" for the 
+           fault (using the `dfsr`);
+        3. Re-enable the domain permissions, and return.  
+
+     NOTE: The test `1-test-basic-tutorial.c` had an example of catching
+     faults and looking at dfsr.
+
   4. Do (2) and (3) for store.  Use (`PUT32`) so you can check the `pc`.
-  5. Do (2) and (3) for a jump.  You'll have to write the instruction
-     for `bx lr` to a heap location and jump to it.  Note: for this 
-     you'll need to also install a `prefetch` abort handler 
-     (just like we did last lab).
+  5. Do (2) and (3) for a jump.  You'll have to:
+        1. Allocate 4 bytes in the heap;
+        2. Write the instruction encoding for `bx lr` to that 
+           heap location;
+        3. And then jump to that heap location (either by 
+           using BRANCHTO, or by casting it to a function pointer: don't
+           use inline assembly!  it's not needed).  
+
+     Note: for this you'll need to also install a `prefetch` abort handler
+     (just like we did in the single-step labs).
 
 Useful domain pages:
   - B4-10: what the bit values mean for the `domain` field.
