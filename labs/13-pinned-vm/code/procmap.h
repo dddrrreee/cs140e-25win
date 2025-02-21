@@ -1,6 +1,7 @@
 #ifndef __PROC_MAP_H__
 #define __PROC_MAP_H__
 #include "pinned-vm.h"
+#include "memmap-default.h"
 
 
 // physical address of our kernel: used to map.
@@ -46,6 +47,7 @@ static inline uint32_t
 dom_perm(uint32_t doms, unsigned perm) {
     assert(doms);
     assert(doms >> 16 == 0);
+    // [this is manager: not right]
     assert(perm <= 0b11);
     unsigned mask = 0;
     for(unsigned i = 0; i < 16; i++) {
@@ -124,7 +126,9 @@ static inline procmap_t procmap_default_mk(unsigned dom) {
 static inline void procmap_pin(procmap_t *p) {
     for(unsigned i = 0; i < p->n; i++) {
         pr_ent_t *e = &p->map[i];
-        demand(e->nbytes == MB, "nbytes=%d\n", e->nbytes);
+        if(e->nbytes != MB(1))
+            panic("assuming mapping 1MB segments: have=%d\n", 
+                    e->nbytes);
 
         pin_t g;
         switch(e->type) {
@@ -146,13 +150,13 @@ static inline void procmap_pin_on(procmap_t *p) {
     // compute all the domain permissions.
     uint32_t d = dom_perm(p->dom_ids, DOM_client);
 
-    staff_pin_mmu_init(d);
+    pin_mmu_init(d);
     procmap_pin(p);
 
     pin_debug("about to turn on mmu\n");
 
-    // setup.
-    staff_pin_mmu_switch(0,1);
+    // setup: default ASID = 1.
+    pin_set_context(1);
     pin_mmu_enable();
 
     assert(mmu_is_enabled());
@@ -161,6 +165,6 @@ static inline void procmap_pin_on(procmap_t *p) {
     // can only check this after MMU is on.
     pin_debug("going to check entries are pinned\n");
     for(unsigned i = 0; i < p->n; i++)
-        pin_check_exists(p->map[i].addr);
+        assert(pin_exists(p->map[i].addr,1));
 }
 #endif

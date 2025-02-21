@@ -1,102 +1,111 @@
+// test that we can:
+//   1. create private virt->phys mappings
+//   2. switch between virtual address spaces
+// by:
+//   1. create two address spaces (ASID1, ASID2)
+//   2. map the same virtual address <user_addr> in both
+//      to different physical segments (<phys_addr1> and
+//      <phys_addr2>.
+//   3. switch between them reading and writing
 #include "rpi.h"
 #include "pinned-vm.h"
 #include "mmu.h"
+#include "memmap-default.h"
+#include "full-except.h"
 
 void notmain(void) { 
-    enum { OneMB = 1024*1024};
     // map the heap: for lab cksums must be at 0x100000.
-    kmalloc_init_set_start((void*)MB, MB);
+    kmalloc_init_set_start((void*)MB(1), MB(1));
+    full_except_install(0);
     assert(!mmu_is_enabled());
 
-    // b4-42
-    // staff_domain_access_ctrl_set(~0);   // DOM_client << DOM);
-    enum { dom_kern = 1,            // domain for kernel=1
-           dom_user = 2 };          // domain for user = 2
-    uint32_t d = (DOM_client << dom_kern*2)
-                |(DOM_client << dom_user*2);
-
-    staff_pin_mmu_init(d);
-
-
-    // see 3-151 for table, or B4-9
-    //    APX = 0, AP = 1
-    //    APX << 2 | AP
-    uint32_t no_user = perm_rw_priv;
-
-    // description of device memory
-    pin_t dev  = pin_mk_global(dom_kern, no_user, MEM_device);
-    // description of kernel memory
-    pin_t kern = pin_mk_global(dom_kern, no_user, MEM_uncached);
+    // default domain bits.
+    staff_pin_mmu_init(dom_bits);
 
     unsigned idx = 0;
-    // all the device memory: identity map
-    pin_mmu_sec(idx++, 0x20000000, 0x20000000, dev);
-    pin_mmu_sec(idx++, 0x20100000, 0x20100000, dev);
-    pin_mmu_sec(idx++, 0x20200000, 0x20200000, dev);
+    pin_t kern = pin_mk_global(dom_kern, no_user, MEM_uncached);
+    pin_mmu_sec(idx++, SEG_CODE, SEG_CODE, kern);
+    pin_mmu_sec(idx++, SEG_HEAP, SEG_HEAP, kern);
+    pin_mmu_sec(idx++, SEG_STACK, SEG_STACK, kern);
+    pin_mmu_sec(idx++, SEG_INT_STACK, SEG_INT_STACK, kern);
 
-    // map first two MB for the kernel
-    pin_mmu_sec(idx++, 0, 0, kern);
-    pin_mmu_sec(idx++, OneMB, OneMB, kern);
-
-    // kernel stack
-    pin_mmu_sec(idx++, STACK_ADDR-OneMB, STACK_ADDR-OneMB, kern);
-
-    // our interrupt stack.
-    // pin_mmu_sec(idx++, INT_STACK_ADDR-OneMB, INT_STACK_ADDR-OneMB, kern);
+    // use 16mb section for device.
+    pin_t dev  = pin_16mb(pin_mk_global(dom_kern, no_user, MEM_device));
+    pin_mmu_sec(idx++, SEG_BCM_0, SEG_BCM_0, dev);
 
     enum { ASID1 = 1, ASID2 = 2 };
-    pin_t user1 = pin_16mb(pin_mk_user(dom_kern, ASID1, no_user, MEM_uncached));
-    pin_t user2 = pin_16mb(pin_mk_user(dom_kern, ASID2, no_user, MEM_uncached));
-    
-    uint32_t user_addr = OneMB * 16;
-    assert((user_addr>>12) % 16 == 0);
-    uint32_t phys_addr1 = user_addr;
-    uint32_t phys_addr2 = user_addr+16*OneMB;
-    
-    PUT32(phys_addr1, 0xdeadbeef);
-    PUT32(phys_addr2, 0xdeadbeef);
-
-    uint32_t user_idx = idx;
+    // do a non-ident map
+    enum {
+        user_addr = MB(16),
+        phys_addr1 = user_addr+MB(1),
+        phys_addr2 = user_addr+MB(2)
+    };
+    pin_t user1 = pin_mk_user(dom_kern, ASID1, no_user, MEM_uncached);
+    pin_t user2 = pin_mk_user(dom_kern, ASID2, no_user, MEM_uncached);
     pin_mmu_sec(idx++, user_addr, phys_addr1, user1);
+    pin_mmu_sec(idx++, user_addr, phys_addr2, user2);
+
+    // initialize with MMU off.
+    PUT32(phys_addr1, 0x11111111);
+    PUT32(phys_addr2, 0x22222222);
+
     assert(idx<8);
 
     trace("about to enable\n");
-
-
     lockdown_print_entries("about to turn on first time");
 
-    staff_pin_mmu_switch(0,ASID1);
+    // *****************************************************
+    // turn on address space 1 and check we can write.
+
+    pin_set_context(ASID1);
     pin_mmu_enable();
-
-    assert(mmu_is_enabled());
-    trace("MMU is on and working!\n");
+        trace("MMU is on and working!\n");
     
-    uint32_t x = GET32(user_addr);
-    trace("asid 1 = got: %x\n", x);
-    assert(x == 0xdeadbeef);
-    PUT32(user_addr, 1);
+        uint32_t x = GET32(user_addr);
+        trace("ASID %d = got: %x\n", ASID1, x);
+        assert(x == 0x11111111);
+        PUT32(user_addr, ASID1);
 
     pin_mmu_disable();
-    assert(!mmu_is_enabled());
-    trace("MMU is off!\n");
+
+    // check that the write happened.
     trace("phys addr1=%x\n", GET32(phys_addr1));
-    assert(GET32(phys_addr1) == 1);
+    assert(GET32(phys_addr1) == ASID1);
 
-    pin_mmu_sec(user_idx, user_addr, phys_addr2, user2);
 
-    lockdown_print_entries("about to turn on");
-
-    staff_pin_mmu_switch(0,ASID2);
+    // *****************************************************
+    // switch to 2nd address space and check we can write.
+    pin_set_context(ASID2);
     staff_mmu_enable();
+        x = GET32(user_addr);
+        trace("asid %d = got: %x\n", ASID2, x);
+        assert(x == 0x22222222);
+        PUT32(user_addr, ASID2);
+    pin_mmu_disable();
 
-    x = GET32(user_addr);
-    trace("asid 2 = got: %x\n", x);
-    assert(x == 0xdeadbeef);
-    PUT32(user_addr, 2);
+    trace("phys addr2=%x\n", GET32(phys_addr2));
+    assert(GET32(phys_addr2) == ASID2);
+
+    // *****************************************************
+    // now check that works by switching even with MMU on.
+
+    trace("about to check that can switch ASID w/ MMU on\n");
+    PUT32(phys_addr1, 0x11111111); // reset 
+    PUT32(phys_addr2, 0x22222222);
+
+    pin_set_context(ASID1);
+    pin_mmu_enable();
+    assert(GET32(user_addr) == 0x11111111);
+    PUT32(user_addr, ASID1);
+
+    pin_set_context(ASID2);
+    assert(GET32(user_addr) == 0x22222222);
+    PUT32(user_addr, ASID2);
 
     pin_mmu_disable();
-    trace("checking user2=%x\n", GET32(phys_addr2));
-    assert(GET32(phys_addr2) == 2);
 
+    // make sure that the writes happened.
+    assert(GET32(phys_addr1) == ASID1);
+    assert(GET32(phys_addr2) == ASID2);
     trace("SUCCESS!\n");
 }

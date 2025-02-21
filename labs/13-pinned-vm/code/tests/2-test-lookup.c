@@ -4,11 +4,10 @@
 #include "procmap.h"
 
 void notmain(void) { 
-    // map the heap: for lab cksums must be at 0x100000.
-    kmalloc_init_set_start((void*)MB, MB);
+    kmalloc_init_set_start((void*)SEG_HEAP, MB(1));
 
     // turn on the pinned MMU: identity map.
-    procmap_t p = procmap_default_mk(kern_dom);
+    procmap_t p = procmap_default_mk(dom_kern);
     procmap_pin_on(&p);
 
     // if we got here MMU must be working b/c we have accessed GPIO/UART
