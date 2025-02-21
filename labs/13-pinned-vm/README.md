@@ -435,10 +435,12 @@ A domain fault.  Write a single test that:
   5. Do (2) and (3) for a jump.  You'll have to:
         1. Allocate 4 bytes in the heap;
         2. Write the instruction encoding for `bx lr` to that 
-           heap location;
-        3. And then jump to that heap location (either by 
-           using BRANCHTO, or by casting it to a function pointer: don't
-           use inline assembly!  it's not needed).  
+           heap location (you can find the `bx lr` encoding by
+           looking in any `.list` file);
+        3. And then jump to that heap location either by using BRANCHTO
+           (see `libpi/staff-start.S`), or by casting the location to
+           a function pointer.  (Don't use inline assembly!  it's not
+           needed).
 
      Note: for this you'll need to also install a `prefetch` abort handler
      (just like we did in the single-step labs).
