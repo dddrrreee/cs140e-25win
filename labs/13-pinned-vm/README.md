@@ -10,7 +10,13 @@ BUG:
   - Part 2: You have to implement both `pinned-vm.c:pin_mmu_init` and
     `pin_set_context` at the same time.
 
+  - You are only implementing the pinned routines.  For today,
+    you should call any needed `staff_mmu_*` routines (just 
+    like the tests do) rather than re-implementing them.  You
+    will write the `mmu_*` routines next week.
+
 Hints:
+  - We don't use secure mode.  So just set that stuff to 0.
 
   - One way to make things much easier is to run with our code
     and call `lockdown_print_entries` to see the exact content of the TLB.
@@ -20,7 +26,10 @@ Hints:
 
     Of course, if you want Daniel mode do without :).  
 
-  - We don't use secure mode.  So just set that stuff to 0.
+  - NOTE: if you do call `lockdown_print_entries` it modifies
+    the lockdown index register so you can't rely on its value
+    afterwards.  In particular you probably don't want to call
+    it when doing `pin_mmu_sec`.
 
 ------------------------------------------------------------------------------
 ### Overview
