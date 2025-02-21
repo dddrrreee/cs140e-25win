@@ -238,7 +238,7 @@ If you want to use our stuff, there's a few helpers you implement.
 ----------------------------------------------------------------------
 ## Part 2: start knocking off `staff_*` calls in `pinnned-vm.c`
 
-*** If you see this: DO A PULL TO get updated README ***
+***If you see this: DO A PULL TO get updated README***
 
 First start by implementing `pinned-vm.c:pin_mmu_init`.  This will get
 you to read the `1-test-basic-tutorial.c` test case and understand it
