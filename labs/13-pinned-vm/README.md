@@ -250,6 +250,11 @@ We screenshot them below:
   <img src="images/lockdown-asm.png" width="600" />
 </p>
 
+Example usage:
+<p align="center">
+  <img src="images/lockdown-ex.png" width="600" />
+</p>
+
 ----------------------------------------------------------------------
 ## Part 2: start knocking off `staff_*` calls in `pinnned-vm.c`
 
