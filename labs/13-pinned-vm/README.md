@@ -10,12 +10,10 @@ BUG:
   - Part 2: change the following calls in the tests to delete
     the `staff_pin_`.  So from:
 
-        1-test-setup.c:    staff_pin_mmu_init(~0);
         1-test-two-addr.c: staff_pin_mmu_init(dom_bits);
 
     To:
 
-        1-test-setup.c:    pin_mmu_init(~0);
         1-test-two-addr.c: pin_mmu_init(dom_bits);
 
     Note: ignore the  `1-test-setup.c` test.  We don't use it.
