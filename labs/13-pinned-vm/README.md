@@ -52,6 +52,8 @@ void lockdown_print_entries(const char *msg) {
     you should call any needed `staff_mmu_*` routines (just 
     like the tests do) rather than re-implementing them.  You
     will write the `mmu_*` routines next week.
+  - We added some clarification for `pin_clear` and `tlb_contains_va`.
+    in Part 2.
 
 Hints:
   - We don't use secure mode.  So just set that stuff to 0.
@@ -335,8 +337,6 @@ An example usage to see their semantics:
 ----------------------------------------------------------------------
 ## Part 2: start knocking off `staff_*` calls in `pinnned-vm.c`
 
-***If you see this: DO A PULL TO get updated README***
-
 First start by implementing `pinned-vm.c:pin_mmu_init` and
 `pin_set_context` at the same time (`pin_mmu_init` will allocate the
 invalid page table and `pin_set_context` will use it).
@@ -352,7 +352,12 @@ you want to:
 You should be able to pretty easily finish both using the code
 from the first test case.
 
-Then start going through the rest (I'll add more discussion).
+Then start going through the rest.  For:
+  - `pin_clear`: set all all three registers at TLB `idx` to 0.
+     make sure you do a lookup after to verify they are 0.
+  - `tlb_contains_va`: this is on 3-79.  Do a translation in the current
+    mode, as a "privileged read".  In both success and failure cases,
+    assign the result of the translation to `result`.
 
 ----------------------------------------------------------------------
 ## Part 3: implement `pinned-vm.c:lockdown_print_entries`
