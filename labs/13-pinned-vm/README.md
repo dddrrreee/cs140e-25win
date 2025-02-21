@@ -6,6 +6,10 @@
 
 ### Clarifications and Errata
 
+BUG:
+  - Part 2: You have to implement both `pinned-vm.c:pin_mmu_init` and
+    `pin_set_context` at the same time.
+
 Hints:
 
   - One way to make things much easier is to run with our code
@@ -286,14 +290,19 @@ An example usage to see their semantics:
 
 ***If you see this: DO A PULL TO get updated README***
 
-First start by implementing `pinned-vm.c:pin_mmu_init`.  This will get
-you to read the `1-test-basic-tutorial.c` test case and understand it
-since it's an extended example of how to do vm.  You want to:
+First start by implementing `pinned-vm.c:pin_mmu_init` and
+`pin_set_context` at the same time (`pin_mmu_init` will allocate the
+invalid page table and `pin_set_context` will use it).
+
+This will get you to read the `1-test-basic-tutorial.c` test case and
+understand it since it's an extended example of how to do vm.  For init,
+you want to:
+
   1. Initialize the hardware, 
   2. create the invalid page table;
   3. set the domain register.
 
-You should be able to pretty easily finish `pin_mmu_init` using the code
+You should be able to pretty easily finish both using the code
 from the first test case.
 
 Then start going through the rest (I'll add more discussion).
