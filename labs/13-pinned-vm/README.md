@@ -10,8 +10,11 @@ Hints:
 
   - One way to make things much easier is to run with our code
     and call `lockdown_print_entries` to see the exact content of the TLB.
-    Makes it easy to check what bits should be.  Though if you want
-    Daniel mode do without :).
+    Makes it easy to check what bits should be (e.g., for secure mode,
+    not secure).  Even easier is that you could also look directly in
+    the .out files since they often have printed the TLB.
+
+    Of course, if you want Daniel mode do without :).  
 
 ------------------------------------------------------------------------------
 ### Overview
