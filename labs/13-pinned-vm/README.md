@@ -221,9 +221,28 @@ What to do today:
                         pin_t e) {
 
 
+NOTE:
+  - 3-149: lockdown VA: we need `VA` and `G`, and `ASID` (these
+    are in `pin_t e`).  The VA that is passed in is the full
+    32-bit address.  Since we are using 1MB sections, the lower
+    20 bits will be 0.
+  - 3-150: lockdown PA: We ignore all the secure stuff (`NSA`,
+    `NSTID`).  We need `PA`, `Size`,  APX and AP (these are
+     the `e.AP_perm` bits),  The `pa` that is passed in is the
+     full 32-bit physical address.  Since we are using 1MB sections
+    the lower bits will be 0.
+  - 3-151: Attributes: we only need the domain and TEX, C, B
+    (look at the `mem_attr_t` definition in `mem-attr.h`). We
+    don't use the AP fields today or S.
+
+
 Where to look:
   - `pinnned-vm.c`: all your code goes here.  The main routine is `pin_mmu_sec`
     which pins a section and `tlb_contains_va` which looks up the virtual address.
+  - `pinned-vm.h` defines the `pin_t` structure.
+  - `mem-attr.h` defines the `mem_perm_t` type and the `mem_attr_t`
+    type.  These are needed for the various caching and permission
+    bits.
 
 The tests for this:
   - `tests/1-test-basic-tutorial.c`  :  start here.  Tons of comments.
