@@ -221,16 +221,20 @@ What to do today:
                         pin_t e) {
 
 
-NOTE:
+HINTS:
   - 3-149: lockdown VA: we need `VA` and `G`, and `ASID` (these
-    are in `pin_t e`).  The VA that is passed in is the full
-    32-bit address.  Since we are using 1MB sections, the lower
-    20 bits will be 0.
+    are in `pin_t e`).  
+
+    The VA that is passed in is the full 32-bit address.  Since we are
+    using 1MB sections, the lower 20 bits will be 0.
+
   - 3-150: lockdown PA: We ignore all the secure stuff (`NSA`,
     `NSTID`).  We need `PA`, `Size`,  APX and AP (these are
-     the `e.AP_perm` bits),  The `pa` that is passed in is the
-     full 32-bit physical address.  Since we are using 1MB sections
-    the lower bits will be 0.
+     the `e.AP_perm` bits), and the valid bit V.  
+
+    The `pa` that is passed in is the full 32-bit physical address.
+    Since we are using 1MB sections the lower bits will be 0.
+
   - 3-151: Attributes: we only need the domain and TEX, C, B
     (look at the `mem_attr_t` definition in `mem-attr.h`). We
     don't use the AP fields today or S.
