@@ -7,7 +7,7 @@
 ### Clarifications and Errata
 
 BUG:
-  - This step is a bit annoying.  The initial `staff-pinned-vm.o`
+  - Part 3: This step is a bit annoying.  The initial `staff-pinned-vm.o`
     exports the name `lockdown_print_entries`, so you wouldn't be
     able to write yours and still use staff routines.
 
@@ -358,12 +358,10 @@ Then start going through the rest (I'll add more discussion).
 ## Part 3: implement `pinned-vm.c:lockdown_print_entries`
 
 ***NOTE:***
+  - Look at the top of the README for how to fix the name conflict
+    here.
   - our `apx` is actually `apx` + `ap`  on page 3-151 (so 3 bits
     in total).
-
-
-Here's the 
-
 
 
 As the final part, implement the print for the lockdown entries.
