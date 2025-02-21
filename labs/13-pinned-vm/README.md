@@ -362,7 +362,11 @@ Then start going through the rest (I'll add more discussion).
     here.
   - our `apx` is actually `apx` + `ap`  on page 3-151 (so 3 bits
     in total).
-
+  - note: the pa and va are a bit weird.  we divide them by 
+    1MB to get the sector number, but they might have been
+    a different size.  this is fine for today, but later on
+    if you use this routine you'd probably want a different
+    approach.
 
 As the final part, implement the print for the lockdown entries.
 Mine is something like:
