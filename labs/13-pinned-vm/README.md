@@ -12,17 +12,8 @@ tl;dr: the goal:
      that were in `staff-pinned-vm.o`).
   3. You will also have to write some exception handling code to 
      disambiguate the cause of exceptions (see part 4).
-  4. I would do the tests in order.  The first one `1-test-basic.c`
+  4. I would do the tests in order.  The first one `1-test-basic-tutorial.c`
      has tons of comments.
-  5. NOTE: once you get to `1-test-two-addr.c` you should comment out
-     the failing check:
-
-            // pin_mmu_sec
-            if(va != pa)
-                panic("for today's lab, va (%x) should equal pa (%x)\n",
-                    va,pa);
-
-     This was just to catch mistakes in previous tests.
 
 Given that it's midterm week we'll do a fairly simple virtual memory
 (VM) lab that side-steps a major source of VM complexity --- the need
@@ -205,7 +196,7 @@ The above is pretty much all we will do:
 ## Part 1: implement `pin_mmu_sec`
 
 What to do today:
-  - Read the pages: 3-149--- 3-152 and 3-80 --- 3-82.
+  - Read the pages: 3-149--- 3-152 and 3-79 --- 3-82.
   - Assume 1MB sections.
   - Implement `pin_mmu_sec`.
 
@@ -222,12 +213,14 @@ Where to look:
     which pins a section and `tlb_contains_va` which looks up the virtual address.
 
 The tests for this:
-  - `tests/1-test-basic.c`  :  start here.  Tons of comments.
+  - `tests/1-test-basic-tutori.c`  :  start here.  Tons of comments.
   - `tests/1-test-setup.c`  :  does a simple setup.
+  - `tests/1-test-one-addr.c` :  uses one different address spaces 
   - `tests/1-test-two-addr.c` :  uses two different address spaces and flips between them.  This one will require removing the assert that checks for
      the identity map.
-  - `tests/1-test-lookup.c`  : inserts and then checks that the mappings are in 
+  - `tests/2-test-lookup.c`  : inserts and then checks that the mappings are in 
      the TLB.
+  - `tests/2-test-procmap.c`  : uses a simple procmap.
 
 If you want, you can ignore our starter code and write all that from scratch.
 If you want to use our stuff, there's a few helpers you implement.
@@ -237,10 +230,7 @@ If you want to use our stuff, there's a few helpers you implement.
 ## Part 2: implement `pinned-vm.c:pin_mmu_init(uint32_t domain_reg)` 
 
 ***NOTE:***
-  - Mostly ignore the comment in `pinned-vm.c` that says what to do.
-    You can look at the two test cases (see below) and do a diff against
-    `1-test-basic.c`.
-
+  - DO A PULL TO get updated README
   - This part is mainly to get you to read the test case and understand
     it since it's an extended example of how to do vm.  You want to 
     (1) initialize the hardware, (2) create the null page table, and
@@ -249,28 +239,16 @@ If you want to use our stuff, there's a few helpers you implement.
 You should be able to pretty easily finish `pin_mmu_init` using
 the code from the first test case.
 
-You will have to modify two test cases to call your code instead of ours:
-
-```
-        code/tests % grep pin_mmu_init *.c
-        1-test-setup.c:    staff_pin_mmu_init(~0);
-        1-test-two-addr.c:    staff_pin_mmu_init(d);
-```
-as well as `procmap.h` to call `pin_mmu_init` and `pin_mmu_switch`
-instead of `staff_pin_mmu_init` and `staff_pin_mmu_switch`.
-
 It will be convenient later to pass in a data structure that contains
 the mapping of the kernel rather than embedding the addresses in a bunch
-of code.   You should look through  the code in `procmap.h` to see
-what is going on.  Start with:
+of code.  
 
-    // procmap.h
-    static inline void procmap_pin_on(procmap_t *p) 
 
 ----------------------------------------------------------------------
 ## Part 3: implement `pinned-vm.c:lockdown_print_entries`
 
 ***NOTE:***
+  - DO A PULL TO get updated README
   - our `apx` is actually `apx` + `ap`  on page 3-151 (so 3 bits
     in total).
 
@@ -336,7 +314,6 @@ Useful domain pages:
   - B4-15: how addresses are translated and checked for faults.
   - B4-27: the location / size of the `domain` field in the segment page table entry.
   - B4-42: setting the domain register.
-
 
 
 NOTE: (I don't think this applies today, but just in case): if you delete
