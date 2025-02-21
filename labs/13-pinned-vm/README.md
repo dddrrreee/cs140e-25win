@@ -241,6 +241,13 @@ The tests for this:
 If you want, you can ignore our starter code and write all that from scratch.
 If you want to use our stuff, there's a few helpers you implement.
 
+The instructions you need are on 3-153 in the arm1176 pdf.  
+[this chapter is excerpted in](./docs/arm1176-ch3-coproc.annot.pdf).
+We screenshot them below:
+
+<p align="center">
+  <img src="images/lockdown-asm.png" width="450" />
+</p>
 
 ----------------------------------------------------------------------
 ## Part 2: start knocking off `staff_*` calls in `pinnned-vm.c`
