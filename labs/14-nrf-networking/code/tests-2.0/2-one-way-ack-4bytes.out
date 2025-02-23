@@ -1,0 +1,2 @@
+NRF:client: received 47 (expected=6)
+tests/2-one-way-ack-4bytes.c:one_way_ack:32:DEBUG:ERROR: Assertion `x == i` failed.

@@ -27,4 +27,16 @@ void brkpt_mismatch_set(uint32_t addr);
 //   2. breakpoint occured (13-11: use dscr)
 int brkpt_fault_p(void);
 
+
+
+// these should use bcr1,bvr1 so don't
+// conflict with mismatch.
+// not sure the right way to detect if it
+// was a mismatch or match.  look at the 
+// pc?  if match, then it's us.
+// is mismatch: 
+void brkpt_match_start(void);
+void brkpt_match_set(uint32_t addr);
+void brkpt_match_stop(void);
+
 #endif

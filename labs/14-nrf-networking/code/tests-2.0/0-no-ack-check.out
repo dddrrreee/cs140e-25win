@@ -1,0 +1,32 @@
+NRF:---------------------------------------------
+NRF:unreliable server config:
+NRF:	pins: ce_pin=6, int_pin=22, spi_chip=0
+NRF:	CONFIG (1111111):	PWR_UP=1, PRIM_RX=1, CRC=1 EN_CRC=1 MASK_RX_DR==1, MASK_TX_DS=1, MASK_MAX_RT=1
+NRF:	EN_AA (0):	pipes enabled:
+NRF:	EN_RXADDR (10):	pipes enabled: pipe1=1 
+NRF:	SETUP_AW:	address=3 bytes
+NRF:	SETUP_RETR (=0):	retran delay=250usec, attempts=0
+NRF:	RF_CH(=1110001):	2.513Mhz
+NRF:	RF_SETUP(=1110):	bwidth = 2Mbs, power= 0dBm
+NRF:	STATUS(=1110): RX-int=0, TX-int=0, RT-int=0 RXpipe=111 (empty), TX-full=0
+NRF:	TX_ADDR = 0x0
+NRF:	RX_ADDR_P1 = 0xd5d5d5
+NRF:	RX_PW_P1 (100000): 32 byte fixed size packets
+NRF:	FIFO_STATUS(=10001): TX_FULL=0, TX_EMPTY=1, RX_FULL=0, RX_EMPTY=1
+NRF:---------------------------------------------
+NRF:---------------------------------------------
+NRF:unreliable client config:
+NRF:	pins: ce_pin=5, int_pin=23, spi_chip=1
+NRF:	CONFIG (1111111):	PWR_UP=1, PRIM_RX=1, CRC=1 EN_CRC=1 MASK_RX_DR==1, MASK_TX_DS=1, MASK_MAX_RT=1
+NRF:	EN_AA (0):	pipes enabled:
+NRF:	EN_RXADDR (10):	pipes enabled: pipe1=1 
+NRF:	SETUP_AW:	address=3 bytes
+NRF:	SETUP_RETR (=0):	retran delay=250usec, attempts=0
+NRF:	RF_CH(=1110001):	2.513Mhz
+NRF:	RF_SETUP(=1110):	bwidth = 2Mbs, power= 0dBm
+NRF:	STATUS(=1110): RX-int=0, TX-int=0, RT-int=0 RXpipe=111 (empty), TX-full=0
+NRF:	TX_ADDR = 0x0
+NRF:	RX_ADDR_P1 = 0xe5e5e5
+NRF:	RX_PW_P1 (100000): 32 byte fixed size packets
+NRF:	FIFO_STATUS(=10001): TX_FULL=0, TX_EMPTY=1, RX_FULL=0, RX_EMPTY=1
+NRF:---------------------------------------------

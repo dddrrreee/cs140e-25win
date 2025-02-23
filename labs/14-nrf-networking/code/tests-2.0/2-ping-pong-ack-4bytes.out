@@ -1,0 +1,19 @@
+NRF:---------------------------------------------
+NRF:max inter config:
+NRF:	pins: ce_pin=6, int_pin=22, spi_chip=0
+NRF:	CONFIG (1111110):	PWR_UP=1, PRIM_RX=0, CRC=1 EN_CRC=1 MASK_RX_DR==1, MASK_TX_DS=1, MASK_MAX_RT=1
+NRF:	EN_AA (11):	pipes enabled: pipe0=auto-ack  pipe1=auto-ack 
+NRF:	EN_RXADDR (11):	pipes enabled: pipe0=1  pipe1=1 
+NRF:	SETUP_AW:	address=3 bytes
+NRF:	SETUP_RETR (=1110110):	retran delay=2000usec, attempts=6
+NRF:	RF_CH(=1110001):	2.513Mhz
+NRF:	RF_SETUP(=1110):	bwidth = 2Mbs, power= 0dBm
+NRF:	STATUS(=1011110): RX-int=1, TX-int=0, RT-int=1 RXpipe=111 (empty), TX-full=0
+NRF:	TX_ADDR = 0xe5e5e5
+NRF:	RX_ADDR_P0 = 0xe5e5e5
+NRF:	RX_PW_P0 (0): 0 byte fixed size packets
+NRF:	RX_ADDR_P1 = 0xd5d5d5
+NRF:	RX_PW_P1 (100): 4 byte fixed size packets
+NRF:	FIFO_STATUS(=1): TX_FULL=0, TX_EMPTY=0, RX_FULL=0, RX_EMPTY=1
+NRF:---------------------------------------------
+PANIC:staff-nrf-driver.c:staff_nrf_tx_send_ack:568:max intr
