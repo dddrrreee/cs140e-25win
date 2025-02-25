@@ -4,44 +4,57 @@
   <img src="images/pi-network.jpg" width="650" />
 </p>
 
-#### NOTE 1: To set or get `NRF_RX_ADDR_*` or `NRF_TX_ADDR`
+-----------------------------------------------------------------
+#### tl;dr: hints and mistakes
 
-Use the `nrf_set_addr` routine to set the addr for example:
+We put these here so you can easily scroll.  Will add errata
+as needed.
 
+
+HINTS:
+  - If you have issues, the first thing to do is
+    switch to using the `staff_nrf_init` routine.
+
+Common methods you'll use:
+  - `nrf_dump` (`nrf-hw-support.c`) will dump the current NRF 
+    configuration.  Good to do whenever things go awry.
+  - `nrf_get8`, `nrf_getn`: get a single byte, get N bytes from
+    NRF using spi.
+  - `nrf_put8`, `nrf_put8_chk`, and `nrf_putn`: write a single
+    byte, write and check a single byte, write N bytes using
+    SPI.
+  - `nrf_assert` and `nrf_opt_assert` (`nrf.h`): macros to check
+    a boolean.  If check fails will dump the NRF configuration and panic.
+    `nrf_opt_assert` can be easily disabled by setting a flag for
+    speed tests.
+
+Key pages:
+  - p 57-63: The full set of NRF registers.
+  - p 75: transmit protocol.
+  - p 76: receive protocol.
+  - p22: state machine: make sure you know what states to move to and
+    how to do it.  we care about RX, TX, standby-I.  stay in the
+    "recommended" states.
+  - Make sure you go through the [CHEATSHEET](./CHEATSHEET-nrf24l01p.md).
+    A bunch of facts you need are there, so it's a good cheatcode.
+
+COMMON mistake:
+  - NRF addresses are more than one byte!  Make sure you
+    use the `nrf_get_addr` and `nrf_set_addr` methods (`nrf-hw-support.c`)
+    which (1) do sanity checking and (2) use the right SPI calls to set
+    and get multiple-bytes.  For example:
 ```
     nrf_set_addr(n, NRF_TX_ADDR, 0, addr_nbytes);
-    ...
-    nrf_set_addr(n, NRF_RX_ADDR_P1, rxaddr, addr_nbytes);
+    nrf_set_addr(n, NRF_RX_ADDR_P1, rxaddr1, addr_nbytes);
+    nrf_set_addr(n, NRF_RX_ADDR_P0, rxaddr0, addr_nbytes);
 ```
+  - Hard to debug error: Hard-coding a value in `nrf_init`.
+    Works fine on an initial test, then doesn't work at all
+    when client code uses a different value (e.g., for rx or tx 
+    addresses).  This mistake caused some groups last year to 
+    waste over an hour.
 
-And `nrf_get_addr` to get the address.
-
-The reason is that the address can be 3 bytes, 4 bytes or 5 bytes
-depending on the configuration.   Doing a `put8` or `get8`
-won't work.
-
-
-#### NOTE 2: if you're having config problems
-
-Update the tests and do a comparison:
-
-  - Currently the checked in outputs for the 0 tests ignore most
-    of the config b/c they don't contain all the `NRF:` prints.
-  - If you look in tests-2.0 they have the full test of NRF values 
-    in the `.out files`.
-  - You'll want to compare these against the ones you have.
-    Either by running the code manually using `my-install`
-    or changing your `Makefile` to use the `test-2.0` tests
-    for the 0 tests and changing the bottom of your Makefile to have
-    `GREP_STR`:
-
-            BOOTLOADER = my-install
-            EXCLUDE ?= grep -v simple_boot
-            GREP_STR := 'HASH:\|ERROR:\|PANIC:\|SUCCESS:\|NRF:'
-            include $(CS140E_2024_PATH)/libpi/mk/Makefile.robust
-
-  - also if you have issues with part 1 part 2 part 3 the first
-    thing to do is to switch to using the `staff_nrf_init` routine.
+-----------------------------------------------------------------
 
 #### Description
 
@@ -51,19 +64,25 @@ the routines to (1) initialize, (2) receive, (3) send non-acked packets,
 (4) send acked packets.  This gives you a simple starting point for
 networking.  
 
-  - Make sure you go through the [CHEATSHEET](./CHEATSHEET-nrf24l01p.md).
-    A bunch of facts you need are there, so it's a good cheatcode.
-
 The code is currently setup so that all the tests *should* pass if you
 just run `make check`.
-   - ***NOTE: with 50+ people in one room we will have signficant
+   - ***NOTE: with 70+ people in one room we may have signficant
      RF interference***
    - So: if the tests don't pass, this doesn't mean the code is broken.
      It may just mean you are getting interference.
-   - if you look in `nrf-default-values.h` there are different addresses
-     you can try (you can use others too).  Worth plugging them in 
-     to see if reduces issues.  You can also use a different channel.
 
+     If you look in `nrf-default-values.h` there are different addresses
+     you can try (you can use others too).  You can change `server_addr`
+     and `client_addr` (the tests use these for configuration).
+     Worth plugging them in to see if reduces issues.
+
+     You can also use a different channel by changing
+     `nrf_default_channel`.
+
+     NOTE: if you change these values, the tests won't pass as-is since
+     the addresses are encoded in them.  Make sure "make run" works fine,
+     make a backup copy of the tests and you can then regenerate the
+     tests with "make emit".
 
 <p align="center">
   <img src="images/nrf-closeup.jpg" width="250" />
@@ -87,20 +106,21 @@ What you will change:
     you don't have to.
 
 Key files that you should not have to change:
+ - `tests/*.c`: tests.  Look through these to see how to use the 
+   NRF interfaces.
  - `nrf.h`: defines the `nrf_t` the NIC structure and `nrf_config_t`
    which holds some of the configuration.  
  - `nrf-hw-support.h`: many accessors for reading and writing
-    NRF registers and SPI interface. You really want to look at this 
-    to save time.
+   NRF registers and SPI interface. You really want to look at this 
+   to save time.
  - `nrf-hw-support.c`: SPI read/write routine implementation, routines
-    to dump the NRF configuration.
+   to dump the NRF configuration.
  - `nrf-default-values.h`: default values for NRF hardware choices.
-    You want to look at to see what we can change and for where
-    to get the requested values.
+   You want to look at to see what we can change and for where
+   to get the requested values.
  - `nrf-public.c` simple veneer over the top of NRF interface.
  - `nrf-test.h`: helpers for testing.  Useful to look at to see how
-    to use the NRF interfaces.
- - `tests/*.c`: tests.  Useful to look at to see how to use the NRF interfaces.
+   to use the NRF interfaces.
 
 #### Checkoff
 
@@ -108,11 +128,123 @@ Pretty simple:
   1.  You should have implemented your own copies of the `staff_` routines
       and removed `staff-nrf-driver.o` from the makefile.
   2. `make check` should pass.
-  3. Adapt a test case to ping pong with your partner.
+  3. Adapt a test case to ping pong with your partner.   Make sure
+     you setup the right addresses!  Your transmit address should 
+     be your partner's receive address and vice versa.  Also,
+     the configuration of the pipe should match: whether it's acked,
+     and the number of bytes.
 
 Extension:
-  - You can always do this lab on hard mode and build your own from scratch:
-     you'll learn alot.  The tests give reasonable iterfaces.
+  - You can always do this lab on hard mode and build your own from
+    scratch: you'll learn alot.  The tests give reasonable iterfaces.
+    Doing this plus a network bootloader would be a reasonable final
+    project.
+
+--------------------------------------------------------------------------------
+
+### Some big picture information.
+
+
+##### SPI
+
+The NRF uses SPI to communicate.  This is a reasonably simple digital
+protocol, that you can bit bang without much fuss.  One big downside
+of SPI is that it needs many wires.  And when you multiply these by the
+number of ends (2) and number of NRFs (2) NRF there's a high probability
+one is loose.  (Fortunately Parthiv's board has solved that for us:
+we can just plug them in!)
+
+From the [wikipedia page](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface):
+
+
+The r/pi has hardware support for SPI.  We give you this driver,
+but you can write it driver as an extension.  Or you just bit bang
+using the wikipedia code.
+  <img src="images/spi-bitbang.png" width="400" />
+
+If you bit-bang, the r/pi hardware GPIO mapping is:
+```
+    enum {
+        mosi        = 10,
+        miso        = 9,
+        clk         = 11,
+        chip_0_ce   = 8,
+        chip_1_ce   = 7,
+    };
+```
+And the initialization would be:
+```
+    gpio_set_output(mosi);
+    gpio_set_input(miso);
+    gpio_set_output(clk);
+    gpio_set_output(ce);
+    // either chip_0_ce or chip_1_ce
+    gpio_write(ce,1);
+```
+
+##### NRF input and output with SPI
+
+Each command specifies the 8-bit NRF "register" that it wants.
+We give these in `nrf-hw-support.h`:
+```
+// register numbers.  p57
+enum {
+    NRF_CONFIG      = 0x0,
+    NRF_EN_AA       = 0x1,
+    NRF_EN_RXADDR   = 0x2,
+    NRF_SETUP_AW    = 0x3,
+    NRF_SETUP_RETR  = 0x4,
+    NRF_RF_CH       = 0x5,
+    ...
+```
+
+We read a bit weird in that it takes in as much as it produces,
+so you'll notice the transmit and receive buffers for each
+operation take the same size input.
+
+Reading a single NRF register using SPI:
+```
+// nrf-hw-support.c
+uint8_t nrf_get8(const nrf_t *n, uint8_t reg) {
+    uint8_t rx[3], tx[3];
+    tx[0] = reg;    
+    tx[1] = NRF_NOP;
+    
+    spi_n_transfer(n->spi, rx,tx,2);
+    return rx[1];
+}   
+```
+
+Writing a register requires or'ing in the bit-pattern for writes
+so the receiver can tell the difference from a read:
+```
+// nrf-hw-support.c
+uint8_t nrf_put8(nrf_t *n, uint8_t reg, uint8_t v) {
+    uint8_t rx[3], tx[3];
+    
+    tx[0] = NRF_WR_REG | reg;
+    tx[1] = v;
+    spi_n_transfer(n->spi, rx,tx,2);
+
+    return rx[0];   // status.
+}
+```
+For other commands, see: `nrf_tx_flush` and
+`nrf_rx_flush` routines (`nrf-hw-support.c`)
+
+The NRF SPI commands are given on page 51:
+<img src="images/nrf-spi-cmd.png" width="400" />
+
+
+Generally, when first bringing up a device, we read back any configuration
+values we write as an easy automatic way to validate that (1) we
+understood the datasheet and (2) all the code and hardware is working.
+The routine `nrf_put8_chk` does this automatically.
+
+
+The full set of registers are given on page
+
+
 
 --------------------------------------------------------------------------------
 ### Part 0: Implement `nrf-driver.c:nrf_init`.
@@ -132,10 +264,20 @@ What to do:
 
 #### Longer Description
 
-This is the longest part, since you need to set all the regsiters,
-but it's also probably the most superficial, in that you can just
-use `nrf_dump` to get our hardware configuration and then walk down,
-replicating it.
+This is the longest part, since you need to set all the regsiters.
+
+Cheat code:
+   - If you get stuck you can use `nrf_dump` to print the staff
+     hardware configuration and then walk down the registers setting
+     them to the same thing.
+
+   - COMMON MISTAKE: sure you set the values ***based on the inputs***.
+     A common mistake is to hard-code values (e.g., receive and transmit
+     addresses), which won't work when you write code that uses different
+     ones.  (Such as the last test.)
+
+   - NOTE: It should be the case that if you change default values that
+     both still agree!
 
 
 As mentioned above, for simplicity, you'll only configure the NRF to use
@@ -145,25 +287,24 @@ a single pipe.  This pipe can either be initialized for acknowledgements
    -  `ack_p=0`: for this you only have to enable pipe 1.
       No other pipe should be enabled.  
 
-   - `ack_p=1`: for this you will have to enable both pipe 0 and pipe 1.
-      This is used by a test `1-one-way-ack.c` which sends a 4 byte
-      value back and forth between the client and the server.
+   - `ack_p=1`: as the NRF data sheet states, for ack'd pipes
+     you need both pipe 1 enabled as well as pipe 0 
+     (for the ack replies).
 
-   - After you implement these and swap in your `nrf_init`, all the
-     tests should still pass.  (We discuss common bugs and what they
-     look like at the end of Part 1.)
+     This config is used by a test `1-one-way-ack.c` which sends a 4
+     byte value back and forth between the client and the server.
 
+   - After you implement these and delete the call to
+     `staff_nrf_init` all the tests should still pass.  (We discuss
+     common bugs and what they look like at the end of Part 1.)
 
-Cheat code:
-   - If you get stuck you can use `nrf_dump` to print the values we set
-     the device too and make sure you set them to the same thing.
-     It should be the case that if you change default values that both
-     still agree!
+Common Mistake:
 
-NOTE: 
-   - If you've finished init (and your dump matches the staff), but you can't
-     tx/rx/ack anything, make sure you're setting the CE pin correctly (it's
-     a GPIO pin, so you have to control it manually)
+   - If you've finished init (and your dump matches the staff), but 
+     you can't tx/rx/ack anything, make sure you're setting the 
+     CE pin correctly (it's a GPIO pin, so you have to control it 
+     manually)
+
 
 #### Two key helpers: use these.
 
