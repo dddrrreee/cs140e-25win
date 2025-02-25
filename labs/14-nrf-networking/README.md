@@ -160,7 +160,7 @@ From the [wikipedia page](https://en.wikipedia.org/wiki/Serial_Peripheral_Interf
 The r/pi has hardware support for SPI.  We give you this driver,
 but you can write it driver as an extension.  Or you just bit bang
 using the wikipedia code.
-  <img src="images/spi-bit-bang.png" width="400" />
+  <img src="images/spi-bit-bang.png"  />
 
 If you bit-bang, the r/pi hardware GPIO mapping is:
 ```
