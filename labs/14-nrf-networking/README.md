@@ -10,23 +10,9 @@
 We put these here so you can easily scroll.  Will add errata
 as needed.
 
-
 HINTS:
   - If you have issues, the first thing to do is
     switch to using the `staff_nrf_init` routine.
-
-Common methods you'll use:
-  - `nrf_dump` (`nrf-hw-support.c`) will dump the current NRF 
-    configuration.  Good to do whenever things go awry.
-  - `nrf_get8`, `nrf_getn`: get a single byte, get N bytes from
-    NRF using spi.
-  - `nrf_put8`, `nrf_put8_chk`, and `nrf_putn`: write a single
-    byte, write and check a single byte, write N bytes using
-    SPI.
-  - `nrf_assert` and `nrf_opt_assert` (`nrf.h`): macros to check
-    a boolean.  If check fails will dump the NRF configuration and panic.
-    `nrf_opt_assert` can be easily disabled by setting a flag for
-    speed tests.
 
 Key pages:
   - p 57-63: The full set of NRF registers.
@@ -54,18 +40,9 @@ COMMON mistake:
     addresses).  This mistake caused some groups last year to 
     waste over an hour.
 
------------------------------------------------------------------
+NOTE: The code is currently setup so that all the tests *should* pass
+if you just run `make check`.
 
-#### Description
-
-Today you'll build some code to make the NRF chips we have talk to
-each other.   The lab is organized as a fetch-quest where you'll build
-the routines to (1) initialize, (2) receive, (3) send non-acked packets,
-(4) send acked packets.  This gives you a simple starting point for
-networking.  
-
-The code is currently setup so that all the tests *should* pass if you
-just run `make check`.
    - ***NOTE: with 70+ people in one room we may have signficant
      RF interference***
    - So: if the tests don't pass, this doesn't mean the code is broken.
@@ -84,6 +61,17 @@ just run `make check`.
      make a backup copy of the tests and you can then regenerate the
      tests with "make emit".
 
+
+-----------------------------------------------------------------
+
+#### Description
+
+Today you'll build some code to make the NRF chips we have talk to
+each other.   The lab is organized as a fetch-quest where you'll build
+the routines to (1) initialize, (2) receive, (3) send non-acked packets,
+(4) send acked packets.  This gives you a simple starting point for
+networking.  
+
 <p align="center">
   <img src="images/nrf-closeup.jpg" width="250" />
   <img src="images/nrf-side.jpg" width="250" />
@@ -96,7 +84,36 @@ If you are doing this *without* Parthiv's board and need to wire things
 up with jumpers, the 2022 NRF lab has some discussion 
 on [how to do this](https://github.com/dddrrreee/cs140e-22win/tree/main/labs/17-nrf24l01p).
 
+Before you start:
+  - Plug in the NRF boards.
+  - The code is currently setup so that all the tests *should* pass
+    if you just run `make check`.
+  - If it fails, look at why. 
+
+    If the configuration failed (e.g., the "0" tests): the problem
+    could be that you plugged the boards in wrong (see the photo).
+    Or you could have a defective NRF or parthiv board --- you'll have
+    to swap things out to narrow down.
+
+    If you get a smattering of packet losses, this is likely just
+    interference. Try rerunning the tests.  If it gets too bad, we'll
+    need to change addresses --- if you do look at the above note on
+    how to redo the tests.
+
 #### The code
+
+Common methods you'll use:
+  - `nrf_dump` (`nrf-hw-support.c`) will dump the current NRF 
+    configuration.  Good to do whenever things go awry.
+  - `nrf_get8`, `nrf_getn`: get a single byte, get N bytes from
+    NRF using spi.
+  - `nrf_put8`, `nrf_put8_chk`, and `nrf_putn`: write a single
+    byte, write and check a single byte, write N bytes using
+    SPI.
+  - `nrf_assert` and `nrf_opt_assert` (`nrf.h`): macros to check
+    a boolean.  If check fails will dump the NRF configuration and panic.
+    `nrf_opt_assert` can be easily disabled by setting a flag for
+    speed tests.
 
 What you will change:
   - `nrf-driver.c`: all the code you write will be in here.
@@ -134,7 +151,7 @@ Pretty simple:
      the configuration of the pipe should match: whether it's acked,
      and the number of bytes.
 
-Extension:
+Major extension:
   - You can always do this lab on hard mode and build your own from
     scratch: you'll learn alot.  The tests give reasonable iterfaces.
     Doing this plus a network bootloader would be a reasonable final
@@ -142,7 +159,7 @@ Extension:
 
 --------------------------------------------------------------------------------
 
-### Some big picture information.
+### Some incomplete big picture information.
 
 
 ##### SPI
@@ -154,12 +171,10 @@ number of ends (2) and number of NRFs (2) there's a high probability
 one is loose.  (Fortunately Parthiv's board has solved that for us:
 we can just plug them in!)
 
-From the [wikipedia page](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface):
-
 
 The r/pi has hardware support for SPI.  We give you this driver,
 but you can write it driver as an extension.  Or you just bit bang
-using the wikipedia code.
+using [the wikipedia code](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface):
 
 <kdb> <img src="images/spi-bit-bang.png"  /> </kdb>
 
@@ -183,10 +198,11 @@ And the initialization would be:
     gpio_write(ce,1);
 ```
 
-##### NRF input and output with SPI
+##### How-to NRF input and output with SPI
 
-Each command specifies the 8-bit NRF "register" that it wants.
-We give these in `nrf-hw-support.h`:
+Each NRF "register" is 8-bits;
+we give these in `nrf-hw-support.h`:
+
 ```
 // register numbers.  p57
 enum {
@@ -199,9 +215,11 @@ enum {
     ...
 ```
 
-We read a bit weird in that it takes in as much as it produces,
-so you'll notice the transmit and receive buffers for each
-operation take the same size input.
+To get and set NRF registers you specify the register you want (from
+above), and use the SPI routines to read and write.  SPI is a bit weird
+in that it takes produces as many bytes as ouput as it took as input.
+So you'll notice the transmit and receive buffers for each operation
+take the same size input.
 
 Reading a single NRF register using SPI:
 ```
@@ -209,7 +227,7 @@ Reading a single NRF register using SPI:
 uint8_t nrf_get8(const nrf_t *n, uint8_t reg) {
     uint8_t rx[3], tx[3];
     tx[0] = reg;    
-    tx[1] = NRF_NOP;
+    tx[1] = NRF_NOP;  // state NRF should ignore.
     
     spi_n_transfer(n->spi, rx,tx,2);
     return rx[1];
@@ -223,6 +241,7 @@ so the receiver can tell the difference from a read:
 uint8_t nrf_put8(nrf_t *n, uint8_t reg, uint8_t v) {
     uint8_t rx[3], tx[3];
     
+    // see p51
     tx[0] = NRF_WR_REG | reg;
     tx[1] = v;
     spi_n_transfer(n->spi, rx,tx,2);
@@ -236,16 +255,10 @@ For other commands, see: `nrf_tx_flush` and
 The NRF SPI commands are given on page 51:
 <img src="images/nrf-spi-cmd.png" width="400" />
 
-
 Generally, when first bringing up a device, we read back any configuration
 values we write as an easy automatic way to validate that (1) we
 understood the datasheet and (2) all the code and hardware is working.
 The routine `nrf_put8_chk` does this automatically.
-
-
-The full set of registers are given on page
-
-
 
 --------------------------------------------------------------------------------
 ### Part 0: Implement `nrf-driver.c:nrf_init`.
@@ -260,7 +273,8 @@ What to do:
   4. NOTE: if there is enough interference (or just bad luck)
      packets can get lost and the later tests (1-3) can fail.  In this
      case  you can re-try or just run the test and make sure it does
-     send and receive some packets (versus 0) before panic'ing.
+     send and receive some packets (versus 0) before panic'ing.  You
+     can also try changing addresses (see start of README).
 
 
 #### Longer Description
