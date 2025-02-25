@@ -150,7 +150,7 @@ Extension:
 The NRF uses SPI to communicate.  This is a reasonably simple digital
 protocol, that you can bit bang without much fuss.  One big downside
 of SPI is that it needs many wires.  And when you multiply these by the
-number of ends (2) and number of NRFs (2) NRF there's a high probability
+number of ends (2) and number of NRFs (2) there's a high probability
 one is loose.  (Fortunately Parthiv's board has solved that for us:
 we can just plug them in!)
 
@@ -160,7 +160,7 @@ From the [wikipedia page](https://en.wikipedia.org/wiki/Serial_Peripheral_Interf
 The r/pi has hardware support for SPI.  We give you this driver,
 but you can write it driver as an extension.  Or you just bit bang
 using the wikipedia code.
-  <img src="images/spi-bitbang.png" width="400" />
+  <img src="images/spi-bit-bang.png" width="400" />
 
 If you bit-bang, the r/pi hardware GPIO mapping is:
 ```
