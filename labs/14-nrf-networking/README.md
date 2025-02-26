@@ -9,6 +9,8 @@
 -----------------------------------------------------------------
 ### Errata
 
+  - For the tests, always set `NRF_RX_ADDR_P0` to 0.   This is a bit
+    weird, but that's the way the tests are.
   - Do a pull on the README: the transmit discussion was not the best.
     Hopefully is better.
 
