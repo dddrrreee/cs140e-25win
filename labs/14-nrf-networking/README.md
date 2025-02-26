@@ -741,7 +741,7 @@ If you have problems:
 Congratulations!  You now have simple working networking system.  
 
 <p align="center">
-  <img src="images/robots-done.png" width="450" />
+  <img src="images/robots-done.png" width="650" />
 </p>
 
 --------------------------------------------------------------------------------
