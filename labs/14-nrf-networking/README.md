@@ -7,13 +7,14 @@
 -----------------------------------------------------------------
 #### tl;dr: hints and mistakes
 
-Errata:
+We put these here so you can easily scroll.  Will add errata
+as needed.
+
+
+***Errata***:
   - Do a pull on the README: the transmit discussion was not the best.
     Hopefully is better.
 
-
-We put these here so you can easily scroll.  Will add errata
-as needed.
 
 HINTS:
   - If you have issues, the first thing to do is
