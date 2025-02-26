@@ -16,14 +16,14 @@ TRACE:one_way_ack:sent 800 ack'd packets
 TRACE:one_way_ack:sent 900 ack'd packets
 TRACE:one_way_ack:trial: total successfully sent 1000 ack'd packets lost [0]
 NRF:server: done with one-way test
-NRF:	total time= [1sec:743ms:499usec]
+NRF:	total time= [1sec:661ms:469usec]
 NRF:	total sent messages=1000
-NRF:	total sent bytes=16000 bandwidth=[9.205 kb/s]
-	total retrans=302
+NRF:	total sent bytes=16000 bandwidth=[9.661 kb/s]
+	total retrans=265
 NRF:client: done with one-way test
-NRF:	total time= [1sec:758ms:688usec]
+NRF:	total time= [1sec:676ms:658usec]
 NRF:	total received messages=1000
-NRF:	total received bytes=16000 bandwidth=[9.122 kb/s]
+NRF:	total received bytes=16000 bandwidth=[9.569 kb/s]
 DONE!!!
 
 BOOT: bootloader: pi exited.  cleaning up

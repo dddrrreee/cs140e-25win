@@ -9,6 +9,8 @@ PROGS += $(wildcard tests/1-*.c)
 PROGS += $(wildcard tests/2-*.c)
 PROGS += $(wildcard tests/3-*.c)
 
+# PROGS := tests/2-one-way-ack-16bytes.c
+
 # PROGS := $(wildcard tests/[0123]-*.c)
 
 LIBS += $(CS140E_2025_PATH)/lib/libgcc.a
