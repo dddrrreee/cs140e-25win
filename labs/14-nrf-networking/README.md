@@ -170,7 +170,7 @@ Major extension:
 ### Some incomplete big picture information.
 
 
-##### SPI
+#### SPI
 
 The NRF uses SPI to communicate.  This is a reasonably simple digital
 protocol, that you can bit bang without much fuss.  One big downside
@@ -319,12 +319,15 @@ a single pipe.  This pipe can either be initialized for acknowledgements
      `staff_nrf_init` all the tests should still pass.
 
 
+#### The key state machine
+
+<img src="images/nrf-state-machine.png" />
+
+
 #### Key points: read this before coding.
 
 Some advice (which should duplicate the comments in `nrf_init`).
 
-The key state machine:
-<img src="images/nrf-state-machine.png" />
 
 
 
