@@ -1,4 +1,4 @@
-## Get two nrf24l01p RF tranceivers to talk to each other.
+## Get two nrf24l01p RF transceivers to talk to each other.
 
 <p align="center">
   <img src="images/pi-network.jpg" width="650" />
@@ -23,7 +23,7 @@ HINTS:
   - If you have issues, the first thing to do is
     switch to using the `staff_nrf_init` routine.
   - Make sure you look at the first few test cases, since they
-    have alot of comments about where stuff is.
+    have a lot of comments about where stuff is.
 
 Key pages:
   - p 57-63: The full set of NRF registers.
@@ -33,7 +33,7 @@ Key pages:
     how to do it.  we care about RX, TX, standby-I.  stay in the
     "recommended" states.
   - Make sure you go through the [CHEATSHEET](./CHEATSHEET-nrf24l01p.md).
-    A bunch of facts you need are there, so it's a good cheatcode.
+    A bunch of facts you need are there, so it's a good cheat-code.
 
 Common mistakes:
 
@@ -65,7 +65,7 @@ Common mistakes:
 NOTE: The code is currently setup so that all the tests *should* pass
 if you just run `make check`.
 
-   - ***NOTE: with 70+ people in one room we may have signficant
+   - ***NOTE: with 70+ people in one room we may have significant
      RF interference***
    - So: if the tests don't pass, this doesn't mean the code is broken.
      It may just mean you are getting interference.
@@ -120,7 +120,7 @@ Before you start:
 
     If the configuration failed (e.g., the "0" tests): the problem
     could be that you plugged the boards in wrong (see the photo).
-    Or you could have a defective NRF or parthiv board --- you'll have
+    Or you could have a defective NRF or Parthiv board --- you'll have
     to swap things out to narrow down.
 
     If you get a smattering of packet losses, this is likely just
@@ -168,7 +168,7 @@ Key files that you should not have to change:
  - `nrf-test.h`: helpers for testing.  Useful to look at to see how
    to use the NRF interfaces.
 
-#### Checkoff
+#### Check-off
 
 Pretty simple:
   1.  You should have implemented your own copies of the `staff_` routines
@@ -182,8 +182,8 @@ Pretty simple:
 
 Major extension:
   - You can always do this lab on hard mode and build your own from
-    scratch: you'll learn alot.  The tests give reasonable iterfaces.
-    Doing this plus a network bootloader would be a reasonable final
+    scratch: you'll learn a lot.  The tests give reasonable interfaces.
+    Doing this plus a network boot-loader would be a reasonable final
     project.
 
 --------------------------------------------------------------------------------
@@ -203,7 +203,7 @@ we can just plug them in!)
 
 The r/pi has hardware support for SPI.  We give you this driver,
 but you can write it driver as an extension.  Or you just bit bang
-using [the wikipedia code](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface):
+using [the Wikipedia code](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface):
 
 <kdb> <img src="images/spi-bit-bang.png"  /> </kdb>
 
@@ -246,7 +246,7 @@ enum {
 
 To get and set NRF registers you specify the register you want (from
 above), and use the SPI routines to read and write.  SPI is a bit weird
-in that it takes produces as many bytes as ouput as it took as input.
+in that it takes produces as many bytes as output as it took as input.
 So you'll notice the transmit and receive buffers for each operation
 take the same size input.
 
@@ -331,7 +331,7 @@ Cheat code:
 
 As mentioned above, for simplicity, you'll only configure the NRF to use
 a single pipe.  This pipe can either be initialized for acknowledgements
-(`ack_p=1`) and or no acknwledgements (`ack_p=0`) but not both.
+(`ack_p=1`) and or no acknowledgements (`ack_p=0`) but not both.
 
    -  `ack_p=0`: for this you only have to enable pipe 1.
       No other pipe should be enabled.  
@@ -457,7 +457,7 @@ read the value back and check it.  This will detect:
      single byte).
   3. Broken hardware: if one of your NRF devices (or Parthiv board slots)
      is dead.
-  4. Device misconfiguration, e.g., the SPI clock was too fast so the 
+  4. Device mis-configuration, e.g., the SPI clock was too fast so the 
      device couldn't keep up.
 
 
@@ -510,7 +510,7 @@ RX mode:
     `NRF_CONFIG=rx_config`.)
 
 
-Second most common bug: in `nrf_init` hardcoding variables as constants.
+Second most common bug: in `nrf_init` hard-coding variables as constants.
 
   - This is partly on me: a nasty bug people hit was caused by
     hard-coding NRF initialization values rather than setting 
@@ -706,7 +706,7 @@ If you have problems:
   1. As a first step, make a one-way test where one pi sends packets in
      a loop (e.g., every second) and the second pi waits for them and 
      prints when it receives.  Ping pong requires that RX and TX are
-     working on both pi's (including address assigment) whereas 
+     working on both pi's (including address assignment) whereas 
      a one-way test only requires TX working on one and RX on the other.
 
   2. Insert a `nrf_dump` right before sending or receiving and make sure
