@@ -7,6 +7,11 @@
 -----------------------------------------------------------------
 #### tl;dr: hints and mistakes
 
+Errata:
+  - Do a pull on the README: the transmit discussion was not the best.
+    Hopefully is better.
+
+
 We put these here so you can easily scroll.  Will add errata
 as needed.
 
@@ -554,13 +559,25 @@ Roughly:
      At this point "the TX fifo is not empty" as per the state machine.
 
   3. We are currently in RX mode.  So to transmit the packet we go
-     to TX mode as follows:
-      1. Go to Standby-I by setting `CE=0` (see state machine).  
-      2. Set `NRF_CONFIG=tx_config`;
-      3. Set `CE=1`.  
+     to TX mode using the state machine on p22.
 
      AFAIK, going from "RX" to "Standby-I" to "Standy-II" with data is
-     the the fastest way to go from "RX" to "TX".
+     the the fastest way to go from "RX" to "TX" as follows (but: always
+     trust p22 over us):
+
+      1. Put the packet in the TX FIFO.
+      2. From RX: Go to Standby-I by setting `CE=0` (see state machine).
+         I think step 1 and step 2 can be interchanged.  
+      3. Set `NRF_CONFIG=tx_config`;
+      4. Set `CE=1`.  The state machine says "for at least 10usec",
+         but see step 5.
+      5. We will then wait for the TX to finish (below) ---
+         because transmit will then be done, I do not believe we need
+         to explicitly wait for 130usec (the transition state) nor the
+         10usec in step 4.
+
+     NOTE: you should `assert` using the helpers `nrf_is_tx` and
+     `nrf_is_rx` to make sure you're in the expected states.
 
   4. Detect when the transmission is complete by either (1) waiting
      until the TX fifo is empty or (2) for the TX interrupt to be
