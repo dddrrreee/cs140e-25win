@@ -4,16 +4,20 @@
   <img src="images/pi-network.jpg" width="650" />
 </p>
 
+
+
+-----------------------------------------------------------------
+### Errata
+
+Errata:
+  - Do a pull on the README: the transmit discussion was not the best.
+    Hopefully is better.
+
 -----------------------------------------------------------------
 #### tl;dr: hints and mistakes
 
 We put these here so you can easily scroll.  Will add errata
 as needed.
-
-
-***Errata***:
-  - Do a pull on the README: the transmit discussion was not the best.
-    Hopefully is better.
 
 
 HINTS:
