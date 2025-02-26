@@ -4,7 +4,7 @@
 # ah: for test, doesn't work for us b/c we don't have the code...
 #
 # also it is tricky if they swap with our code and their code.
-SUBDIRS= #code
+SUBDIRS= code
 
 .PHONY: all check clean
 all check clean: $(SUBDIRS)
