@@ -24,7 +24,8 @@ Key pages:
   - Make sure you go through the [CHEATSHEET](./CHEATSHEET-nrf24l01p.md).
     A bunch of facts you need are there, so it's a good cheatcode.
 
-COMMON mistake:
+Common mistakes:
+
   - NRF addresses are more than one byte!  Make sure you
     use the `nrf_get_addr` and `nrf_set_addr` methods (`nrf-hw-support.c`)
     which (1) do sanity checking and (2) use the right SPI calls to set
@@ -39,6 +40,12 @@ COMMON mistake:
     when client code uses a different value (e.g., for rx or tx 
     addresses).  This mistake caused some groups last year to 
     waste over an hour.
+
+  - If you've finished init (and your dump matches the staff), but 
+    you can't tx/rx/ack anything, make sure you're setting the 
+    CE pin correctly (it's a GPIO pin, so you have to control it 
+    manually)
+
 
 NOTE: The code is currently setup so that all the tests *should* pass
 if you just run `make check`.
@@ -135,7 +142,8 @@ Key files that you should not have to change:
  - `nrf-default-values.h`: default values for NRF hardware choices.
    You want to look at to see what we can change and for where
    to get the requested values.
- - `nrf-public.c` simple veneer over the top of NRF interface.
+ - `nrf-public.c` simple veneer over the top of NRF interface to make
+   sending and receiving packets easier.
  - `nrf-test.h`: helpers for testing.  Useful to look at to see how
    to use the NRF interfaces.
 
@@ -274,10 +282,9 @@ What to do:
      packets can get lost and the later tests (1-3) can fail.  In this
      case  you can re-try or just run the test and make sure it does
      send and receive some packets (versus 0) before panic'ing.  You
-     can also try changing addresses (see start of README).
+     can also try changing addresses (see start of `README`).
 
-
-#### Longer Description
+#### longer description
 
 This is the longest part, since you need to set all the regsiters.
 
@@ -289,11 +296,10 @@ Cheat code:
    - COMMON MISTAKE: sure you set the values ***based on the inputs***.
      A common mistake is to hard-code values (e.g., receive and transmit
      addresses), which won't work when you write code that uses different
-     ones.  (Such as the last test.)
+     ones.  (Such as the last tests.)
 
    - NOTE: It should be the case that if you change default values that
      both still agree!
-
 
 As mentioned above, for simplicity, you'll only configure the NRF to use
 a single pipe.  This pipe can either be initialized for acknowledgements
@@ -310,74 +316,69 @@ a single pipe.  This pipe can either be initialized for acknowledgements
      byte value back and forth between the client and the server.
 
    - After you implement these and delete the call to
-     `staff_nrf_init` all the tests should still pass.  (We discuss
-     common bugs and what they look like at the end of Part 1.)
+     `staff_nrf_init` all the tests should still pass.
 
-Common Mistake:
-
-   - If you've finished init (and your dump matches the staff), but 
-     you can't tx/rx/ack anything, make sure you're setting the 
-     CE pin correctly (it's a GPIO pin, so you have to control it 
-     manually)
-
-
-#### Two key helpers: use these.
-
-When setting up values, use the following two routines
-(provided in `nrf-hw-support.c`):
-
-  1. When setting values, almost always use the following routine:
-
-            nrf_put8_chk(n, NRF_RX_PW_P1, c.nbytes);
-
-     That will automatically read back the value after writing it and
-     `panic` if it differs.  You should use it for almost all standard
-     registers (note the `NRF_STATUS` will act differently: why?)
-
-     In general, when implementing device code for an unknown device: if
-     you write a value to a register that you believe should not change,
-     read the value back and check it.  This will detect several errors,
-     First, if the register discards values in ways you didn't expect.
-     Two, it is smaller than expected or you misunderstood the helper
-     routines (this happened when people set the multi-byte address using
-     `put8` routines which just write a single byte).  Or, finally,
-     if one of your NRF devices is dead (or the SPI is misconfigured).
-
-  2. The receive and transmit addresses are multi-byte.  They can't
-     be written with a simple `nrf_put8` (which just writes 1 byte).
-     You can use `nrf_set_addr` to set the address:
-
-            nrf_set_addr(n, NRF_RX_ADDR_P1, rxaddr, addr_nbytes);
-
-     You should use it and look at its implementation to see
-     how it works.  (For any new SPI device you'd likely have to 
-     figure out something similar!)
 
 #### Key points: read this before coding.
 
-Some advice (which should duplicate the comments in `nrf_init`):
+Some advice (which should duplicate the comments in `nrf_init`).
 
-  0. Before you start reading and writing the NRF you need to setup the 
-     structure:
+The key state machine:
+<img src="images/nrf-state-machine.png" />
 
-            nrf_t *nrf_init(...) {
-                nrf_t *n = kmalloc(sizeof *n);
-                n->config = c;
-                nrf_stat_start(n);
-                n->spi = pin_init(c.ce_pin, c.spi_chip);
-                n->rxaddr = rxaddr;
-                cq_init(&n->recvq, 1);
 
-  1. You need to setup GPIO and SPI first or nothing will work (see the
-     code above: `pin_init`).
+
+
+
+Before you start reading and writing the NRF you need to setup the 
+structure:
+
+```
+  nrf_t * nrf_init(nrf_conf_t c, 
+                    uint32_t rxaddr, 
+                    unsigned acked_p) 
+  {
+        nrf_t *n = kmalloc(sizeof *n);
+        n->config = c;          // save config
+        nrf_stat_start(n);      // initialize stats.
+
+        // nrf-hw-support.c: initialize SPI+GPIO
+        n->spi = nrf_spi_init(c.ce_pin, c.spi_chip);
+
+        n->rxaddr = rxaddr;
+        // initialize the data queue 
+        cq_init(&n->recvq, 1);
+
+        // p22: put in power-down before configuring
+        nrf_put8_chk(n, NRF_CONFIG, 0);
+        assert(!nrf_is_pwrup(n));
+
+        // disable all pipes.
+        nrf_put8_chk(n, NRF_EN_RXADDR, 0);
+```
+
+Discussion:
+
+  1. We use `nrf_spi_init` (in `nrf-hw-support.c`)
+     to setup GPIO and SPI first or we can't talk to the NRF chips and
+     nothing will work.  For our tests, the configuration values
+     used for SPI are set in `nrf-test.h` in either `parthiv_left`
+     or `parthiv_right`.
+
   2. You must put the chip in "power down" mode before you change
      the configure.
   3. If in not-ack mode,  just enable pipe 1.
   4. If in ack mode,  you have to enable both pipe 0 and pipe 1.
      Pipe 0 is needed to receive acks.  
 
-  5. You should flush the RX (`nrf_rx_flush()`) and TX fifos
-     (`nrf_tx_flush()`) before putting the chip in "power up" mode.
+  5. NOTE: when we reboot the pi, the NRF chips are still on --- they
+     don't know to reset.   So it's crucial to set every NRF register 
+     you depend on.  Don't assume it has its default value.
+  6. Related to point (5), but just good hygiene:
+     After configuration, you should flush the RX (`nrf_rx_flush()`)
+     and TX fifos (`nrf_tx_flush()`) before putting the chip in "power
+     up" mode since its possible they hold garbage.
+
      For today they should also be empty:
 
             assert(!nrf_tx_fifo_full(n));
@@ -397,19 +398,61 @@ Some advice (which should duplicate the comments in `nrf_init`):
             // feature register.
             nrf_put8_chk(n, NRF_FEATURE, 0);
 
-  7. After write 1 to the "power up" bit in `NRF_CONFIG`, you should
-     (as is common for complex devices) wait "long enough" for the
-     device to set itself up.  In this case, delay 2 milliseconds
-     (`delay_ms(2)`).
+  7. After all registers are configured:
 
-  8. Finally, put the NRF in "RX mode".  The enum `rx_config` has the
-     bits set the way we need them.  Note: don't ignore the CE pin!
+     1. Put the device in "power up" by writing 1 to the `NRF_CONFIG`.
+     2. Then, as is common for complex devices: Wait "long enough" for the
+        device to set itself up.  In this case, delay 2 milliseconds
+        (`delay_ms(2)`). 
+     3. Put the NRF in "RX mode".  The enum `rx_config` has the
+        bits set the way we need them.  NOTE: don't ignore the CE pin
+        (`n->config.ce_pin`).  Look at the state diagram to see how to 
+        get to a legal transition state.
 
   9. In general add tons of asserts to verify that things are in the
      state you expect.
 
+### Easily catching some common mistakes
 
-#### Two common bugs
+As discussed in the initial README notes, when setting configuration
+registers, use `nrf_put8_chk` (provided in `nrf-hw-support.c`):
+
+        nrf_put8_chk(n, NRF_RX_PW_P1, c.nbytes);
+
+That will automatically read back the value after writing it and
+`panic` if it differs.  You should use it for almost all standard
+registers (note the `NRF_STATUS` will act differently: why?)
+
+In general, when implementing device code for an unknown device: if
+you write a value to a register that you believe should not change,
+read the value back and check it.  This will detect:
+  1. If the register discards values in ways you didn't expect.  
+  2. If the register uses a different size than expected or you
+     misunderstood the helper routines (this happened when people set
+     the multi-byte address using `put8` routines which just write a
+     single byte).
+  3. Broken hardware: if one of your NRF devices (or Parthiv board slots)
+     is dead.
+  4. Device misconfiguration, e.g., the SPI clock was too fast so the 
+     device couldn't keep up.
+
+
+#### Common bugs
+
+Two quick bugs:
+   - If you've finished `nrf_init` (and your dump matches the staff), but
+     you can't tx/rx/ack anything, make sure you're setting the CE pin
+     correctly (it's a GPIO pin, so you have to control it manually)
+
+   - As mentioned above, the receive and transmit addresses are
+     multi-byte.  They can't be written with a simple `nrf_put8` (which
+     just writes 1 byte).  You can use `nrf_set_addr` to set the address:
+
+            nrf_set_addr(n, NRF_RX_ADDR_P1, rxaddr, addr_nbytes);
+
+     You should use it and look at its implementation to see
+     how it works.  (For any new SPI device you'd likely have to 
+     figure out something similar!)
 
 The most common bug from class: Not correctly putting the NRF into 
 RX mode:
@@ -442,6 +485,7 @@ RX mode:
     in RX mode and thus from these previous values: with `CE=1` and
     `NRF_CONFIG=rx_config`.)
 
+
 Second most common bug: in `nrf_init` hardcoding variables as constants.
 
   - This is partly on me: a nasty bug people hit was caused by
@@ -458,6 +502,7 @@ Second most common bug: in `nrf_init` hardcoding variables as constants.
 
     In general, all the values in the `nrf-default-values.h` should be 
     used during setup.  Don't hard-code.
+
 
 --------------------------------------------------------------------------------
 ### Part 1: Implement `nrf-driver.c:nrf_tx_send_noack`.
