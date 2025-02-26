@@ -26,6 +26,10 @@ Key pages:
 
 Common mistakes:
 
+  - Getting a max-intr message consistently: this can happen if
+    your send and receive pipes don't match up (different byte
+    or ack settings).
+
   - NRF addresses are more than one byte!  Make sure you
     use the `nrf_get_addr` and `nrf_set_addr` methods (`nrf-hw-support.c`)
     which (1) do sanity checking and (2) use the right SPI calls to set
@@ -269,6 +273,11 @@ The routine `nrf_put8_chk` does this automatically.
 
 <img src="images/nrf-spi-cmd.png"  />
 
+#### The key state machine
+
+Make sure you look at this carefully!
+
+<img src="images/nrf-state-machine.png" />
 
 --------------------------------------------------------------------------------
 ### Part 0: Implement `nrf-driver.c:nrf_init`.
@@ -288,7 +297,7 @@ What to do:
 
 #### longer description
 
-This is the longest part, since you need to set all the regsiters.
+This is the longest part, since you need to set all the registers.
 
 Cheat code:
    - If you get stuck you can use `nrf_dump` to print the staff
@@ -321,9 +330,6 @@ a single pipe.  This pipe can either be initialized for acknowledgements
      `staff_nrf_init` all the tests should still pass.
 
 
-#### The key state machine
-
-<img src="images/nrf-state-machine.png" />
 
 
 #### Key points: read this before coding.
@@ -528,6 +534,8 @@ You'll implement sending without acknowledgements.  For a rough reference
 transmitting payload".
 
 Roughly:
+  0. Before going into TX mode, loop and process packets (`nrf_get_pkts`).
+
   1. Set the TX address:
 
             nrf_set_addr(n, NRF_TX_ADDR, txaddr, addr_nbytes);
@@ -539,10 +547,14 @@ Roughly:
 
      At this point "the TX fifo is not empty" as per the state machine.
 
-  3. We should be in RX mode.  So to transmit the packet, first go
-     to Standby-I by setting `CE=0` (see state machine).  Then, start
-     the transmit by (1) setting `NRF_CONFIG=tx_config` and then (2)
-     `CE=1`.  This will take us to TX mode.
+  3. We are currently in RX mode.  So to transmit the packet we go
+     to TX mode as follows:
+      1. Go to Standby-I by setting `CE=0` (see state machine).  
+      2. Set `NRF_CONFIG=tx_config`;
+      3. Set `CE=1`.  
+
+     AFAIK, going from "RX" to "Standby-I" to "Standy-II" with data is
+     the the fastest way to go from "RX" to "TX".
 
   4. Detect when the transmission is complete by either (1) waiting
      until the TX fifo is empty or (2) for the TX interrupt to be
@@ -552,14 +564,13 @@ Roughly:
 
   5. Clear the TX interrupt.
   6. Transition back to RX mode.
-  7. Return the numbe of bytes sent (just `nbytes` that the routine
+  7. Return the number of bytes sent (just `nbytes` that the routine
      was called with).
   8. When you get rid of the call to our `staff_nrf_tx_send_noack` the
      tests should work.
 
 --------------------------------------------------------------------------------
 ### Part 2: Implement `nrf-driver.c:nrf_get_pkts`.
-
 
 The basic idea: pull packets off the RX fifo until there are none, and
 push the data into single NRF receive queue `recvq`, and return the count.
@@ -577,16 +588,18 @@ Roughly:
 
   3. Read in the packet using `nrf_getn`:
 
-            nrf_getn(n, NRF_R_RX_PAYLOAD, buf, n->config.nbytes);
+            status = nrf_getn(n, NRF_R_RX_PAYLOAD, buf, n->config.nbytes);
 
-     and push it onto the `recvq`:   
+     Use the status to check that its for the right pipe and then
+     push it onto the `recvq`:   
 
             if(!cq_push_n(&n->recvq, msg, nbytes))
                 panic("not enough space in receive queue\n");
 
   4. Clear the RX interrupt.
-  5. Return the count of packets read.
-  6. When you remove the call to our `staff_nrf_get_pkts` the 
+  5. Increment the count of packets read.
+  6. When done: return the number of packets read.
+  7. When you remove the call to our `staff_nrf_get_pkts` the 
      tests should still work.
 
 #### Most common bug
@@ -652,6 +665,8 @@ since the hardware uses that to receive acknowledgements.
     you code your partner should be the client, and you should be server.
     In your partner's code, you should be the client and they should
     be the server.)
+  - if it doesn't work (or you get "max-intr" errors its likely you
+    misconfigured the addresses or the pipes (nbytes, ack or no ack).
 
 Write a test that will ping pong packets between your pi and your partner.
 Their RX address should be the TX address you send to and vice-versa.
