@@ -736,6 +736,11 @@ be a great, useful final project:
   7.  Use more pipes.
   8. Send and receive using both NRFs to double the effective bandwidth.
      A great final project is seeing how many NRFs you can drive at once.
+  9. Cool final project: hook up 10+ NRFs (maybe using a custom pcb) and
+     see how many you can drive at once.   
+
+     Related: have multiple  NRFs (e.g., two :) and provide a virtual
+     interface that makes it easy to send multiple packets at once.
 
 #### Use interrupts
 
