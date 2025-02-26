@@ -50,6 +50,7 @@ typedef struct {
     uint8_t channel;    // what MHz channel the RF is using.
 } nrf_conf_t;
 
+
 typedef struct nrf {
     // values for the many different hardware settings.
     nrf_conf_t config;
@@ -297,5 +298,13 @@ enum { opt_check_p = 1 };
     else                                    \
         nrf_put8(_n, _reg, _v);             \
 } while(0)
+
+
+// simple combatability testing.
+//  - tx and rx must match.
+//  - must both be acked or not acked.
+//  - must have the same size.
+//  - can't use the same SPI
+int nrf_compat(nrf_t *client, nrf_t *server);
 
 #endif

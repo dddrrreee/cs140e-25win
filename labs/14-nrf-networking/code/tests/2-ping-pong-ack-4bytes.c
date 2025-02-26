@@ -59,6 +59,8 @@ ping_pong_ack(nrf_t *s, nrf_t *c, int verbose_p) {
 }
 
 void notmain(void) {
+    kmalloc_init(1);
+
     // configure server
     trace("send total=%d, %d-byte messages from server=[%x] to client=[%x]\n",
                 ntrial, nbytes, server_addr, client_addr);

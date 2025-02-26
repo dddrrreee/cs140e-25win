@@ -1,4 +1,9 @@
-// public interface for the nrf driver.
+// public interface for the nrf driver:
+//   1. different methods for reading (blocking, non-blocking)
+//   2. different methods for sending (ack, no-ack).
+//
+// as you write more nrf clients, you'll probably want additional
+// methods so add them!
 #include "nrf.h"
 #include "timeout.h"
 

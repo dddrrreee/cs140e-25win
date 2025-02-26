@@ -1,8 +1,8 @@
 NRF:server: done with one-way test
 NRF:	total time= 
 NRF:	total sent messages=1000
-NRF:	total sent bytes=32000 bandwidth=
+NRF:	total sent bytes=16000 bandwidth=
 NRF:client: done with one-way test
 NRF:	total time= 
 NRF:	total received messages=1000
-NRF:	total received bytes=32000 bandwidth=
+NRF:	total received bytes=16000 bandwidth=

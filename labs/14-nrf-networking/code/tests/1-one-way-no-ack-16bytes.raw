@@ -1,5 +1,13 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/1-one-way-no-ack-16bytes.bin>: about to boot
+TRACE:simple_boot: sending 26552 bytes, crc32=57cf1246
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+TRACE:notmain:configuring no-ack server=[0xd5d5d5] with 16 nbyte msgs
 NRF:---------------------------------------------
 NRF:unreliable server config:
+:
 NRF:	pins: ce_pin=6, int_pin=22, spi_chip=0
 NRF:	CONFIG (1111111):	PWR_UP=1, PRIM_RX=1, CRC=1 EN_CRC=1 MASK_RX_DR==1, MASK_TX_DS=1, MASK_MAX_RT=1
 NRF:	EN_AA (0):	pipes enabled:
@@ -11,11 +19,13 @@ NRF:	RF_SETUP(=1110):	bwidth = 2Mbs, power= 0dBm
 NRF:	STATUS(=1110): RX-int=0, TX-int=0, RT-int=0 RXpipe=111 (empty), TX-full=0
 NRF:	TX_ADDR = 0x0
 NRF:	RX_ADDR_P1 = 0xd5d5d5
-NRF:	RX_PW_P1 (100): 4 byte fixed size packets
+NRF:	RX_PW_P1 (10000): 16 byte fixed size packets
 NRF:	FIFO_STATUS(=10001): TX_FULL=0, TX_EMPTY=1, RX_FULL=0, RX_EMPTY=1
 NRF:---------------------------------------------
+TRACE:notmain:configuring no-ack client=[0xe5e5e5] with 16 nbyte msg
 NRF:---------------------------------------------
 NRF:unreliable client config:
+:
 NRF:	pins: ce_pin=5, int_pin=23, spi_chip=1
 NRF:	CONFIG (1111111):	PWR_UP=1, PRIM_RX=1, CRC=1 EN_CRC=1 MASK_RX_DR==1, MASK_TX_DS=1, MASK_MAX_RT=1
 NRF:	EN_AA (0):	pipes enabled:
@@ -27,14 +37,27 @@ NRF:	RF_SETUP(=1110):	bwidth = 2Mbs, power= 0dBm
 NRF:	STATUS(=1110): RX-int=0, TX-int=0, RT-int=0 RXpipe=111 (empty), TX-full=0
 NRF:	TX_ADDR = 0x0
 NRF:	RX_ADDR_P1 = 0xe5e5e5
-NRF:	RX_PW_P1 (100): 4 byte fixed size packets
+NRF:	RX_PW_P1 (10000): 16 byte fixed size packets
 NRF:	FIFO_STATUS(=10001): TX_FULL=0, TX_EMPTY=1, RX_FULL=0, RX_EMPTY=1
 NRF:---------------------------------------------
+TRACE:one_way_noack:sent 100 no-ack'd packets
+TRACE:one_way_noack:sent 200 no-ack'd packets
+TRACE:one_way_noack:sent 300 no-ack'd packets
+TRACE:one_way_noack:sent 400 no-ack'd packets
+TRACE:one_way_noack:sent 500 no-ack'd packets
+TRACE:one_way_noack:sent 600 no-ack'd packets
+TRACE:one_way_noack:sent 700 no-ack'd packets
+TRACE:one_way_noack:sent 800 no-ack'd packets
+TRACE:one_way_noack:sent 900 no-ack'd packets
+TRACE:one_way_noack:trial: successfully sent 1000 no-ack'd pkts, [lost=0, timeouts=0]
 NRF:server: done with one-way test
-NRF:	total time= 
+NRF:	total time= [829ms:373usec]
 NRF:	total sent messages=1000
-NRF:	total sent bytes=4000 bandwidth=
+NRF:	total sent bytes=16000 bandwidth=[19.417 kb/s]
 NRF:client: done with one-way test
-NRF:	total time= 
+NRF:	total time= [842ms:543usec]
 NRF:	total received messages=1000
-NRF:	total received bytes=4000 bandwidth=
+NRF:	total received bytes=16000 bandwidth=[19.115 kb/s]
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up

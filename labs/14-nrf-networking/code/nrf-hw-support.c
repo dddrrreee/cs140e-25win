@@ -191,6 +191,50 @@ uint8_t nrf_rx_flush(const nrf_t *n) {
 }
 
 /*******************************************************************
+ * compat check: some trivial compatibility checking.
+ */
+// simple combatability testing.
+//  - tx and rx must match.
+//  - must both be acked or not acked.
+//  - must have the same size.
+//  - can't use the same SPI
+int nrf_compat(nrf_t *client, nrf_t *server) {
+    // should make these more informative.
+    if(client->rxaddr == server->rxaddr)
+        panic("rx address collision\n");
+    if(client->rxaddr == server->rxaddr)
+        panic("rx address collision\n");
+
+    let c = &client->config;
+    let s = &server->config;
+
+    let c_spi = c->spi_chip;
+    let s_spi = s->spi_chip;
+    if(c_spi == s_spi)
+        panic("spi chip conflict: client=%d == server=%d\n", 
+                                                c_spi,s_spi);
+
+    if(c->ce_pin == s->ce_pin)
+        panic("ce pin conflict\n");
+    if(c->int_pin == s->int_pin)
+        panic("ce pin conflict\n");
+
+    let c_n = c->nbytes;
+    let s_n = s->nbytes;
+    if(c_n != s_n)
+        panic("client nbytes=%d, server=%d\n", c_n,s_n);
+
+
+    let c_ch = c->channel;
+    let s_ch = s->channel;
+    if(c_ch != s_ch)
+        panic("client channel=%d, server=%d\n", c_ch,s_ch);
+
+    return 1;
+}
+
+
+/*******************************************************************
  * print config: easy way to see how to access registers!
  */
 

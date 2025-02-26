@@ -44,6 +44,7 @@ one_way_noack(nrf_t *server, nrf_t *client, int verbose_p) {
 void notmain(void) {
     unsigned nbytes = 4;
 
+    kmalloc_init(1);
     trace("configuring no-ack server=[%x] with %d nbyte msgs\n",
                 server_addr, nbytes);
     // nrf-test.h
@@ -56,6 +57,9 @@ void notmain(void) {
     nrf_t *c = client_mk_noack(client_addr, nbytes);
     nrf_dump("unreliable client config:\n", c);
 
+    // some simple combatibility checks.
+    if(!nrf_compat(c, s))
+        panic("did not configure correctly: not compatible\n");
 
     // reset the times so we get a bit better measurement.
     nrf_stat_start(s);

@@ -63,70 +63,84 @@ enum {
     rx_config = tx_config  | set_bit(PRIM_RX)
 } ;
 
-// seperate out so we can do some error checking.
+// set <ce> low: we use a helper so can
+// do some error checking.
 static inline void ce_lo(uint8_t ce) {
     if(ce != 6 && ce != 5)
         panic("expected 6 or 5, have: %d\n", ce);
+    // recall: we didn't use any dev barriers in <gpio.c>
     dev_barrier();
     todo("implement this\n");
 }
 
-// seperate out so we can do some error checking.
+// set <ce> high: we use a helper so we can
+// do some error checking.
 static inline void ce_hi(uint8_t ce) {
     if(ce != 6 && ce != 5)
         panic("expected 6 or 5, have: %d\n", ce);
+    // recall: we didn't use any dev barriers in <gpio.c>
     dev_barrier();
     todo("implement this\n");
 }
 
 // initialize the NRF: [extension: pass in a channel]
 nrf_t *nrf_init(nrf_conf_t c, uint32_t rxaddr, unsigned acked_p) {
-    nrf_t *n = staff_nrf_init(c, rxaddr, acked_p);
+    // to write yours, comment this out and start editing below.
+    // if you get weird results later (part 2, part 3 etc), 
+    // flip back on.
+    return staff_nrf_init(c, rxaddr, acked_p);
 
     // start of initialization: go through and handle no-ack first,
     // then ack.  i'd do one test at a time.
 
-#if 0
     nrf_t *n = kmalloc(sizeof *n);
     n->config = c;      // set initial config.
-    nrf_stat_start(n);  // reset stas.
+    nrf_stat_start(n);  // reset stats.
 
     // configure the spi hardware and ce pin.
+    // <nrf-hw-support.c>
     n->spi = nrf_spi_init(c.ce_pin, c.spi_chip);
 
     n->rxaddr = rxaddr;     // set the rxaddr
     cq_init(&n->recvq, 1);  // initialize the circular queue
 
-    // put in PWR_DOWN so can configure.
+    // p22: put in PWR_DOWN so can configure.
     nrf_put8_chk(n, NRF_CONFIG, 0);
     assert(!nrf_is_pwrup(n));
 
-    // disable all eipes.
+    // disable all pipes.
     nrf_put8_chk(n, NRF_EN_RXADDR, 0);
 
     if(!acked_p) {
-        // reg1: disable retran.
-        // reg2: enable pipe 1.
+        // disable retran [reg1: NRF_EN_AA]
+        // enable pipe 1: 
+        //   - NRF_EN_RXADDR
+        //   - NRF_SETUP_RETR
+        todo("fill this in!\n");
 
-
+        // when done, these should be true.
+        // <nrf-hw-support.h>
         assert(nrf_pipe_is_enabled(n, 1));
         assert(!nrf_pipe_is_acked(n, 1));
         assert(!nrf_pipe_is_enabled(n, 0));
     
     } else {
-        // reg=1: p57
-        // both retran pipe(0) and pipe 1 have to be ENAA_P0 = 1 (p75)
+        // p 57 and p75 (protocol)
+        // reg1: NRF_EN_AA: both retran pipe(0) and pipe(1) have 
+        //    to be ENAA_P* = 1
+        // reg=2: NRF_EN_RXADDR: enable pipes --- always enable pipe 
+        //    0 for retran.
 
-        // reg=2: p 57, enable pipes --- always enable pipe 0 for retran.
-
-        // set retrans attempt and delay
+        // reg = 4: NRF_SETUP_RETR: set retrans attempt and delay
+        // compute NRF_SETUP_RETR using:
         //  - nrf_default_retran_attempts;
         //  - nrf_default_retran_delay [note you have to 
         //    convert to the right encoding]
 
-        // reg = 4: setup retran
+        todo("fill this in!\n");
 
-        // double check
+        // double check that both are enabled + acked.
+        // helpers are in: <nrf-hw-support.h>
         assert(nrf_pipe_is_enabled(n, 0));
         assert(nrf_pipe_is_enabled(n, 1));
         assert(nrf_pipe_is_acked(n, 1));
@@ -134,17 +148,26 @@ nrf_t *nrf_init(nrf_conf_t c, uint32_t rxaddr, unsigned acked_p) {
     }
 
     // turn off the other pipes.
+    todo("turn off other pipes\n");
 
-    // reg=3 setup address size
+    // check
+    for(int i = 2; i < 6; i++)
+        assert(!nrf_pipe_is_enabled(n, i));
 
-    // clear the TX addr for determinism.
+
+
+    // reg=3: NRF_SETUP_AW: setup address size
+    todo("look at encoding!\n");
+
+    // clear NRF_TX_ADDR for determinism.
+    todo("set TX_ADDR addr to 0 for determinism\n");
+
+    // set NRF_RX_PW_P1 and  NRF_RX_ADDR_P1
+    // set NRF_RX_ADDR_P0 if enabled.
+    // could also do when setup pipes.
 
     // Set message size = 0 for unused pipes.  
     //  [NOTE: I think redundant, but just to be sure.]
-
-
-    // reg=5: RF_CH: setup channel --- this is for all addresses.
-
 
     // reg=6: RF_SETUP: setup data rate and power.
     // datarate already has the right encoding.
@@ -152,6 +175,7 @@ nrf_t *nrf_init(nrf_conf_t c, uint32_t rxaddr, unsigned acked_p) {
     // use:
     //  - nrf_default_data_rate;
     //  - nrf_default_db;
+    todo("setup NRF_RF_SETUP\n");
 
     // reg=7: status.  p59
     // sanity check that it is empty and nothing else is set.
@@ -165,24 +189,34 @@ nrf_t *nrf_init(nrf_conf_t c, uint32_t rxaddr, unsigned acked_p) {
     // addresses across reboots?   we get a bit of this benefit
     // by waiting the 100ms.
 
+    // i think w/ the nic is off, this better be true.
+    assert(!nrf_tx_fifo_full(n));
+    assert(nrf_tx_fifo_empty(n));
+    assert(!nrf_rx_fifo_full(n));
+    assert(nrf_rx_fifo_empty(n));
+
+    assert(!nrf_has_rx_intr(n));
+    assert(!nrf_has_tx_intr(n));
+    assert(pipeid_empty(nrf_rx_get_pipeid(n)));
+    assert(!nrf_rx_has_packet(n));
 
     // we skip reg=0x8 (observation)
     // we skip reg=0x9 (RPD)
     // we skip reg=0xA (P0)
     // we skip reg=0x10 (TX_ADDR): used only when sending.
+    nrf_put8_chk(n, NRF_FEATURE, 0);
+    nrf_put8_chk(n, NRF_DYNPD, 0);
 
+    nrf_tx_flush(n);
+    nrf_rx_flush(n);
 
-    // i think w/ the nic is off, this better be true.
-    assert(nrf_tx_fifo_empty(n));
-    assert(nrf_rx_fifo_empty(n));
-
-
-    // make sure you delay long enough
+    // p20: go from <PowerDown> to <Standby-I>
+    // now go from make sure you delay long enough!
     todo("go from <PowerDown> to <Standby-I>");
+
+    // now go to RX mode: invariant = we are always in RX except for the 
+    // small amount of time we need to switch to TX to send a message.
     todo("go from <Standby-I> to RX");
-
-#endif
-
 
     // should be true after setup.
     if(acked_p) {
@@ -202,7 +236,13 @@ nrf_t *nrf_init(nrf_conf_t c, uint32_t rxaddr, unsigned acked_p) {
     return n;
 }
 
-// put the device in RX mode.
+// put the device in RX mode: 
+//   - go to <Standby-I> so we can transition in 
+//     a legal state (*i think*)
+// invariant:
+//    we are always in RX except for the small amount 
+//    of time we need to switch to TX to send a message.
+//    we then immediately switch back to RX.
 static void nrf_rx_mode(nrf_t *n) {
     todo("go to RX with delay");
 
@@ -211,7 +251,7 @@ static void nrf_rx_mode(nrf_t *n) {
 
 
 // go from RX from TX via the state diagram.
-// instead eliminate the 10usec requirement by going from:
+// eliminate the 10usec requirement by going from:
 //       RX -> StandbyI (by setting CE=0) 
 //          -> TX (by writing data into the FIFO, CE=1 for 10usec)
 //          -> Standby-II (CE=1)

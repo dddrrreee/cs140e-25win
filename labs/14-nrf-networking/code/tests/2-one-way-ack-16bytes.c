@@ -9,6 +9,26 @@
 // useful to mess around with these. 
 enum { ntrial = 1000, timeout_usec = 1000 };
 
+static void msg_set(uint32_t *m, unsigned i) {
+    m[0] = i;
+    m[1] = m[0]*m[0];
+    m[2] = m[1]*m[1];
+    m[3] = m[2]*m[2];
+}
+static int msg_chk(uint32_t *exp, uint32_t *got) {
+    int ok_p = 1;
+    for(int i = 0; i < 4; i++) {
+        if(exp[i] != got[i]) {
+            output("expected msg[%d] = %d, expected %d\n",
+                i,exp[i],got[i]);
+            ok_p = 0;
+        }
+    }
+    return ok_p;
+}
+
+
+
 // send 4 byte packets from <server> to <client>.  
 //
 // nice thing about loopback is that it's trivial to know what we are 
@@ -19,17 +39,20 @@ one_way_ack(nrf_t *server, nrf_t *client, int verbose_p) {
     unsigned client_addr = client->rxaddr;
     unsigned ntimeout = 0, npackets = 0;
 
+    uint32_t sent[4], recv[4];
+
     for(unsigned i = 0; i < ntrial; i++) {
         if(verbose_p && i  && i % 100 == 0)
             trace("sent %d ack'd packets\n", i);
-        nrf_send_ack(server, client_addr, &i, 4);
+
+        msg_set(sent,i);
+        nrf_send_ack(server, client_addr, sent, sizeof sent);
 
         // receive from client nic
         uint32_t x;
-        if(nrf_read_exact_timeout(client, &x, 4, timeout_usec) == 4) {
-            if(x != i)
-                nrf_output("client: received %d (expected=%d)\n", x,i);
-            assert(x == i);
+        if(nrf_read_exact_timeout(client, recv, sizeof recv, timeout_usec) == 16) {
+            if(!msg_chk(sent, recv))
+                nrf_output("client: corrupt packet=%d\n", i);
             npackets++;
         } else {
             if(verbose_p) 
@@ -43,7 +66,8 @@ one_way_ack(nrf_t *server, nrf_t *client, int verbose_p) {
 }
 
 void notmain(void) {
-    unsigned nbytes = 4;
+    unsigned nbytes = 16;
+    kmalloc_init(1);
 
     trace("configuring reliable (acked) server=[%x] with %d nbyte msgs\n",
                 server_addr, nbytes);

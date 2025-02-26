@@ -74,6 +74,8 @@ one_way_ack(nrf_t *server, nrf_t *client, int verbose_p) {
 }
 
 void notmain(void) {
+    kmalloc_init(1);
+
     // configure server
     trace("send total=%d, %d-byte messages from server=[%x] to client=[%x]\n",
                 ntrial, nbytes, server_addr, client_addr);

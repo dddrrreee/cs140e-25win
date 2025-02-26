@@ -1,0 +1,33 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/2-ping-pong-ack-4bytes.bin>: about to boot
+TRACE:simple_boot: sending 26556 bytes, crc32=ed4b2c32
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+TRACE:notmain:send total=1000, 4-byte messages from server=[0xd5d5d5] to client=[0xe5e5e5]
+TRACE:ping_pong_ack:sent 200 ack'd packets [timeouts=0]
+TRACE:ping_pong_ack:sent 400 ack'd packets [timeouts=0]
+TRACE:ping_pong_ack:sent 600 ack'd packets [timeouts=0]
+TRACE:ping_pong_ack:sent 800 ack'd packets [timeouts=0]
+TRACE:ping_pong_ack:sent 1000 ack'd packets [timeouts=0]
+TRACE:ping_pong_ack:sent 1200 ack'd packets [timeouts=0]
+TRACE:ping_pong_ack:sent 1400 ack'd packets [timeouts=0]
+TRACE:ping_pong_ack:sent 1600 ack'd packets [timeouts=0]
+TRACE:ping_pong_ack:sent 1800 ack'd packets [timeouts=0]
+TRACE:ping_pong_ack:trial: total successfully sent 2000 ack'd packets lost [0]
+NRF:server: done with one-way test
+NRF:	total time= [1sec:956ms:203usec]
+NRF:	total sent messages=1000
+NRF:	total sent bytes=4000 bandwidth=[2.50 kb/s]
+NRF:	total received messages=1000
+NRF:	total received bytes=4000 bandwidth=[2.50 kb/s]
+NRF:client: done with one-way test
+NRF:	total time= [1sec:977ms:188usec]
+NRF:	total sent messages=1000
+NRF:	total sent bytes=4000 bandwidth=[2.28 kb/s]
+	total retrans=1
+NRF:	total received messages=1000
+NRF:	total received bytes=4000 bandwidth=[2.28 kb/s]
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up

@@ -1,0 +1,29 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/2-one-way-ack-4bytes.bin>: about to boot
+TRACE:simple_boot: sending 26364 bytes, crc32=bc5918c2
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+TRACE:notmain:configuring reliable (acked) server=[0xd5d5d5] with 4 nbyte msgs
+TRACE:one_way_ack:sent 100 ack'd packets
+TRACE:one_way_ack:sent 200 ack'd packets
+TRACE:one_way_ack:sent 300 ack'd packets
+TRACE:one_way_ack:sent 400 ack'd packets
+TRACE:one_way_ack:sent 500 ack'd packets
+TRACE:one_way_ack:sent 600 ack'd packets
+TRACE:one_way_ack:sent 700 ack'd packets
+TRACE:one_way_ack:sent 800 ack'd packets
+TRACE:one_way_ack:sent 900 ack'd packets
+TRACE:one_way_ack:trial: total successfully sent 1000 ack'd packets lost [0]
+NRF:server: done with one-way test
+NRF:	total time= [1sec:537ms:725usec]
+NRF:	total sent messages=1000
+NRF:	total sent bytes=4000 bandwidth=[2.609 kb/s]
+	total retrans=260
+NRF:client: done with one-way test
+NRF:	total time= [1sec:552ms:825usec]
+NRF:	total received messages=1000
+NRF:	total received bytes=4000 bandwidth=[2.583 kb/s]
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up
