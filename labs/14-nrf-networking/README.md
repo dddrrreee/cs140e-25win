@@ -554,7 +554,7 @@ Second most common bug: in `nrf_init` hard-coding variables as constants.
 ### Part 1: Implement `nrf-driver.c:nrf_tx_send_noack`.
 
 <p align="center">
-  <img src="images/pi-huge-network.jpg" width="650" />
+  <img src="images/pi-huge-network.jpg" width="850" />
 </p>
 
 #### tl;dr:
@@ -671,7 +671,7 @@ issues, it is probably from this mistake.
 ### Part 4: Implement `nrf-driver.c:nrf_tx_send_ack`.
 
 <p align="center">
-  <img src="images/pi-shockwave.jpg" width="450" />
+  <img src="images/pi-shockwave.jpg" width="850" />
 </p>
 
 #### tl;dr:
