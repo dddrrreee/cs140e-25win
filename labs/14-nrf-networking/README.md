@@ -12,6 +12,23 @@
   - `nrf_init`: so the test pass always set `NRF_RX_ADDR_P0` to 0.
     This is a bit weird, but that's the way the tests are (sorry).
 
+  - make sure you increment the stats fields.  
+
+    When you send a packet:
+
+            n->tot_sent_msgs++;
+            n->tot_sent_bytes += nbytes;
+
+    On tx if a packet gets lost:
+
+            n->tot_lost++;
+
+    When you receive a packet:
+
+            n->tot_recv_msgs++;
+            n->tot_recv_bytes += nbytes;
+
+
   - Do a pull on the README: the transmit discussion was not the best.
     Hopefully is better.
 
@@ -594,7 +611,11 @@ Roughly:
      (interrupts) is similar to sending with acks so probably makes
      more sense.
 
-  5. Clear the TX interrupt.
+  5. Clear the TX interrupt and increment the stats fields.
+
+            n->tot_sent_msgs++;
+            n->tot_sent_bytes += nbytes;
+
   6. Transition back to RX mode.
   7. Return the number of bytes sent (just `nbytes` that the routine
      was called with).
