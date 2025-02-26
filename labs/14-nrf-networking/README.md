@@ -22,6 +22,8 @@ as needed.
 HINTS:
   - If you have issues, the first thing to do is
     switch to using the `staff_nrf_init` routine.
+  - Make sure you look at the first few test cases, since they
+    have alot of comments about where stuff is.
 
 Key pages:
   - p 57-63: The full set of NRF registers.
