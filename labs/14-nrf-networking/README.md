@@ -9,6 +9,10 @@
 -----------------------------------------------------------------
 ### Errata
 
+  - Going from "Power Down" to "RX": table 16 on page 24: a safe
+    value seems to be 5ms.  I'm not sure how we calculated 2ms
+    (which does *appear* to work).
+
   - `nrf_init`: so the test pass always set `NRF_RX_ADDR_P0` to 0.
     This is a bit weird, but that's the way the tests are (sorry).
 
