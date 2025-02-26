@@ -267,7 +267,7 @@ The routine `nrf_put8_chk` does this automatically.
 
 #### NRF SPI commands (p 51) 
 
-<img src="images/nrf-spi-cmd.png" width="400" />
+<img src="images/nrf-spi-cmd.png"  />
 
 
 --------------------------------------------------------------------------------
