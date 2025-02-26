@@ -78,10 +78,16 @@ if you just run `make check`.
 #### Description
 
 Today you'll build some code to make the NRF chips we have talk to
-each other.   The lab is organized as a fetch-quest where you'll build
+each other.   
+The NRF's are very common, and fairly cheap (we are using clones that
+were about $14 per 12).
+The lab is organized as a fetch-quest where you'll build
 the routines to (1) initialize, (2) receive, (3) send non-acked packets,
 (4) send acked packets.  This gives you a simple starting point for
-networking.  
+networking.    
+
+The NRFs are extremely common and fairly cheap --- ours were 
+12 boards for $14 (though, likely fake clones).
 
 <p align="center">
   <img src="images/nrf-closeup.jpg" width="250" />
