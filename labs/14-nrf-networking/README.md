@@ -260,13 +260,15 @@ uint8_t nrf_put8(nrf_t *n, uint8_t reg, uint8_t v) {
 For other commands, see: `nrf_tx_flush` and
 `nrf_rx_flush` routines (`nrf-hw-support.c`)
 
-The NRF SPI commands are given on page 51:
-<img src="images/nrf-spi-cmd.png" width="400" />
-
 Generally, when first bringing up a device, we read back any configuration
 values we write as an easy automatic way to validate that (1) we
 understood the datasheet and (2) all the code and hardware is working.
 The routine `nrf_put8_chk` does this automatically.
+
+#### NRF SPI commands (p 51) 
+
+<img src="images/nrf-spi-cmd.png" width="400" />
+
 
 --------------------------------------------------------------------------------
 ### Part 0: Implement `nrf-driver.c:nrf_init`.
@@ -327,12 +329,6 @@ a single pipe.  This pipe can either be initialized for acknowledgements
 #### Key points: read this before coding.
 
 Some advice (which should duplicate the comments in `nrf_init`).
-
-
-
-
-
-
 Before you start reading and writing the NRF you need to setup the 
 structure:
 
@@ -365,10 +361,9 @@ Discussion:
   1. We use `nrf_spi_init` (in `nrf-hw-support.c`)
      to setup GPIO and SPI first or we can't talk to the NRF chips and
      nothing will work.  For our tests, the configuration values
-     used for SPI are set in `nrf-test.h` in either `parthiv_left`
-     or `parthiv_right`.
-
-  2. You must put the chip in "power down" mode before you change
+     used for SPI and the GPIO CE pin are set in `nrf-test.h` in 
+     either `parthiv_left` or `parthiv_right`.
+  2. p22: You must put the chip in "power down" mode before you change
      the configure.
   3. If in not-ack mode,  just enable pipe 1.
   4. If in ack mode,  you have to enable both pipe 0 and pipe 1.
@@ -377,13 +372,16 @@ Discussion:
   5. NOTE: when we reboot the pi, the NRF chips are still on --- they
      don't know to reset.   So it's crucial to set every NRF register 
      you depend on.  Don't assume it has its default value.
-  6. Related to point (5), but just good hygiene:
+  6. Related to point (5), but also just good hygiene:
      After configuration, you should flush the RX (`nrf_rx_flush()`)
-     and TX fifos (`nrf_tx_flush()`) before putting the chip in "power
-     up" mode since its possible they hold garbage.
+     and TX FIFOs (`nrf_tx_flush()`) before putting the chip in "power
+     up" mode since its possible they hold garbage.  
+
+     Recall: This is similar to what we did for UART.
 
      For today they should also be empty:
 
+            // see <nrf-hw-support.h>
             assert(!nrf_tx_fifo_full(n));
             assert(nrf_tx_fifo_empty(n));
             assert(!nrf_rx_fifo_full(n));
@@ -394,14 +392,14 @@ Discussion:
             assert(pipeid_empty(nrf_rx_get_pipeid(n)));
             assert(!nrf_rx_has_packet(n));
 
-  6.  We don't use dynamic payload or feature stuff today:
+  7.  We don't use dynamic payload or feature stuff today:
 
             // dynamic payload
             nrf_put8_chk(n, NRF_DYNPD, 0);
             // feature register.
             nrf_put8_chk(n, NRF_FEATURE, 0);
 
-  7. After all registers are configured:
+  8. After all registers are configured:
 
      1. Put the device in "power up" by writing 1 to the `NRF_CONFIG`.
      2. Then, as is common for complex devices: Wait "long enough" for the
