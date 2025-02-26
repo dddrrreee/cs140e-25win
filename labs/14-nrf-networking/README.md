@@ -9,7 +9,6 @@
 -----------------------------------------------------------------
 ### Errata
 
-Errata:
   - Do a pull on the README: the transmit discussion was not the best.
     Hopefully is better.
 
