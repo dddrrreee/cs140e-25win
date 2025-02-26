@@ -9,8 +9,9 @@
 -----------------------------------------------------------------
 ### Errata
 
-  - `nrf_init`: so the test pass always set `NRF_RX_ADDR_P0` to 0.   
+  - `nrf_init`: so the test pass always set `NRF_RX_ADDR_P0` to 0.
     This is a bit weird, but that's the way the tests are (sorry).
+
   - Do a pull on the README: the transmit discussion was not the best.
     Hopefully is better.
 
