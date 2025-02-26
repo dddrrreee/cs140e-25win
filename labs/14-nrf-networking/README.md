@@ -741,7 +741,7 @@ If you have problems:
 Congratulations!  You now have simple working networking system.  
 
 <p align="center">
-  <img src="images/robots-done.png" width="650" />
+  <img src="images/robots-done.png" width="550" />
 </p>
 
 --------------------------------------------------------------------------------
@@ -751,7 +751,8 @@ There's a ton of extensions.  Building out most of these would
 be a great, useful final project:
   1. Speed!  The code is slow.  You should be able to tune it.
      One easy change is to change it so it can send multiple
-     packets at a time.
+     packets at a time.   Assuming you can get close to hardware
+     speeds this is a legit final project.
   2. Make a reliable FIFO.
   3. Do a network bootloader.
   4. Do exponential backoff to handle the case where two nodes blast
