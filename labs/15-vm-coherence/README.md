@@ -5,7 +5,8 @@
 </p>
 
 -----------------------------------------------------------------------
-***Clarifications***:
+***Bugs***:
+
   - Part 1: Multiple definitions: When you implement
     `cp15_ctrl_reg1_rd` you'll get a multiple definition error.  Just do
     a pull and this will get fixed.
@@ -13,6 +14,8 @@
   - Part 1: The comment for `cp15_domain_ctrl_wr` says you need to
     "flush_btb, dsb, prefetch flush" but I think you only need the
     prefetch flush.
+
+***Clarifications***:
 
   - You can use the macros in `arm6-coprocessor-asm.h` in the assembly
     code.  E.g.,
