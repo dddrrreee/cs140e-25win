@@ -6,6 +6,10 @@
 
 -----------------------------------------------------------------------
 ***Clarifications***:
+  - Multiple definitions: When you do part 1 and implement  
+    `cp15_ctrl_reg1_rd` you'll get a multiple definition error.
+    Just do a pull and this will get fixed.
+
   - If your `pinned-vm.c` has issues: we've checked in
     `code/orig-pinned-vm.c` you can just change the `Makefile` to use
     this instead.
