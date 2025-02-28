@@ -554,15 +554,13 @@ The main one:
     of how the machine works.
 
 Some additional ones:
+  - Make a flush routine that only flushes the specific VA information.
+    Measure the cost difference (huge).
 
-  - Write faster flushing operations:  What we have is very slow in
-    that it flushes everything rather than flushing just the needed
-    virtual address.  Change the PTE modification code to be more precise.
-
-  - You can make a virtual memory system that does not use page tables
-    by carefully adding entries to the "locked" region in the TLB on
-    miss (or before).  It's an interesting exercise to redo the VM in
-    this way.
+  - More general: Write faster flushing operations:  What we have is
+    very slow in that it flushes everything rather than flushing just
+    the needed virtual address.  Change the PTE modification code to be
+    more precise.
 
   - Use memory protection to improve your digital analyzer error.
     You can use memory protection to eliminate the if-statement
@@ -580,14 +578,12 @@ Some additional ones:
     This is a very old trick that not a lot of people know about anymore.
     Garbage collectors use it, along with other things.
 
-  - Make a flush routine that only flushes the specific VA information.
-    Measure the cost difference (huge).
 
-  - Set up code so that it cleans the cache rather than just invalidates.
-  - Write code to make it easy to look up a PTE (`mmu_lookup_pte(void *addr)`)
-    and change permissions, write-buffer, etc.
+NOTE: these assume you have page tables:
   - Set-up two-level paging.
   - Set-up 16MB paging.
+  - Write code to make it easy to look up a PTE (`mmu_lookup_pte(void *addr)`)
+    and change permissions, write-buffer, etc.
 
 ----------------------------------------------------------------------
 <p align="center">
