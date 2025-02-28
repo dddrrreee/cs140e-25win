@@ -10,6 +10,11 @@
     `code/orig-pinned-vm.c` you can just change the `Makefile` to use
     this instead.
 
+        # change the code/Makefile to use orig-pinnned-vm.c
+        # COMMON_SRC += pinned-vm.c
+        COMMON_SRC += orig-pinned-vm.c
+
+
   - Before you start:
       - Copy your `pinned-vm.c` into today's `code` directory.  (If you
         don't you should get a compilation error.)
