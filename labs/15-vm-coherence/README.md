@@ -37,12 +37,6 @@
         # COMMON_SRC += pinned-vm.c
         COMMON_SRC += orig-pinned-vm.c
 
-
-  - Before you start:
-      - Copy your `pinned-vm.c` into today's `code` directory.  (If you
-        don't you should get a compilation error.)
-      - make sure `make check` works before doing anything else.
-
   - Note: the test `4-test-vm-cache-mgmt.c` assumes your enable/disable
     does an icache invalidation.  As the lab discusses below if you 
     do not want to do this, and have a good argument for why it is ok
