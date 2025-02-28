@@ -7,6 +7,8 @@
 -----------------------------------------------------------------------
 ***Bugs***:
 
+  - Part 5: talked about `ttbd` --- it's `ttbc` (we've updated the readme below).
+
   - Part 1: Multiple definitions: When you implement
     `cp15_ctrl_reg1_rd` you'll get a multiple definition error.  Just do
     a pull and this will get fixed.
