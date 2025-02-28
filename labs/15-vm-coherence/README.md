@@ -21,6 +21,26 @@
     "flush_btb, dsb, prefetch flush" but I think you only need the
     prefetch flush.
 
+  - Part 6: when you remove all the staff code, you will have to modify
+    your pinned-vm.h to remove the staff calls:
+
+```
+        // pinned-vm.h: delete the staff_* prefixes
+        
+        // simple wrappers
+        static inline void pin_mmu_enable(void) {
+            assert(!mmu_is_enabled());
+            staff_mmu_enable();
+            assert(mmu_is_enabled());
+        }
+        static inline void pin_mmu_disable(void) {
+            assert(mmu_is_enabled());
+            staff_mmu_disable();
+            assert(!mmu_is_enabled());
+        }
+```
+
+
 ***Clarifications***:
 
   - You can use the macros in `arm6-coprocessor-asm.h` in the assembly
@@ -480,7 +500,7 @@ Where and what:
 
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
-## Part 4: Get rid of our code.
+## Part 6: Get rid of our code.
 
 You should go through and delete all uses of our MMU / pinned-vm code
 in the `code/Makefile`:
@@ -495,6 +515,26 @@ in the `code/Makefile`:
     STAFF_OBJS += staff-mmu-except.o
     STAFF_OBJS += staff-pinned-vm.o
 ```
+
+
+Also, delete the `staff_` prefix in `pinned-vm.h`:
+
+```
+        // pinned-vm.h: delete the staff_* prefixes
+        
+        // simple wrappers
+        static inline void pin_mmu_enable(void) {
+            assert(!mmu_is_enabled());
+            staff_mmu_enable();
+            assert(mmu_is_enabled());
+        }
+        static inline void pin_mmu_disable(void) {
+            assert(mmu_is_enabled());
+            staff_mmu_disable();
+            assert(!mmu_is_enabled());
+        }
+```
+
 
 At this point, all VM code is written by you!  This is a legit capstone.
 
