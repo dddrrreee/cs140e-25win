@@ -59,7 +59,8 @@ anywhere and figure things out.
 Make sure you've read, re-read, re-re-read:
 
   - B2, especially B2-18 --- B-25.
-  - 3-129 has an addition rule for arm1176.
+  - 3-129 has an addition rule for arm1176 after you've set
+    the context id register.
   - 6-9 and related in the arm1176.pdf.
   - [MEMORY-ORDER-cheatsheet.md](MEMORY-ORDER-cheatsheet.md) is a 
     sprawling summary of the above.
@@ -402,6 +403,13 @@ Where and what:
 
   3. Coherence requirements: B2-21, B2-22, B2-23, B2-24 rules for changing
   page table register. And B2-25 the cookbook for changing an `ASID`.
+----------------------------------------------------------------------
+##### 3-129: must do after setting the context id register:
+
+<table><tr><td>
+  <img src="images/part5-context-id-rule.png" width=500/>
+</td></tr></table>
+
 
 ----------------------------------------------------------------------
 ##### B4-41: Setting page table pointer.
