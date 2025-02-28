@@ -6,6 +6,10 @@
 
 -----------------------------------------------------------------------
 ***Clarifications***:
+  - If your `pinned-vm.c` has issues: we've checked in
+    `code/orig-pinned-vm.c` you can just change the `Makefile` to use
+    this instead.
+
   - Before you start:
       - Copy your `pinned-vm.c` into today's `code` directory.  (If you
         don't you should get a compilation error.)
