@@ -6,18 +6,10 @@
 
 -----------------------------------------------------------------------
 ***Clarifications***:
-  - The comment for `cp15_domain_ctrl_wr`
-    says you need to "flush_btb, dsb, prefetch flush" but I think you
-    only need the prefetch flush.
-
-  - You will also have to write `cp15_ctrl_reg1_rd()` which reads the
-    control reg 1 and returns it as a `struct control_reg1` 
-    (defined in `armv6-cp15.h`) which is exactly 32-bits wide.  
-
-            struct control_reg1 c1 = cp15_ctrl_reg1_rd();
-
-    It may be easiest to write the routine in the assembly file so you
-    don't have to mess with casting. 
+  - Before you start:
+      - Copy your `pinned-vm.c` into today's `code` directory.  (If you
+        don't you should get a compilation error.)
+      - make sure `make check` works before doing anything else.
 
   - Note: the test `4-test-vm-cache-mgmt.c` assumes your enable/disable
     does an icache invalidation.  As the lab discusses below if you 
@@ -25,36 +17,16 @@
     to elide, you can change the test so it doesn't check this (see
     the `mmu_enable` part of the lab below.
 
-  - The code for `mmu_init` should be something like:
-
-        void mmu_init(void) {
-            mmu_reset();
-
-            struct control_reg1 c1 = cp15_ctrl_reg1_rd();
-            c1.XP_pt = 1;
-            cp15_ctrl_reg1_wr(c1);
-
-            // make sure write succeeded.
-            c1 = cp15_ctrl_reg1_rd();
-            assert(c1.XP_pt);
-            assert(!c1.MMU_enabled);
-        }
-
-
 -----------------------------------------------------------------------
 #### tl;dr
-Today you will:
 
+Today you will:
   - replace `staff-mmu-asm.o` by writing your own versions in `your-mmu-asm.S`
   - have a thorough set of arguments for why your versions are correct
     (page numbers etc).
   - Checking that the old tests work.
   - Checking that the new test in `code/tests/4-test-vm-cache-mgmt.c` 
     works.
-
-    NOTE: you will have to make sure that your `vm_map_sec` calls
-    `staff_mmu_sync_pte_mods()` after modifying the page table if the
-    MMU is enabled.
 
 #### Lab intro
 
@@ -69,20 +41,20 @@ Today we'll write the hardest code of the quarter, but also do so in
 a way where you are surprised if it is broken.
 
 You'll write assembly helper routines implement these (put them in
-`16-vm-page-table/code/your-mmu-asm.S`) and then at the end remove our
-`staff-mmu-asm.o` from the Makefiles in lab 16 and 15 (pinned).  Mechanically,
-you will go through, one-at-a-time and replace every function prefixed
-with `staff_` to be your own code.  The code is setup so that you can
-knock these off one at a time, making sure that things work after each
-modification.
+`code/your-mmu-asm.S`) and then at the end remove our `staff-mmu-asm.o`
+from the Makefile.  Mechanically, you will go through, one-at-a-time
+and replace every function prefixed with `staff_` to be your own code.
+The code is setup so that you can knock these off one at a time, making
+sure that things work after each modification.
 
-At that point all the code for two different ways to do VM will be yours.
-They aren't fancy, but they are complete.  From these working examples
-you should be able to make a much fancier system if you are inclined
-or (my favorite) a much faster one.  In addition, these are the most
-complex features of the ARM.  They are generally the most complex on any
-architecture.  Now that you understand them (roughly): there is nothing
-harder.  You have the ability to drop in anywhere and figure things out.
+At that point all the code for a simple pinned-VM system will be yours:
+Not fancy, but complete.  (Next week we'll then do page tables.)  From
+these working examples you should be able to make a much fancier system
+if you are inclined or (my favorite) a much faster one.  In addition,
+these are the most complex features of the ARM.  They are generally
+the most complex on any architecture.  Now that you understand them
+(roughly): there is nothing harder.  You have the ability to drop in
+anywhere and figure things out.
 
 Make sure you've read, re-read, re-re-read:
 
@@ -95,7 +67,6 @@ Make sure you've read, re-read, re-re-read:
     from scratch last year to make sure I understood everything.  I think 
     it's a bit simpler.
   - The BTB/BTAC is described in 5-1 --- 5-6 of the arm1176 pdf.
-
 
 If you look in `mmu.h` you'll see the five routines you have to 
 implement, which will be in `mmu-asm.S`:
@@ -247,31 +218,31 @@ There is now a new test:
   - You may want to enable all the staff code so you start from a 
     known working (hopefully) state.
 
-  - NOTE: if it fails, make sure that your `vm_map_sec` calls
-    `staff_mmu_sync_pte_mods()` after modifying the page table if the
-    MMU is enabled or the test will fail.
-
 The test uses the arm1176 performance counters to do some simple 
 checks that your invalidation and caching code works correctly.
 The header files used:
 
-  - `armv6-pmu.h` defines the different performance counter
-    routines.  See 3-134 in the arm1176.pdf document for 
-    more discussion.  The big picture is that we can enable
-    two of many counters at a time (e.g., dcache misses.
-    icache misses, write back count etc) and use them
-    to check different properties.  Today we mainly
-    use them to check that key VM operations flushed caches by 
-    counting cache misses.
+  - `libpi/include/armv6-pmu.h` defines the different performance counter
+    routines.  See 3-134 in the arm1176.pdf document for more discussion.
+    The big picture is that we can enable two of many counters at a time
+    (e.g., dcache misses.  icache misses, write back count etc) and use
+    them to check different properties.  Today we mainly use them to
+    check that key VM operations flushed caches by counting cache misses.
 
   - `cache-support.h`: enable different caches on the arm by setting
     the right bits in the cp15 register.
 
 ----------------------------------------------------------------------
-## Part 1: `domain_access_ctrl_set()` 
+## Part 1: simple helpers
+
+To warm up, we'll do two simple helper routines.
+
+#### write `mmu.c:domain_access_ctrl_set()` 
 
 Most of you already have this, but in case not:
-  - Implement `domain_access_ctrl_set()` 
+  - Implement `domain_access_ctrl_set()`  in `mmu.c`
+  - If you have it in `pinned-vm.c` move it to `mmu.c` so we can
+    use it with full page tables next week.
   - Make sure you obey any requirements for coherence stated in Chapter B2,
     specifically B2-24 (2.7.6).  Make sure the code still works!
 
@@ -285,6 +256,18 @@ Useful pages:
 Useful intuition:
   - When you flush the `BTB`, you need to do a `PrefetchFlush` to wait for
     it to complete (B2.7.5, p B2-24).
+
+#### write `your-mmu-asm.S:cp15_ctrl_reg1_rd()
+
+Write `cp15_ctrl_reg1_rd()` which reads the control reg 1 and returns it
+as a `struct control_reg1` (defined in `armv6-cp15.h`) which is exactly
+32-bits wide.
+
+            struct control_reg1 c1 = cp15_ctrl_reg1_rd();
+
+Its probably easiest to write the routine in the assembly file so you
+don't have to mess with casting.    But you can also put it in `mmu.c`
+using inline assembly.
 
 ----------------------------------------------------------------------
 ##### B4-32: Bits to set in Domain
@@ -330,8 +313,8 @@ You need to:
 ## Part 3: implement `mmu_enable_set_asm` and `mmu_disable_set_asm`
 
 Now you can write the code to turn the MMU on/off:
-  - `mmu_enable_set_asm`  (called by `mmu_enable` in `mmu.c`).
-  - `mmu_disable_set_asm` (called by `mmu_disable` in `mmu.c`).
+  - `your-mmu-asm.S:mmu_enable_set_asm`  (called by `mmu_enable` in `mmu.c`).
+  - `your-mmu-asm.S:mmu_disable_set_asm` (called by `mmu_disable` in `mmu.c`).
 
 Note:
   - We assume the kernel has already called `mmu_reset` to invalidate
@@ -387,10 +370,11 @@ are correct.
 ## Part 4: Implement `mmu_sync_pte_mods`
 
 You can follow the recipe on B2-23 for modifying page table entries.
-For today just be conservative and invalidate the icache too.
+For today just be conservative and invalidate the icache too (test 4
+checks for this.)
 
 ----------------------------------------------------------------------
-## Part 5: Implement `cp15_set_procid_ttbr0`
+## Part 5: Implement `your-mmu-asm.S:cp15_set_procid_ttbr0`
 
 <p align="center">
   <img src="images/robots-inspecting.png" width="450" />
@@ -399,12 +383,10 @@ For today just be conservative and invalidate the icache too.
 This is the hardest routine.  Make sure each step makes sense to your
 partners and there is an explicit reason you're doing it.
 
-
 Deliverable:
    - Set the page table pointer and address space identifier by replacing
     `staff_set_procid_ttbr0` with yours.  Make sure you can switch between
     multiple address spaces.
-
 
 Where and what:
 
@@ -460,12 +442,64 @@ Where and what:
 ----------------------------------------------------------------------
 ## Part 4: Get rid of our code.
 
-You should go through and delete all uses of our code in the lab 12 and
-lab 13 makefiles.  At this point, all code is written by you!
+You should go through and delete all uses of our MMU / pinned-vm code
+in the `code/Makefile`:
+
+```
+    # you should be able to delete all of these after the lab.
+    STAFF_OBJS += staff-mmu-asm.o
+    STAFF_OBJS += staff-mmu.o
+    
+    # these are just from lab 13: should be able to delete
+    # after you copy your code over.
+    STAFF_OBJS += staff-mmu-except.o
+    STAFF_OBJS += staff-pinned-vm.o
+```
+
+At this point, all VM code is written by you!  This is a legit capstone.
 
 <p align="center">
   <img src="images/done-robot.png" width="450" />
 </p>
+
+----------------------------------------------------------------------
+## Major extension (or Final project)
+
+Take the interleaving checker from lab 12 and use it to make sure that
+the code gives the same answers with and without VM:
+  1. map the stack for each thread using pinned.
+  2. make sure you always get the same checksum for the same code no
+     matter how many copies.
+  3. Add a callout for the scheduler that will switch address spaces.
+  4. You may need to add some fields to the structure.
+
+Then add a callout for each single step exception and use it to do 
+more and more fancy options:
+  1. Run with and without caching.
+  2. Disable and enable the MMU on each single step exception.
+  3. Switch on different instructions (rather than each time).
+  4. Many others.
+   
+This is the best extension. We should have had it for you today but I'm 
+still messing with code.   I am sad about this.
+
+----------------------------------------------------------------------
+## Major extension : auto generate tests
+
+Adding any tests at all would be great.  
+
+The best thing you can do (major extension) is make a system that
+can generate test cases and insert switching at arbitrary points.
+(Single step is great, but it means we took an exception at each point,
+which means the hardware is in a more consistent state versus switching
+manually in the kernel.)
+
+----------------------------------------------------------------------
+## Major extension : check the B2 rules.
+
+Write a simple single-step checker that verifies the rules in  B2.
+The trick here is to make it simple versus insane spaghetti code.
+Make sure you check in a bunch of tests that show you catch mistakes!
 
 ----------------------------------------------------------------------
 ## Extensions

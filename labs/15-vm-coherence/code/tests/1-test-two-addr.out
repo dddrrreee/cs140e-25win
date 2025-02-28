@@ -1,0 +1,41 @@
+TRACE:notmain:about to enable
+TRACE:lockdown_print_entries:-----  <about to turn on first time> ----- 
+TRACE:lockdown_print_entries:  pinned TLB lockdown entries:
+TRACE:lockdown_print_entry:   idx=0
+TRACE:lockdown_print_entry:     va_ent=0x200: va=0x0|G=1|ASID=0
+TRACE:lockdown_print_entry:     pa_ent=0xc3: pa=0x0|nsa=0|nstid=0|size=11|apx=1|v=1
+TRACE:lockdown_print_entry:     attr=0x88: dom=1|xn=0|tex=1|C=0|B=0
+TRACE:lockdown_print_entry:   idx=1
+TRACE:lockdown_print_entry:     va_ent=0x100200: va=0x100|G=1|ASID=0
+TRACE:lockdown_print_entry:     pa_ent=0x1000c3: pa=0x100|nsa=0|nstid=0|size=11|apx=1|v=1
+TRACE:lockdown_print_entry:     attr=0x88: dom=1|xn=0|tex=1|C=0|B=0
+TRACE:lockdown_print_entry:   idx=2
+TRACE:lockdown_print_entry:     va_ent=0x7f00200: va=0x7f00|G=1|ASID=0
+TRACE:lockdown_print_entry:     pa_ent=0x7f000c3: pa=0x7f00|nsa=0|nstid=0|size=11|apx=1|v=1
+TRACE:lockdown_print_entry:     attr=0x88: dom=1|xn=0|tex=1|C=0|B=0
+TRACE:lockdown_print_entry:   idx=3
+TRACE:lockdown_print_entry:     va_ent=0x8f00200: va=0x8f00|G=1|ASID=0
+TRACE:lockdown_print_entry:     pa_ent=0x8f000c3: pa=0x8f00|nsa=0|nstid=0|size=11|apx=1|v=1
+TRACE:lockdown_print_entry:     attr=0x88: dom=1|xn=0|tex=1|C=0|B=0
+TRACE:lockdown_print_entry:   idx=4
+TRACE:lockdown_print_entry:     va_ent=0x20000200: va=0x20000|G=1|ASID=0
+TRACE:lockdown_print_entry:     pa_ent=0x20000003: pa=0x20000|nsa=0|nstid=0|size=0|apx=1|v=1
+TRACE:lockdown_print_entry:     attr=0x80: dom=1|xn=0|tex=0|C=0|B=0
+TRACE:lockdown_print_entry:   idx=5
+TRACE:lockdown_print_entry:     va_ent=0x1000001: va=0x1000|G=0|ASID=1
+TRACE:lockdown_print_entry:     pa_ent=0x11000c3: pa=0x1100|nsa=0|nstid=0|size=11|apx=1|v=1
+TRACE:lockdown_print_entry:     attr=0x88: dom=1|xn=0|tex=1|C=0|B=0
+TRACE:lockdown_print_entry:   idx=6
+TRACE:lockdown_print_entry:     va_ent=0x1000002: va=0x1000|G=0|ASID=2
+TRACE:lockdown_print_entry:     pa_ent=0x12000c3: pa=0x1200|nsa=0|nstid=0|size=11|apx=1|v=1
+TRACE:lockdown_print_entry:     attr=0x88: dom=1|xn=0|tex=1|C=0|B=0
+TRACE:lockdown_print_entry:   idx=7
+TRACE:lockdown_print_entry:     
+TRACE:lockdown_print_entries:----- ---------------------------------- 
+TRACE:notmain:MMU is on and working!
+TRACE:notmain:ASID 1 = got: 0x11111111
+TRACE:notmain:phys addr1=0x1
+TRACE:notmain:asid 2 = got: 0x22222222
+TRACE:notmain:phys addr2=0x2
+TRACE:notmain:about to check that can switch ASID w/ MMU on
+TRACE:notmain:SUCCESS!
