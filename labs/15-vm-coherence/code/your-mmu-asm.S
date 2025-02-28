@@ -62,7 +62,7 @@ MK_FN(cp15_set_procid_ttbr0)
 MK_FN(mmu_disable_set_asm)
     b staff_mmu_disable_set_asm
 
-    @ note: this piece of code is mapped into the sample place in both
+    @ note: this piece of code is mapped into the same place in both
     @ MMU-enabled and MMU-disabled so BTB and Prefetch entries work identically
     @ to both MMU-enable and disable.   Without this requirement I believe is
     @ very hard to get right (perhaps impossible?) since we cannot flush
