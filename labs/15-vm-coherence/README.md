@@ -445,7 +445,8 @@ Where and what:
 
   1. B4-41: The hardware has to be able to find the page table when
   there is a TLB miss.  You will write the address of the page table to
-  the page table register `ttbr0`, set both `TTBR1` and `TTBRD` to `0`.
+  the page table register `ttbr0`, set both `TTBR1` and `TTBC` to `0`.
+  (See below)
   Note the alignment restriction!
 
   2.  B4-52: The ARM allows each TLB entry to be tagged with an address
@@ -462,6 +463,12 @@ Where and what:
   <img src="images/part5-context-id-rule.png" width=500/>
 </td></tr></table>
 
+----------------------------------------------------------------------
+##### B4-41: setting `ttbc`
+
+<table><tr><td>
+  <img src="images/part5-ttbc-set.png" width=500/>
+</td></tr></table>
 
 ----------------------------------------------------------------------
 ##### B4-41: Setting page table pointer.
