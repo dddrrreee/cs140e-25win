@@ -10,6 +10,10 @@
     `cp15_ctrl_reg1_rd` you'll get a multiple definition error.
     Just do a pull and this will get fixed.
 
+  - The comment for `cp15_domain_ctrl_wr`
+    says you need to "flush_btb, dsb, prefetch flush" but I think you
+    only need the prefetch flush.
+
   - If your `pinned-vm.c` has issues: we've checked in
     `code/orig-pinned-vm.c` you can just change the `Makefile` to use
     this instead.
