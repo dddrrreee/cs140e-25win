@@ -8,6 +8,9 @@
 ### clarifications and notes
 
 ***BUGS***:
+  - `kmalloc_init` signature changed, breaking the build.  Change 
+    `kmalloc_init()` to `kmalloc_init(1)`.  This is my bad, apologies.
+
   - the comment for `full-except-asm.S:syscall_full` is wrong:
     you *must* set the `sp`.  (Fortunately the tests seem to catch this
     dumb mistake.)

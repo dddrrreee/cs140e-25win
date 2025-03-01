@@ -92,7 +92,6 @@ After four runs at the architecture manual, you will have a new
 comfort with using it.
 
 
-***We are here*** ===>
 
   - [4-interupts](4-interrupts/): 
     you will walk through a simple, self-contained implementation of
@@ -120,6 +119,86 @@ comfort with using it.
     as well as a more fluent handle on assembly code.
 
 ---------------------------------------------------------------------
+
+---------------------------------------------------------------------
+### 3. Going down to metal (Part II)
+
+We break up the execution labs by building the rest of the low
+level code you've been using ---the bootloader and the UART
+driver.
+
+  - [6-bootloader](6-bootloader): two of the biggest pieces of code
+    we've given you have been the Unix-side and pi-side bootloader code
+    (`pi-install` and `bootloader.bin` respectively).  So this lab has
+    you implement your own and get rid of ours.
+
+  - [7-uart](7-uart): the last key bit of code we've given you is for
+    controlling the UART (`uart.o`); so this lab has you write your own
+    and remove ours.
+
+    To do so you'll write your first real device driver --- for the UART
+    --- using only the Broadcom document.  At this point, all key code
+    on the pi is written by you.  You will use the cross checking code
+    from lab 2 to verify your implementation matches everyone else's.
+
+---------------------------------------------------------------------
+### 4. Execution: interrupts, exceptions, processes (part 2)
+
+  - [8-device-interrupts](8-device-int):
+    if you keep doing this kind of work the single most common fancy
+    "OS" type thing you'll likely do in the future is to setup GPIO
+    pin interrupts so that you can get notified when a hardware device
+    has data.  So, in this lab we'll setup GPIO interrupts and tune how
+    we do general interrupts.
+
+    Without interrupts, it's difficult to get networking working, since
+    our GPIO pins (and our UART options) have limited space and, thus,
+    unless our code checks them at exactly the right time, incoming
+    messages will vaporize.
+
+  - [9-debug-hw](9-debug-hw): This lab will give you exposure to
+    exceptions by showing how you can abuse debugging hardware in a new
+    way to catch memory corruption (such as null pointer bugs) *without
+    virtual memory*.
+
+    As you know too-well by now, a challenge of bare-metal programming
+    is that we have not had protection against memory corruption.
+    By this point in the quarter, I believe everyone in the class has
+    had to waste a bunch of time figuring out what was corrupting some
+    random location in their program.  After today's lab you should be
+    able to detect such corruption quickly.
+
+  - [10-interleave-checker](10-interleave-checker):
+    Now that you have a single-step implementation, we'll use it to for
+    something cool: writing a concurrency checker that is tiny but mighty.
+    By the end you'll be able to race condition bugs difficult to catch
+    with any other tool I know of.
+
+
+---------------------------------------------------------------------
+### 6. Execution (Part III)
+
+We'll now do the last block of execution labs.
+
+  - [11-ss-equiv](11-ss-equiv): You'll implement all the
+    staff .o code that you were using in lab 10.  After this lab, all
+    the code will be yours.
+
+    This is also exactly the code your OS will need to do full user/kernel
+    and kernel/kernel context switching.
+
+  - [12-ss-equiv-deux](12-ss-equiv-deux):  as the final step,
+    you'll use your debug hardware in tricky way to verify that your
+    context switching code is correct.    The method works more generally
+    to detect subtle operating system mistakes and will prove invaluable
+    next week when we do virtual memory, a topic known for its extremely
+    hard-to-track-down bugs.
+
+    As a side-effect this will verify that a pre-emptive threading system
+    that works with full process contexts works correctly.
+
+***We are here*** ===>
+
 
 <p align="center">
   <img src="lab-memes/bug.jpg" width="400" />
