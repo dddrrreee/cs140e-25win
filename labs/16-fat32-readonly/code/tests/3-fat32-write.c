@@ -3,8 +3,7 @@
 #include "fat32.h"
 
 void notmain() {
-  uart_init();
-  kmalloc_init();
+  kmalloc_init(FAT32_HEAP_MB);
   pi_sd_init();
 
   printk("Reading the MBR.\n");
@@ -48,5 +47,4 @@ void notmain() {
   printk("Check your SD card for a file called 'HELLO.TXT'\n");
 
   printk("PASS: %s\n", __FILE__);
-  clean_reboot();
 }

@@ -1,0 +1,15 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/0-sd.bin>: about to boot
+TRACE:simple_boot: sending 33280 bytes, crc32=190ac567
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+TRACE:notmain:Starting SD Driver test.
+TRACE:notmain:Initializing...
+TRACE:notmain:Reading first block...
+TRACE:notmain:Verifying signature at the end of the block...
+TRACE:notmain:Got 0x0xaa55!
+PASS: tests/0-sd.c
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up

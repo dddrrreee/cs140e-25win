@@ -40,15 +40,12 @@ static void do_allocs(void) {
 }
 
 void notmain(void) {
-    uart_init();
-
     trace("TRACE: setting malloc start to 1mb\n");
-    kmalloc_init_set_start(1024 * 1024);
+    kmalloc_init(1);
 
     void *p = kmalloc(1);
     assert(is_aligned((unsigned)p, 1024 * 1024));
     do_allocs();
 
     printk("PASS: %s\n", __FILE__);
-    clean_reboot();
 }

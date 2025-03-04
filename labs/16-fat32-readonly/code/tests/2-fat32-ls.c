@@ -3,8 +3,7 @@
 #include "fat32.h"
 
 void notmain() {
-  uart_init();
-  kmalloc_init();
+  kmalloc_init(FAT32_HEAP_MB);
   pi_sd_init();
 
   printk("Reading the MBR.\n");
@@ -33,5 +32,4 @@ void notmain() {
     }
   }
   printk("PASS: %s\n", __FILE__);
-  clean_reboot();
 }

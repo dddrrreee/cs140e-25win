@@ -5,7 +5,10 @@
  * XXX: Make sure you jump to <LINK_ADDR+SIZEOF(.crt0_header)> when going 
  * to run the code!
  */
-LINK_ADDR =  0x90000;
+
+/* sleazy: this is the int stack. 
+   we don't use interrupts today so is ok. */
+LINK_ADDR =  0x9000000;   
 SECTIONS
 {
     /* our simple a.out header.  will add as needed. */

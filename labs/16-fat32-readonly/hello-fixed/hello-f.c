@@ -24,7 +24,9 @@ void notmain(void) {
 	uart_putc('\n');
 #endif
 
-	printk("hello world from address %p\n", (void*)notmain);
+    // <_start> is defined in <loader-start.S>
+    extern uint32_t _start[];
+	printk("TRACE: hello world from address %p\n", (void*)_start);
 	return;
 
 	// NB: this is supposed to be a thread_exit().  calling reboot will

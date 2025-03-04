@@ -26,8 +26,7 @@ read_and_hash(fat32_fs_t *fs, pi_dirent_t *root,
 
 
 void notmain() {
-  uart_init();
-  kmalloc_init();
+  kmalloc_init(FAT32_HEAP_MB);
   pi_sd_init();
 
   printk("Reading the MBR.\n");
@@ -64,15 +63,14 @@ void notmain() {
 
     // this could possibly fail if you have a different gcc
     // version --- change the cksum if so.
-    read_and_hash(&fs, &root, "HELLO-F.BIN", 0x383a4198);
+    output("if the hash of <hello-f.bin> fails: make sure its hash is correct\n");
+    read_and_hash(&fs, &root, "HELLO-F.BIN", 0xd9e29bb9);
 
     // fill in the cksum values for these.
-    todo("fill in the checksum for these next three files\n");
+    todo("fill in the checksum for these next three files (use `hash-files`)\n");
     read_and_hash(&fs, &root, "BOOTLO~1.BIN", 0);
     read_and_hash(&fs, &root, "CONFIG.TXT", 0);
     read_and_hash(&fs, &root, "KERNEL.IMG", 0);
-    panic("fill in the values for the previous three files\n");
 
     printk("PASS: %s\n", __FILE__);
-    clean_reboot();
 }
