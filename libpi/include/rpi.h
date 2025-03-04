@@ -147,6 +147,7 @@ void *kmalloc_aligned(unsigned nbytes, unsigned alignment);
 // initialize and set where the heap starts and give a maximum
 // size in mb
 void kmalloc_init_set_start(void *addr, unsigned max_nbytes);
+// use the default start: specify how many MB heap is.
 static inline void kmalloc_init(unsigned mb) {
     unsigned long MB = 1024*1024;
     kmalloc_init_set_start((void*)MB, mb*MB);
