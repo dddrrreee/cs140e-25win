@@ -97,7 +97,10 @@ Some (but not all) terms you need:
 
   - LAST CLUSTER: Obviously for a linked list you need some kind of
     `NULL` terminator.  Just to confuse things, FAT32 uses any number
-    greater than or equal to `0xFFFFFF8` rather than 0.
+    greater than or equal to `0x*FFFFFF8` rather than 0.  In 
+    general you have to ignore the upper 4 bits of the fat cluster
+    number --- in a sense fat32 is actually fat28 bits.
+    See: `fat32-helpers.h` for more discussion.
 
   - directory: a linear data structure of 32-byte records
     used to look up the starting cluster for each file or directory in
@@ -109,6 +112,8 @@ Some (but not all) terms you need:
     (no other record has 0 as their first byte).
 
     Zero byte files have a `0` as their first cluster ID.
+
+    See: `fat32-helpers.h:fat32_dirent_t`.
 
   - root directory: the root directory of the FAT32 file system
     tree (`/` in Unix).  It is given by "first cluster" field in the
@@ -130,7 +135,7 @@ Some (but not all) terms you need:
 
 Roughly what we need to do:
   1. Read in the MBR by reading sector 0 (i.e., the single sector at disk
-     address 0).  The `mbr_t` structure in `mbr.h` gives the layout.
+     address 0).  The `mbr_t` structure in `mbr-helpers.h` gives the layout.
 
   2. Get the disk address of the FAT32 boot sector (also known as the
      "volume id") so we need to determine where the file system starts
@@ -139,6 +144,7 @@ Roughly what we need to do:
      For today: your SD card almost certainly has only one partition.
      So the first partiion in the MBR is what we want.  The LBA of the
      boot record is given by the `lba_start` field in the partition.
+     (`mbr-helpers.h:mbr_partition_ent_t`).
 
   3. Read in the FAT32 boot sector using the LBA given by `lba_start` in 
      step (2).
@@ -169,7 +175,7 @@ we need two constants for the FAT32:
        - total sectors used for a single FAT: `nsec_per_fat`.
        - total number of FATS: `nfat`.
 
-     Just sum these up to get the first cluster begin lba.
+     Just sum these up to get the first `cluster_begin_lba`.
 
 Our forumula:
 

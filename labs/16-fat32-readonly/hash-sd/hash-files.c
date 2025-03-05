@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     assert(path);
     unsigned n = strlen(path);
 
-    output("about to hash %d files\n", argc);
+    output("about to hash %d files\n", argc-1);
     for(int i = 1; i < argc; i++) {
 	    unsigned nbytes;
         uint8_t *code = read_file(&nbytes, argv[i]);

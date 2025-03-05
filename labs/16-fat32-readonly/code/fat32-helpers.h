@@ -123,7 +123,8 @@ _Static_assert(sizeof(struct fsinfo) == 512, "fsinfo size wrong");
  * directory entries
  */
 
-// directory attribute types.
+// directory attribute types: these are the <attr> field
+// in the fat32_dirent_t struct below
 typedef enum {
     FAT32_RO = 0x01, // read-only file
     FAT32_HIDDEN = 0x02, // hidden file

@@ -2,22 +2,8 @@
 
 ------------------------------------------------------------------------
 ***Note***:
-  - hello-fixed.bin is linked at `0x90000` but the checked in test
-    `code/tests/2-fat32-jump.c` assumes it's linked at `0x10000000`.
-    You'll have to update the assertion in `2-fat32-jump.c` from:
 
-            assert(addr == 0x100000f0);
-
-    to:
-
-            assert(addr == 0x90000);
-
-    To see what is going on: In the `hello-fixed` directory look at the
-    `memmap.fixed` linker script and the list file produced by compiling
-    `hello-fixed.list` to see how the code is laid out.  Look at the
-    code addresses in the list file and compare them to the linker script.
-
-    Note that the README below is for a harder version of the lab
+  - The README below is for a harder version of the lab
     where you'd modify the linker script.  Currently we just give
     you everything for `hello-f.bin` --- you can just compile and
     copy it to the SDcard.  You can compute its hash by running the 
@@ -25,8 +11,8 @@
     mine I get:
 
         hash-sd % ./hash-files ../hello-fixed/hello-f.bin
-        about to hash 2 files
-        HASH: crc of file=<../hello-fixed/hello-f.bin> (nbytes=2704) = 0xf33f6ff8
+        about to hash 1 files
+	    HASH: crc of file=<hello-f.bin> (nbytes=2632) = 0xd9e29bb9
 
   - Common mistake: if you get too many files that the staff code
     does not, recall that `fat32_dirent_attr_t` attributes are a
@@ -39,11 +25,11 @@
 
 ------------------------------------------------------------------------
 
+Today you'll build a read-only FAT32 file system that can read from the
+microSD card plugged into your pi.
 
-***NOTE***:
-  - In a poetic irony, my laptop died last night and the m.2 ssd wouldn't
-    boot a new spare laptop.  So the code in this lab is identical to 
-    last year, based on a lab reworking by Akshay.   
+I keep forgetting how long masters admissions folders take, so this lab
+is identical to last year, based on a lab reworking by Akshay:
   - Make sure you start with the [PRELAB](PRELAB.md)!
   - There is also a [FAT32 cheatsheet](./fat32-cheat-sheet.md).  You
     really want to read and use this.
@@ -57,15 +43,10 @@
   `staff.fat32.o`), and it should automatically run a test of the MBR.  Let us
   know immediately if this doesn't work---some SD cards don't work with the SD
   driver we use.
-    - Tests 0 and 1 should work.  Tests 2 will partially work, but some of them
-      require you to copy files to the SD card first (described later in the README).
 - If make isn't working, open the makefile and replace `CFLAGS_EXTRA` with `CFLAGS`
 - Once the test works, change the Makefile to not use the staff object files.
 
-We will do a fancy hello world: 
-  1. Write a simple read-only file system that can read from your SD card.
-  2. Use it to read in a `hello-f.bin` from the disk.
-  3. Jump to it and run this program.
+
 
 It's kind of cool that we can write a read-only FS for (arguably) the most
 widely-used file system out there.  With that said, since we are using a 
@@ -123,6 +104,8 @@ There's easily a semester's worth of extensions.
   6. Rework the SD driver code so that it uses interrupts rather than
      being synchronous.  Similarly, add an asynchronous file system
      interface.
+  7. A major drawback of this code (not Akshay's fault) is that it 
+     leaks tons of memory.  A great extension is fixing this.
 
 #### Debugging Tips
 
@@ -305,6 +288,17 @@ which you are encouraged to do!):
             panic("impossible type value: %x\n", x);
         }
 
+
+When you're building `fat32_readdir` and finding directory entries
+by name, make sure you skip directory entries we don't care about ---
+free directories, LFN entries and volume labels:
+
+    // when traversing all directory entries, don't copy these out.
+    if (fat32_dirent_free(&dirents[i])) continue; // free space
+    if (fat32_dirent_is_lfn(&dirents[i])) continue; // LFN version of name
+    if (dirents[i].attr & FAT32_VOLUME_LABEL) continue; // volume label
+
+
 -------------------------------------------------------------------------
 ### Part 5: read in and print `config.txt`
 
@@ -318,18 +312,19 @@ Only a few more steps to have a full read-only FAT32 driver:
    3. At this point, you should be able to pass all the tests in `tests/2-`.
 
 -------------------------------------------------------------------------
-### Part 6: read in and run `hello-f.bin`
+### Part 6: `2-fat32-jump.c`: read in and run `hello-f.bin`
 
-   1. Store a `hello-f.bin` linked to a different address range onto your your SD card.
+   1. Copy `hello-f.bin` (in `hello-fixed`) onto your your SD card.
    2. Read it into a buffer at the required range.
    3. Jump to it.
 
 Most of this code should be in `tests/2-fat32-jump.c` --- you'll have
 to implement some of this to jump over the header.  The CRC's of the file
-should be:
+should be something like:
 
-        crc of BOOTCODE.BIN (nbytes=50248) = 0xfd8d57d1
-        crc of HELLO-F.BIN (nbytes=3384) = 0x7dd44481
+        hash-sd % ./hash-files ../hello-fixed/hello-f.bin
+        about to hash 1 files
+	    HASH: crc of file=<hello-f.bin> (nbytes=2632) = 0xd9e29bb9
 
 -------------------------------------------------------------------------
 
