@@ -230,6 +230,8 @@ Some simple examples:
    and change back.  (Note: when you modify existing page table entries
    you will have to call `staff_mmu_sync_pte_mods` after you modify the
    page table.).
+  - make code faster by changing the the page attributes and co-processor
+    settings to enable the datacache.
 
 Some bigger ones:
  - Setup caching and show it makes some matrix operation better.
@@ -285,13 +287,13 @@ As before, to handle a write to an unmapped section:
      on b4-20).
 
 -----------------------------------------------------------------------
-### Extensions
 
-There's a ton of extensions to do:
-  - do nested page tables with 4k pages.
-  - port the tests from last time over with a consistent interface.
-  - make code fast by changing the the page attributes and co-processor settings to 
-    enable the datacache.
+### Summary
+
+Congratulations!  You now have a simple (albeit a bit simplistic) virtual
+memory system that runs bare metal, where you implemented all the hard code.
+Not many have done the same.
+
 
 <p align="center">
   <img src="images/cat-laptop.png" width="450" />
