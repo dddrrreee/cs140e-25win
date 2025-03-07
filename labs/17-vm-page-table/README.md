@@ -87,7 +87,7 @@ Provided helper routines:
     to do a compile-time assert.
 
 Testing:
-  - `make check` of `PROGS := 0-test-structs.c` should pass.
+  - `make check` should pass (since it calls our code).
 
 ----------------------------------------------------------------------
 ##### The PTE for 1MB sections document:
