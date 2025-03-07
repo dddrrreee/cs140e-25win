@@ -229,12 +229,12 @@ Some simple examples:
  - Make a stack that automatically grows (e.g., if you write beyond
    the stack pointer it grows the stack automatically).    As mentioned
    in the next point, 
-   you should call `staff_mmu_sync_pte_mods()` after you modify 
+   you should call `mmu_sync_pte_mods()` after you modify 
    a page table entry.  (This invalidates caches it could be in or
    influence.)
  - Change memory protection (implement `vm_mprotect`), show it faults,
    and change back.  (Note: when you modify existing page table entries
-   you will have to call `staff_mmu_sync_pte_mods` after you modify the
+   you will have to call `mmu_sync_pte_mods` after you modify the
    page table.).
   - make code faster by changing the the page attributes and co-processor
     settings to enable the datacache.
