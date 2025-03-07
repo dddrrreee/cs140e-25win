@@ -267,7 +267,9 @@ get the same hashes when running:
   - turning the vm off and on on each switch.
   - lots of other variations.
 
-You'll learn a ton doing this!  Note:
+You'll learn a ton doing this!  
+
+Note:
   - To get the code to compile you'll have to change the
     call `kmalloc_init()` to `kmalloc_init(1)` (or however many MB
     you need).
