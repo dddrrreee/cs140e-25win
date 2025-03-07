@@ -7,6 +7,12 @@
 -----------------------------------------------------------------------
 ## tl;dr: clarifications and errata
 
+BUG:
+
+  - Do a pull.  The .out's for test 2, 3, 4 had the wrong hashes.
+    User memory should be mapped to `MEM_uncached` (just as we
+    have done all quarter).
+
 Clarifications:
   - Compare the tests for the coherence lab (15) with the tests
     in the code directory: the only difference between them is
