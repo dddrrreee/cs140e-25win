@@ -254,7 +254,7 @@ w/ the mailboxes, including overclocking the pi to make it faster.
 
 
 ----------------------------------------------------------------------
-### Extension: extend the equivalance checking (lab 12) to have vm.
+### Major Extension: extend the equivalance checking (lab 12) to have vm.
 
 Interesting but not much code: adapt the single stepping equivalance
 checker from lab 12 to use identity-mapped virtual memory.  You should
@@ -267,7 +267,10 @@ get the same hashes when running:
   - turning the vm off and on on each switch.
   - lots of other variations.
 
-You'll learn a ton doing this!
+You'll learn a ton doing this!  Note:
+  - To get the code to compile you'll have to change the
+    call `kmalloc_init()` to `kmalloc_init(1)` (or however many MB
+    you need).
 
 ----------------------------------------------------------------------
 ### Extension: Automatically grow the stack.
