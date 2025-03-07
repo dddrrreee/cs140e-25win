@@ -1,0 +1,21 @@
+HASH:	PTE crc:: hash=0xa0b5eb0e,nbytes=4
+HASH:	PTE crc:: hash=0xf653f334,nbytes=4
+HASH:	PTE crc:: hash=0xa753bc13,nbytes=4
+HASH:	PTE crc:: hash=0xf5535a71,nbytes=4
+HASH:	PTE crc:: hash=0xf082b02,nbytes=4
+HASH:	PTE crc:: hash=0x45dd45a,nbytes=4
+HASH:	PTE crc:: hash=0x7adc92c1,nbytes=4
+HASH:	PTE crc:: hash=0x6fa1da7c,nbytes=4
+TRACE:notmain:******************************************************
+TRACE:notmain:1. test that the page table enabled dcaching correctly.
+TRACE:notmain:******************************************************
+TRACE:notmain:2. test that the page table enabled icaching correctly.
+TRACE:notmain:******************************************************
+TRACE:notmain:3. test that sync pte mods flushes the dcache.
+TRACE:notmain:******************************************************
+TRACE:notmain:4. test that mmu_on/off flushes the dcache.
+TRACE:notmain:******************************************************
+TRACE:notmain:5. about to test that disable dcache invalidates correctly
+TRACE:notmain:******************************************************
+TRACE:notmain:6. about to test sync_pte_mods invalides dcache correctly
+TRACE:notmain:SUCCESS!

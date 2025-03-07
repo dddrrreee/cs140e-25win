@@ -4,24 +4,11 @@
   <img src="images/pi-vm.jpg" width="650" />
 </p>
 
-----------------------------------------------------------------------
-***NOTE:***
- - The test `.out` files were checked in without hashes of all
-   the page table modifications.  This makes them pretty weak and easy to
-   pass with mistakes that will bite you later.   I've checked in fixed
-   versions in `code/tests-2.0`.  You'll have to add the following line
-   defining `GREP_STR` in your `Makefile`  and change your tests to use
-   `tests-2.0` vs `tests`.
 
-        # add this line at the bottom of `Makefile`.
-        GREP_STR := 'TRACE:\|HASH:\|ERROR:\|PANIC:\|SUCCESS:'
-        include $(CS140E_2024_PATH)/libpi/mk/Makefile.robust
-----------------------------------------------------------------------
-
-Last lab we did a trivial virtual memory system without page tables by pinning
-entries in the TLB.  This approach lets us map a reasonable amount of memory
-(16MB * 8 = 128MB) without much complexity.  If you can get away with it,
-I recommend this approach for embedded systems you build.  
+We've done trivial virtual memory system without page tables by pinning
+entries in the TLB.  This approach lets us map a reasonable amount of
+memory (16MB * 8 = 128MB) without much complexity.  If you can get away
+with it, I recommend this approach for embedded systems you build.
 
 However, for large systems this will be too limiting.  So today we do
 page tables by writing the code for single-level page tables that use
@@ -31,34 +18,10 @@ in more thoroughly.
 
 Today you'll make page-table versions of the pinned routines you made
 last time.  The tests in `code/tests` are slightly tweaked versions
-of last lab that have been updated to use these new routines.
-The code you write:
-  - Today: `pt-vm.c`.  (Interface in `pt-vm.h`.)  The these routines
-    just call staff versions at the moment.
-  - Next VM lab: the assembly in `your-asm.S`.  These are the 
-    routines that actually turn on/off/init the hardware MMU.
+of the last VM lab that have been updated to use these new routines.
 
-The rest of the files:
- - `mem-attr.h`: this is the memory attribute code from `pinned-vm.h`
-   with the pinned code removed.   Confusingly we still call the 
-   memory attribute structure `pin_t` but we only use it for
-   memory cache attributes, protections etc.
 
- - `mmu.c`: these are C wrappers that do simple error checking and
-   call the assembly routines in `your-asm.S`.  You should look
-   at them but you don't have to modify them today.
-
- - `mmu-helpers.c`: these are the print routines we use.
-
-Given that this is a simple extension of last lab, hopefully things
-go relatively smoothly and you can get checked off on both.
-
-You can view today's and next VM labs as fetchquests for how-do-I-do-X
-where the goal is to implement everything yourself and delete our
-implementations.    Today will be `staff-pt-vm.o` (see `pt-vm.c` for the
-corresponding routines) and thursday will be `staff-mmu-asm.o`.
-
-What you modify today:
+The code you write today:
 
    1. `armv6-vm.h`: you need to correctly use bitfields
       to control the layout of the `fld_t` first level descriptor
@@ -70,37 +33,27 @@ What you modify today:
       the 1-level, section-based, page table.  The staff file
       `staff-pt-vm.o` provides working versions you can call.
 
-What you modify next time:
+Useful code:
+ - `mmu-helpers.c`: these are the print routines we use.
 
-  - `arm-coprocessor-asm.h`: we don't use this header today, but will
-    on thursday.  It has a fair number of instructions used to
-    access the privileged state (typically using "co-processor 15").
-    Sometimes the arm docs do not match the syntax expected by the GNU
-    assembler.  You can usually figure out how to do the instruction
-    by looking in this file for a related one so you can see how the
-    operands are ordered.
+The rest of the files are just fresh copies of the starter code from
+the previous VM labs.  You should be able to drop in your old ones when
+everything works.
 
-  - `your-mmu-asm.o`: this has the low level assembly routines used to
-    update machine state after changing page table mappings or switching
-    address spaces.
+The lab is organized as the usual fetchquest for how-do-I-do-X where the
+goal is to implement everything yourself and delete our implementation
+(`staff-pt-vm.o`).
 
-What you shouldn't have to modify:
+Given that this is a simple extension of last lab, hopefully things
+go relatively smoothly and you can get checked off on both.
 
-  - `mmu.h`: this has the data structures we will use today.   I've tried
-    to comment and give some page numbers, but buyer beware.
-
-  - `mmu-helpers.c`: these contain printing and sanity checking routines.
-
-   - `docs/README.md` gives a rundown of where some key registers /
-     machine state is defined.  In general, if the page numbers begin
-     with a `b` they are from the armv6 general documents (the pdf's that
-     begin with `armv6` such as `armv6.b2-memory.annot.pdf`) Without a
-     letter prefix they come from the `arm1176*` pdf's.
+Recall: the pinned vm lab has a bunch of useful documentation and 
+cheat sheets.
 
 #### Check-off
 
 You need to show that:
-  1. You remove the `staff-mmu.o` from `code/Makefile` and all the tests pass.
+  1. You remove the `staff-vm-pt.o` from `code/Makefile` and all the tests pass.
   2. You can handle protection and unallowed access faults (port your
      code from last time).
   3. Write two new tests that test new functionality.  E.g., 16MB sections.
@@ -157,7 +110,7 @@ swapping your code for ours.
 You can also just ignore our code.
 
 The document you'll need for this part is:
-  - The annotated B4 of the ARM manual `docs/armv6.b4-mmu.annot.pdf`,
+  - The annotated B4 of the ARM manual `13-pinned-vm/docs/armv6.b4-mmu.annot.pdf`,
     which describes the page table format(s), and how to setup/manage
     hardware state for page tables and the TLB.
 
@@ -168,7 +121,7 @@ When you finish you should be able to:
 ### NOTE: we use `pin_t` to specify memory attributes.
 
 To repeat the discussion above: for today we reuse the memory attribute
-structure `pin_t` (defined in `vm-attr.h`) from last lab.
+structure `pin_t` (defined in `pinned-vm.h`) from last lab.
 
 Even though it has the `pin_` prefix in its name, it is not specific to
 pinning: we use it to define what caching policy, protections,
@@ -183,9 +136,8 @@ see the `pin_` even though we aren't using pinning.
 For `vm_map_kernel` you'll want to look at the routine
 `procmap.h:procmap_pin_on` in the last lab and just rewrite this routine
 to switch from using pinned routines to our page tables versions.
-You should also look at today's first test case `1-test-basic.c`
-to see what has to be done to set things up.  Also look at test
-`2-test-procmap.c` which uses `vm_map_kernel`.
+You should also look at today's test cases
+to see what has to be done to set things up.  
 
 The goal of `vm_map_kernel` is to wrap up all the code to do the initial
 MMU initialization, and kernel memory mapping setup so that it can start

@@ -1,0 +1,18 @@
+HASH:	PTE crc:: hash=0x5fe59de2,nbytes=4
+HASH:	PTE crc:: hash=0x10011b4e,nbytes=4
+HASH:	PTE crc:: hash=0x66816268,nbytes=4
+HASH:	PTE crc:: hash=0x93505b9c,nbytes=4
+HASH:	PTE crc:: hash=0xa0b5eb0e,nbytes=4
+HASH:	PTE crc:: hash=0xf653f334,nbytes=4
+HASH:	PTE crc:: hash=0xa753bc13,nbytes=4
+HASH:	PTE crc:: hash=0xb4276fd,nbytes=4
+HASH:	PTE crc:: hash=0xccfebde3,nbytes=4
+TRACE:notmain:about to enable
+TRACE:notmain:about to run ASID=1
+TRACE:notmain:MMU is on and working!
+TRACE:notmain:ASID 1 = got: 0x11111111
+TRACE:notmain:phys addr1=0x1
+TRACE:notmain:asid 2 = got: 0x22222222
+TRACE:notmain:phys addr2=0x2
+TRACE:notmain:about to check that can switch ASID w/ MMU on
+TRACE:notmain:SUCCESS!
