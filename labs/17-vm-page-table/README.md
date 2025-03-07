@@ -231,6 +231,17 @@ Some bigger ones:
  - automatically grow the stack (below).
 
 ----------------------------------------------------------------------
+### Extension: use the r/pi mailboxes to get the size of memory
+
+We have been extremely informal about what memory we can use 
+and how much the pi has.  You can query it directly using the
+mailbox interface.  See the 140-24 lab:
+   - [mailbox lab](https://github.com/dddrrreee/cs140e-24win/tree/main/labs/12-i2c%2Bmailboxes)
+For a description of how.  There's tons of interesting hacks you can do 
+w/ the mailboxes, including overclocking the pi to make it faster.
+
+
+----------------------------------------------------------------------
 ### Extension: extend the equivalance checking (lab 14) to have vm.
 
 Pretty straightforward idea: adapt the single stepping equivalance checker
