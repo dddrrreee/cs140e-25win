@@ -252,17 +252,20 @@ w/ the mailboxes, including overclocking the pi to make it faster.
 
 
 ----------------------------------------------------------------------
-### Extension: extend the equivalance checking (lab 14) to have vm.
+### Extension: extend the equivalance checking (lab 12) to have vm.
 
-Pretty straightforward idea: adapt the single stepping equivalance checker
-from lab 14:
-  - `equiv-threads.c` in the `code-patch-2` or `code-complete-staff`.
+Interesting but not much code: adapt the single stepping equivalance
+checker from lab 12 to use identity-mapped virtual memory.  You should
+get the same hashes when running:
 
-And use it to show that running with and without VM (where the VM uses
-identity maps) gives the same hashes.  You can then do the fancier version
-of showing you get the same hashes even if you switch between proceses.
+  - with and without virtual memory.
+  - with one thread without VM and many threads with VM switching on
+    every instruction.
+  - with caching on and without.
+  - turning the vm off and on on each switch.
+  - lots of other variations.
 
-You'll learn a ton doing this!  It's what I wanted the final lab to be.
+You'll learn a ton doing this!
 
 ----------------------------------------------------------------------
 ### Extension: Automatically grow the stack.
