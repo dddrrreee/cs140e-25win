@@ -8,7 +8,11 @@
 ## tl;dr: clarifications and errata
 
 Clarifications:
-  - do a pull, and the README will get updated about part 0.
+  - Part 0: do a pull, and the README will get updated.
+  - Part 1: replace `3-test-cache.c:staff_sync_tlb()` with
+    a call to your `mmu_sync_pte_mods()` --- all the test
+    is trying to do is to verify that 
+    TLB misses occur after invalidating the TLB.
 
 -----------------------------------------------------------------------
 
