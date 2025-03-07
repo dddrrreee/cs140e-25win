@@ -4,14 +4,13 @@
   <img src="images/pi-vm.jpg" width="650" />
 </p>
 
-######################################################################
+-----------------------------------------------------------------------
 ## tl;dr: clarifications and errata
 
 Clarifications:
   - do a pull, and the README will get updated about part 0.
 
-
-######################################################################
+-----------------------------------------------------------------------
 
 We've done trivial virtual memory system without page tables by pinning
 entries in the TLB.  This approach lets us map a reasonable amount of
