@@ -280,4 +280,9 @@ void * custom_c_runtime_init(void);
 // make a symbol weak.
 #define WEAK(fn) __attribute__((weak)) fn
 
+// flush all caches.  [should be one name]
+void cache_flush_all(void);
+void flush_caches (void);
+
+
 #endif

@@ -1,0 +1,469 @@
+###########################################################
+# Below follows my current view of the "safest" approach to 
+# compiling a big multi-language (C, asm) project that spans
+# directories and putting the results in a <BUILD_DIR>
+#
+# [It's long, but it's mostly comments.]
+#
+# Given:
+#   1. <PROGS>: a list of programs to generate.  These are 
+#      standalone program files with a `notmain`.
+#   2. <LIBNAME>: an archive <.a> to make from all of <COMMON_SRC>.  
+#
+#      at least one of <PROG> and <LIBNAME> must be defined.
+#
+#   3. <COMMON_SRC>: list of all shared C and .S source code.
+#      linked with all <p> \in <PROGS>.
+#   4. <PREBUILT_OBJS>: prebuilt .o object files (e.g., from staff).
+#
+#   !NOTE! other than <PREBUILT_OBJS> all files must be in the 
+#   current directory or its children. It is illegal to be higher 
+#   in the directory structure.  (We don't check this)
+#
+# Then:
+#   1. automatically generate a <.bin> and <.list> for all <PROGS>
+#   2. automatically generate a <.a> and <.list> for <LIBNAME>
+#   3. put all compiler results (.o, .d, .elf) in <BUILD_DIR>
+#
+#
+# The Makefile should remake exactly what is needed no matter
+# what you do.  In particular, if you 
+#   - 'touch'/modify any .c, .S, .h file or the <Makefile> 
+#     itself.
+#   - delete any .o, .d, .list, .elf, .bin file
+# it should remake the affected and dependent pieces.
+#
+# Specific decisions to increase safety:
+# 0. use gcc to auto-gen dependencies [no surprise: common]
+# 1. key: no <VPATH>.  we eliminate the need for <VPATH> and its
+#    many betrayals by putting every <.o> and <.d> in a isomophically 
+#    mirrored directory in <BUILD_DIR>.  this lets us use 
+#    pattern rules to match without using <VPATH>.
+#    e.g.  
+#        foo/bar/baz.c  
+#    will have:
+#        <BUILD_DIR>/foo/bar/baz.o
+#        <BUILD_DIR>/foo/bar/baz.d
+#    This burns time, but for our class is fast enough it doesn't
+#    matter.  We've had at least two very nasty bugs from VPATH
+#    so it's good to not have +1 more.
+# 2. Every rule explicitly specifies the <.d> it depends on. 
+#    This catches if there is a mistake in where you think 
+#    a file's <.d> is or if it got deleted.  [safety net for 
+#    common mistake.  I made this mistake in an old 140e makefile 
+#    and `make` silently ran without complaint, happily using stale
+#    inputs]
+# 3. We disable default rules (%.o:%.c, %.o:%.S), and use static 
+#    targets to eliminate unexpected behavior.  Also to catch 
+#    if any file slips through our rules.
+# 4. The use of static targets also eliminates the need for 
+#    .PRECIOUS directives which don't safely handle control-C 
+#    during compilation and appear to have some other issues
+#    (which I admit I didn't investigate).
+# 5. As a small change, we explicitly do a `mkdir -p <BUILD_DIR>`
+#    for every rule that needs it.  this is wasteful of CPU cycles
+#    but (hopefully) falls in the "obvious correct result" category.
+#    In the past I've used "| $(BUILD_DIR)" order dependencies, but 
+#    they seem to sometimes have issues even with the use of the <FORCE>
+#    hack.  
+# 6. We always attempt to rebuild libpi/libpi.a rather than doing anything
+#    fancy.  Again: waste cycles so we don't have to have a logical 
+#    argument as to why we don't need to.
+#
+
+
+#######################################################################
+# 1. Setup variables.
+#
+
+# check that they don't use relative paths.  can probably handle
+# them, but it's easier to just give an error.
+#
+# error message assumes this is for libpi:
+$(foreach file, $(COMMON_SRC),                      \
+    $(if $(findstring ../, $(file)),                \
+        $(error "$(file) has a relative path: copy it into libpi/src")))
+
+# all your common C files: note that unlike w VPATH there's no
+# danger in having multiple files with same name (e.g., foo.c)
+C_SRC := $(filter %.c,$(COMMON_SRC))
+
+# all your common asm files.
+ASM_SRC := $(filter %.S,$(COMMON_SRC))
+
+# all prebuilt .o's
+PREBUILT_OBJS := $(STAFF_OBJS)  $(PREBUILT_OBJS)
+
+# what directory to put the generated files; you can change this.
+BUILD_DIR ?= ./objs
+
+# massive hack:
+#  problem: 
+#   - "mkdir -p (BUILD_DIR)/file_dir" -- if file_dir has ".."
+#     it will pop out of the build directory.
+#  hack soln: 
+#   - we add as many levels of depth as we allow ".." components.
+#   - will keep the obj in the build dir.
+#   - gross, tho.
+ORIG_BUILD_DIR := $(BUILD_DIR)
+BUILD_DIR := $(BUILD_DIR)/l1/l2/l3/
+
+# if you want to specify start.S instead of start.o.  this is 
+# kind of gross, but we're trying to be backwards compatible
+# with other makefiles.
+ifdef OUR_START
+    #$(error "Setting <START> to $(START) from $(OUR_START) [obj=$(START_OBJ)")
+    START := $(BUILD_DIR)/$(OUR_START:.S=.o)
+    # set this variable only if they override.
+    START_OBJ := $(START)
+endif
+
+# If you want to be especially careful, set this flag to 1.
+# The Makefile will automatically run `make clean` whenever 
+# if it or any included Makefile changes.  
+# CLEAN_IF_MAKEFILE_CHANGES := 1
+
+###############################################################
+# Config and sanity checks
+
+
+# don't print when change directories.
+MAKEFLAGS += --no-print-directory
+# warn when we use unset variables; useful when developing
+# MAKEFLAGS += --warn-undefined-variables
+
+# sanity checks.
+ifndef LIBNAME
+ifndef PROGS
+    $(error "neither <LIBNAME> nor <PROGS> is defined.")
+endif
+endif
+
+# Nasty if you make this mistake!
+ifeq ($(BUILD_DIR),.)
+    $(error "<BUILD_DIR> cannot be '.' or clean will remove everything.")
+endif
+# Ditto.
+ifeq ($(BUILD_DIR),)
+    $(error "<BUILD_DIR> cannot be empty!")
+endif
+
+BOOTLOADER ?= pi-install
+
+# We had these so they get passed to <Makefile.check>: probably
+# better to just pass them on the command line. [FIXME]
+ifdef BOOTLOADER
+    export BOOTLOADER
+endif
+ifdef GREP_STR
+    export GREP_STR
+endif
+#ifdef START
+#    export START
+#endif
+
+# pull in 140e definitions of common variables:
+#   - <LPP>, <LPI>, <START>, <MEMMAP>, <CFLAGS>
+#   - tool names: <CC>, <OD>, etc
+include $(CS140E_2025_PATH)/libpi/defs.mk
+
+# if they don't want to override the check makefile.
+ifndef MK_CHK
+    MK_CHK := $(LPP)/mk/Makefile.check-v3
+endif
+
+# hack for running code.
+ifneq ($(RUN),0)
+    RUN_PROGS = run
+endif
+
+###############################################################
+# make all the different target names.
+
+# put all .o from every source in <BUILD_DIR>
+prog_objs := $(patsubst %.c, $(BUILD_DIR)/%.o, $(PROGS))
+csrc_objs := $(patsubst %.c, $(BUILD_DIR)/%.o, $(C_SRC))
+asm_objs  := $(patsubst %.S, $(BUILD_DIR)/%.o, $(ASM_SRC))
+
+# every .o has a .d dependency file.
+all_objs := $(prog_objs) $(csrc_objs) $(asm_objs)
+all_deps := $(all_objs:.o=.d)
+
+# flags for generating .d
+DEPFLAGS =  -MT $@ -MMD -MP -MF $(BUILD_DIR)/$*.d
+
+# all .bin and .list files: these are the only generated
+# files that do not get placed in <BUILD_DIR>
+all_bins := $(PROGS:.c=.bin)
+all_list := $(PROGS:.c=.list)
+
+# all .elf files: these are in <BUILD_DIR>
+all_elf  := $(prog_objs:.o=.elf)
+
+# pull out every Makefile from the confusingly-named
+# <MAKEFILE_LIST> (which can contain .d files if they
+# get included)
+MK_LIST := $(filter-out %.d, $(MAKEFILE_LIST))
+
+# this is part of a hack to automatically run 
+# "make clean" whenever the makefile gets modified.
+TIME_STAMP := $(BUILD_DIR)/.timestamp
+ifdef CLEAN_IF_MAKEFILE_CHANGES
+    ifneq ($(CLEAN_IF_MAKEFILE_CHANGES),0)
+        DEPS    := $(TIME_STAMP)
+    endif
+endif
+
+# make everything depend on the makefile itself.
+DEPS      += $(MK_LIST)
+
+# extra linker dependencies: note we keep $(LPI) first
+# b/c of the lame way we make libpi/staff-start.o 
+# (doing a cp from BUILD_DIR)
+LINK_DEPS := $(LPI) $(START) $(MEMMAP) $(DEPS)
+
+LIBS += $(LPI)
+
+# fake target used to run the programs.
+progs_run    := $(PROGS:.c=.run)
+
+# delete all implicit rules
+.SUFFIXES:
+
+###############################################################
+# compilation rules: this is where all the tricky stuff
+# is.
+
+all:: $(LIBNAME) $(all_bins) $(RUN_PROGS)
+
+# overkill method to run "make clean" if any makefile has changed.
+# we *could* just recompile, however i think there can be cases
+# where this won't be enough.
+$(TIME_STAMP): $(MK_LIST)
+	@echo "A makefiles <$(MK_LIST)> has changed: going to run 'make clean'"
+	@make clean
+	@mkdir -p $(dir $@)
+	@touch $@
+
+# a fake target used to force a rule to always run.
+.PHONY: FORCE
+FORCE:
+
+# only remake libpi if we aren't making it here.
+ifneq ($(LIBNAME),libpi.a)
+ifneq ($(LIBNAME),libpi-fp.a)
+
+# we use the <FORCE> hack to force make to 
+# always try recompiling libpi.a
+#
+# b/c of the weird way we do START we need to state its a result
+# of running $(LPI) so that -j10 will work.
+#
+# [FIXME: I think we can just put this *after* the 
+# LIBNAME rule?]
+$(DEFAULT_START) $(LPI): FORCE
+	@+make -C $(LPP)  "PROGS="
+endif
+endif
+
+# Rule to generate all <BUILD_DIR>/.elf files.
+link_objs := $(asm_objs) $(csrc_objs) 
+link_deps := $(link_objs:.o=.d)
+link_objs += $(PREBUILT_OBJS)
+
+# we delete the archive before creating so that the hack of
+# having duplicate symbols in it resolved in order works.
+# 
+# note: we don't depend on LINK_DEPS b/c we don't use memmap
+# etc.
+$(LIBNAME): $(link_deps) $(link_objs) $(DEPS)
+	@rm -f $@
+	$(AR) srf $@ $(link_objs) 
+	$(OD) -D $@ > $@.list
+
+# if we have made a <LIBNAME> lib, link against it, otherwise 
+# link against the .o's.
+ifdef LIBNAME
+    elf_objs := $(LIBNAME)
+    elf_deps :=
+else
+    elf_objs := $(link_objs)
+    elf_deps := $(link_deps)
+endif
+
+$(all_elf): %.elf: %.o %.d $(elf_objs) $(elf_deps) $(LINK_DEPS) $(LIBS)
+	@mkdir -p $(dir $@)
+	$(LD) $(START) $< $(elf_objs) -T $(MEMMAP) -o $@ $(LIBS) $(LIB_POST)
+
+# every .elf gets disassembled into a .list.  use `-D` if
+# you want to see the C source. [Have an option?]
+$(all_list): %.list: $(BUILD_DIR)/%.elf
+	$(OD) -d $< > $@
+
+# make a .bin from every <BUILD_DIR>/.elf.
+$(all_bins): %.bin: $(BUILD_DIR)/%.elf %.list $(DEPS)
+	$(OCP) $< -O binary $@
+
+# delete built-in rules for .c and .d
+%.o:%.c
+%.d:%.c
+# all C object files use this rule.
+c_objs := $(csrc_objs) $(prog_objs)
+$(c_objs): $(BUILD_DIR)/%.o: %.c $(BUILD_DIR)/%.d  $(DEPS)
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+
+# delete built in rules for .S
+%.o:%.S
+%.d:%.S
+%.s:%.S
+%.o:%.s
+
+# all .S asm files use this rule: note the explicit .d 
+# dependency.
+S := $(asm_objs) $(START_OBJ)
+$(S): $(BUILD_DIR)/%.o: %.S $(BUILD_DIR)/%.d $(DEPS)  
+	@mkdir -p $(dir $@)
+	$(CC) $(CPP_ASFLAGS) $(DEPFLAGS) -c $< -o $@
+
+# tell gcc not to worry if a .d doesn't exist since it gets
+# made during compilation.   you can test that this rule
+# doesn't compromise dependencies by using touching or deleting
+# any .d
+$(START_OBJ:.o=.d) $(all_deps): %.d: ;
+
+# error checking:
+$(prebuilt_objs):
+	$(error "ERROR: PREBUILT_OBJ <$@> does not exist!")
+
+# I had a weird case where the rules below were actually triggerig.  
+# Can happen if the enclosing makefile defines its own .o rules 
+# and they come after the include for this Makefile.  Might be better 
+# to get rid of these checks?
+%.o:
+	$(error "FATAL: we disabled implicit .o: trying to make unknown <$@> from <$<>\n")
+%.s:
+	$(error "FATAL: we disabled implicit .s: but trying to make $@\n")
+
+# include this after the compilation rules: make sure this is last
+# so that the dependencies it defines don't mess with the compilation
+# rules.
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),cleanall)
+-include $(all_deps)  # include dep files
+endif
+endif
+
+###############################################################
+# checking/run commands: currently we use recursive make to invoke
+# the checking makefile.  It may be better to just include it.
+
+progs_run    := $(PROGS:.c=.run)
+
+$(progs_run): %.run: %.bin
+	$(BOOTLOADER) $(TTYUSB) ./$<
+run: $(progs_run)
+
+# named pattern that can be added as a dependency: will force
+# all binaries to be generated.
+gen-binaries: $(all_bins)
+
+# we use <CAN_EMIT> to prevent mistaken re-emit of .out files.
+ifneq ($(CAN_EMIT), 0)
+emit: $(DEPS) $(all_bins) FORCE
+	@make -e -f $(MK_CHK) emit "TESTS=$(all_bins)"
+endif
+
+check: $(DEPS) $(all_bins)
+	@make -f $(MK_CHK) check "TESTS=$(all_bins)"
+
+.PHONY: run $(progs_run) emit check gen-binaries
+
+###############################################################
+# example of computing ctags across a bunch of different places.
+#   "make tags"
+# 
+# macos complains about non-unique names so we do some sort/uniq
+# stuff.
+#
+# if you don't want to tag libpi, just comment out:
+libpi_src  +=  $(sort $(wildcard $(LPP)/*.[cS] $(LPP)/*/*.[cS]))
+
+# find all the .c .S and .h files we depend on.
+
+# all .c and .S in this project
+all_src  := $(PROGS) $(C_SRC) $(ASM_SRC) $(libpi_src)
+# now find all .h in every directory
+src_dirs := $(sort $(dir $(all_src)))
+all_hdrs += $(foreach d, $(src_dirs), $(wildcard $d/*.h))
+# unique set of files so macos ctags does not complain.
+all_tags := $(sort $(all_src) $(all_hdrs))
+
+# we always generate it, but we could also add all the files as
+# a dependency.
+tags: 
+	@ctags $(all_tags)
+
+# important since the <tags> file exists.
+.PHONY: tags
+
+###############################################################
+# common support rules.  nothing fancy about them.
+#
+
+# we just nuke the entire $(BUILD_DIR) so don't put 
+# stuff there!
+ifdef LIBNAME
+    libclean = $(LIBNAME) $(LIBNAME).list
+endif
+
+clean::
+	rm -rf $(ORIG_BUILD_DIR)  *~ *.bak $(all_bins) $(all_list) tags $(libclean) 
+	make -f $(MK_CHK) clean
+
+# remove all "~" and ".bak" files in all source dirs
+# easy to add other files (e.g., macos seems to puke 
+# everywhere)
+all_src  := $(PROGS) $(C_SRC) $(ASM_SRC)
+src_dirs := $(sort $(dir $(all_src)))
+trash    := $(foreach d, $(src_dirs), $(wildcard $d/*~))
+trash    += $(foreach d, $(src_dirs), $(wildcard $d/*.bak))
+trash    := $(sort $(trash))
+deep-clean:
+	@echo "Deleting trash: <$(trash)> and <$(BUILD_DIR)>"
+	@rm -f $(trash)
+	make -s -C ./  clean
+	make -s -C $(LPP) clean
+
+# all targets that do not generate a file with the target
+# name.
+.PHONY: clean all print deep-clean libs
+
+# print useful variables to help see what is going on.
+#
+# the commands:
+#   make -d
+#   make --debug
+# also give useful information.
+print:
+	@echo "----------------- user defined -----------------";
+	@echo "PROGS        = <$(PROGS)>"
+	@echo "C_SRC        = <$(C_SRC)>"
+	@echo "ASM_SRC      = <$(ASM_SRC)>"
+	@echo "PREBUILT_OBJS= <$(PREBUILT_OBJS)>"
+	@echo "----------------- computed -----------------";
+	@echo "prog_objs    =<$(prog_objs)>"
+	@echo "csrc_objs    =<$(csrc_objs)>"
+	@echo "asm_objs     =<$(asm_objs)>"
+	@echo "c_objs       =<$(c_objs)>"
+	@echo "all_deps     =<$(all_deps)>"
+	@echo "link_objs    =<$(link_objs)>"
+	@echo "link_deps    =<$(link_deps)>"
+	@echo "elf_objs    =<$(elf_objs)>"
+	@echo "all_bins    =<$(all_bins)>"
+	@echo "all_elf    =<$(all_elf)>"
+	@#echo "all_tags    =<$(all_tags)>"
+	@echo "----------------- aux vars -----------------";
+	@echo "DEPS         =<$(DEPS)>"
+	@echo "LINK_DEPS    =<$(LINK_DEPS)>"
+	@echo "MK_LIST      =$(MK_LIST)"
