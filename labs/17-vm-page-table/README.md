@@ -13,6 +13,15 @@ BUG:
     User memory should be mapped to `MEM_uncached` (just as we
     have done all quarter).
 
+  - For `code/Makefile` get rid of `.staff` by changing:
+
+            YOUR_VM = $(CS140E_2025_PATH)/labs/15-vm-coherence/code.staff/
+
+    To:
+
+            YOUR_VM = $(CS140E_2025_PATH)/labs/15-vm-coherence/code/
+
+
 Clarifications:
   - Compare the tests for the coherence lab (15) with the tests
     in the code directory: the only difference between them is
