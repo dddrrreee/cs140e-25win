@@ -95,5 +95,7 @@ Lots of other stuf.
   - static bug finder.
 
 
-<img src="lab-memes/why-this-class.jpg" width="400" align="center" />
+<p align="center">
+<img src="lab-memes/why-this-class.jpg" width="400" />
+</p>
 
