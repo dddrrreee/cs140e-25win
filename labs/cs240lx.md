@@ -84,7 +84,10 @@ And a few different communication protocols:
 
 
 <p align="center">
-<img src="lab-memes/why-this-class.jpg" width="300" />
+<img src="lab-memes/why-this-class.jpg" 
+     width="300" 
+     alt="alt text" style="float: right; margin-left: 1em;" 
+/>
 </p>
 
 Device labs are fun.  So we do those too:
