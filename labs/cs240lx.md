@@ -21,6 +21,7 @@ Topics:
   - depends alot on what people are interested in.  can be
     OS heavy, or more device heavy, or more project heavy
     depending.  let us know what kind of stuff you are into.
+  - Probably at least one new board (pico, different riscv).
 
 Always generate executable code at runtime
   - even more low level than inline assembly.
@@ -34,6 +35,7 @@ Always generate executable code at runtime
 Also ways do a custom pcb:
   - parthiv historically comes in to do a week of custom pcb labs so
     can make your own cool boards.
+
 
 Always build a bunch of tools using memory faults and single-stepping.
   - Eraser race detector 
@@ -84,3 +86,4 @@ combining devices into standalone tools
   - little osscilliscope using oled display, mic, adc
 
 Lots of other stuf.
+  - e.g., maybe some other languages (rust?  zig?)
