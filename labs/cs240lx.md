@@ -93,3 +93,7 @@ standalone tools
 Lots of other stuf.
   - e.g., maybe some other languages (rust?  zig?)
   - static bug finder.
+
+
+<img src="lab-memes/why-this-class.jpg" width="400" />
+
