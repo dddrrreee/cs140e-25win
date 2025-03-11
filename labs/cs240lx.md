@@ -15,9 +15,7 @@ Differences:
   - usually its the people who find 140e fun (+/-).
 
 Topics:
-  - tricks i picked up over 3+ decades.
-  - low level
-  - cool tricks.
+  - cool tricks i picked up over 3+ decades. or seem not well covered.
   - depends alot on what people are interested in.  can be
     OS heavy, or more device heavy, or more project heavy
     depending.  let us know what kind of stuff you are into.
@@ -44,7 +42,6 @@ Always build a bunch of tools using memory faults and single-stepping.
   - instruction level profiler measuring cycles, cache misses,
     etc.
 
-
 If we have more kernel hackers some subset of:
   - network bootloader
   - make an actual OS that ties all the stuff together.
@@ -53,6 +50,7 @@ If we have more kernel hackers some subset of:
   - actual clean fat32 r/w so can do distributed file system,
     firmware updates.
   - processes that migrate from one pi to another.
+  - FUSE file system interface.
 
 Speed:
   - make low level operations (exceptions, fork/wait, pipe
@@ -87,3 +85,4 @@ combining devices into standalone tools
 
 Lots of other stuf.
   - e.g., maybe some other languages (rust?  zig?)
+  - static bug finder.
