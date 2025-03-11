@@ -1,6 +1,11 @@
-Looks like we'll have a record number for 240lx next quarter.
+## CS240lx
 
-Samerough format: 
+If you liked 140e, consider taking cs240lx next quarter. 
+  - it's fun.
+  - it's Joe's last quarter before graduation.
+  - we currently have a record number enrolled
+
+Same rough format: 
   - still 2 days a week.
   - still hardware, low level code.
   - still pizza.
