@@ -1,9 +1,9 @@
+## CS240lx spring quarter 2025
 
 <p align="center">
-<img src="lab-memes/chaotic-study.jpg" width="350" />
+<img src="lab-memes/chaotic-study.jpg" width="400" />
 </p>
 
-## CS240lx spring quarter 2025
 
 If you liked 140e, consider taking cs240lx next quarter. 
   - it's fun.
