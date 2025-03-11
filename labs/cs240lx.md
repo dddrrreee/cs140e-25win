@@ -1,9 +1,6 @@
-<p align="center">
-<img src="lab-memes/why-this-class.jpg" width="300" />
-</p>
 
 <p align="center">
-<img src="lab-memes/chaotic-study.jpg" width="300" />
+<img src="lab-memes/chaotic-study.jpg" width="350" />
 </p>
 
 ## CS240lx spring quarter 2025
@@ -84,6 +81,11 @@ And a few different communication protocols:
   - over speaker/mic.
   - over light and camera (?)
   - lora?
+
+
+<p align="center">
+<img src="lab-memes/why-this-class.jpg" width="300" />
+</p>
 
 Device labs are fun.  So we do those too:
   - accelerometer, gyro
