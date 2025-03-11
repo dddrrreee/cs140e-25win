@@ -4,12 +4,11 @@
 <img src="lab-memes/chaotic-study.jpg" width="400" />
 </p>
 
-
 If you liked 140e, consider taking cs240lx next quarter. 
   - it's fun.
   - it's Joe's last quarter before graduation.
-  - we currently have a record number enrolled so by the birthday
-    paradox / pigeon hole principle, your fav people will be there.
+  - we have record enrollment so by the birthday paradox 
+    / pigeon hole principle, your fav people will be there.
 
 Same rough format: 
   - still 2 days a week.
@@ -103,6 +102,21 @@ Lots of other stuf.
 
 
 
+---------------------------------------------------------------------------
+#### What we need
+
+If you have time:
+  - let us know which topics you're more into.
+  - whether 6pm in same room as 140e is better
+    than 530 (or 430?) in different room.
+
+Also: debating doing two new classes:
+  - device class were we do the fun stuff.
+  - low-level tools class (replacement for cs343 
+    advanced compilers) where we build a bunch of
+    tools --- static, dynamic, simulator, symbolic.
+
+---------------------------------------------------------------------------
 <p align="center">
 <img src="lab-memes/aspirations.jpg" width="350" />
 </p>
