@@ -1,4 +1,4 @@
-## CS240lx spring quarter 2025
+## CS240lx-25 pitch
 
 <p align="center">
 <img src="lab-memes/chaotic-study.jpg" width="400" />
