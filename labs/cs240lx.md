@@ -93,9 +93,9 @@ Device labs are fun.  So we do those too:
   - lora so can send bytes 1km+
 
 More systems-y device labs, by combining into
-standalone tools
-  - acoustically reactive light display using mic, adc, addressable light
-    array.  extend to multiple systems.
+standalone tools:
+  - acoustically reactive light display using mic, adc, 
+    addressable light array.  extend to multiple systems.
   - little osscilliscope using oled display, mic, adc
 
 Lots of other stuf.
