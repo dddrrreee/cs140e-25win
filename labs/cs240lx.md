@@ -2,6 +2,10 @@
 <img src="lab-memes/why-this-class.jpg" width="300" />
 </p>
 
+<p align="center">
+<img src="lab-memes/chaotic-study.jpg" width="300" />
+</p>
+
 ## CS240lx spring quarter 2025
 
 If you liked 140e, consider taking cs240lx next quarter. 
@@ -101,5 +105,6 @@ Lots of other stuf.
 
 
 <p align="center">
-<img src="lab-memes/aspirations.jpg" width="300" />
+<img src="lab-memes/aspirations.jpg" width="350" />
 </p>
+
