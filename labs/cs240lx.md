@@ -1,4 +1,4 @@
-## CS240lx
+## CS240lx spring quarter 2025
 
 If you liked 140e, consider taking cs240lx next quarter. 
   - it's fun.
@@ -14,10 +14,11 @@ Differences:
   - usually stop around 1030 or so, vs 1230.
   - is more conceptual based.
       - 140e must cover execution, vm, fs, some network.
-      - 240lx assumes you know that stuff, and use them to do
-        stuff.
-  - substitution for cs240 (paper reading).
-  - usually its the people who find 140e fun (+/-).
+      - 240lx assumes you know that stuff, and use it to do
+        other stuff.
+  - class can replace cs240 (paper reading).
+  - usually has the people who find 140e fun (+/-).
+  - the final projects are wild.
 
 Topics:
   - cool tricks i picked up over 3+ decades. or seem not well covered.
@@ -25,6 +26,7 @@ Topics:
     OS heavy, or more device heavy, or more project heavy
     depending.  let us know what kind of stuff you are into.
   - Probably at least one new board (pico, different riscv).
+
 
 Always generate executable code at runtime
   - even more low level than inline assembly.
@@ -35,7 +37,7 @@ Always generate executable code at runtime
   - can do all sorts of speed hacks by specializing using runtime
     information.  compiling data structures to code.  etc.
 
-Also ways do a custom pcb:
+Always do a custom pcb:
   - parthiv historically comes in to do a week of custom pcb labs so
     can make your own cool boards.
 
@@ -57,7 +59,7 @@ If we have more kernel hackers some subset of:
   - processes that migrate from one pi to another.
   - FUSE file system interface.
 
-Speed:
+Always do some speed:
   - make low level operations (exceptions, fork/wait, pipe
     ping pong) 10-100x faster than laptop.  i think this is
     feasible but haven't done, so am interested.
@@ -68,22 +70,22 @@ Speed:
   - make a digital analyzer (printk for electricity) where
     you get the error rate down to a small number of nanoseconds
 
-different communication protocols: 
+And a few different communication protocols: 
   - how fast can send/recv data over gpio pins b/n two pis?
   - over IR
   - over speaker/mic.
   - over light and camera (?)
   - lora?
 
-Fun device labs:
-  - this is the fun stuff, so we do it.
+Device labs are fun.  So we do those too:
   - accelerometer, gyro
   - lidar
   - addressable light array
   - analog to digital converter.
   - lora so can send bytes 1km+
 
-combining devices into standalone tools
+More systems-y device labs, by combining into
+standalone tools
   - acoustically reactive light display using mic, adc, addressable light
     array.  extend to multiple systems.
   - little osscilliscope using oled display, mic, adc
