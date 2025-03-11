@@ -83,8 +83,6 @@ And a few different communication protocols:
   - lora?
 
 
-<img align="right" src="lab-memes/why-this-class.jpg" width="300">
-
 Device labs are fun.  So we do those too:
   - accelerometer, gyro
   - lidar
