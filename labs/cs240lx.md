@@ -1,3 +1,7 @@
+<p align="center">
+<img src="lab-memes/why-this-class.jpg" width="300" />
+</p>
+
 ## CS240lx spring quarter 2025
 
 If you liked 140e, consider taking cs240lx next quarter. 
@@ -95,7 +99,7 @@ Lots of other stuf.
   - static bug finder.
 
 
-<p align="center">
-<img src="lab-memes/why-this-class.jpg" width="400" />
-</p>
 
+<p align="center">
+<img src="lab-memes/aspirations.jpg" width="300" />
+</p>
