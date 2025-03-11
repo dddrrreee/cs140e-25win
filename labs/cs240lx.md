@@ -118,6 +118,6 @@ Also: debating doing two new classes:
 
 ---------------------------------------------------------------------------
 <p align="center">
-<img src="lab-memes/aspirations.jpg" width="350" />
+<img src="lab-memes/aspirations.jpg" width="400" />
 </p>
 
