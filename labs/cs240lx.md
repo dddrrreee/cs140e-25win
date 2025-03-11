@@ -8,7 +8,8 @@
 If you liked 140e, consider taking cs240lx next quarter. 
   - it's fun.
   - it's Joe's last quarter before graduation.
-  - we currently have a record number enrolled
+  - we currently have a record number enrolled so by the birthday
+    paradox / pigeon hole principle, your fav people will be there.
 
 Same rough format: 
   - still 2 days a week.
