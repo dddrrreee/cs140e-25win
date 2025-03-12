@@ -10,6 +10,7 @@ If you liked 140e, consider taking cs240lx next quarter.
   - we have record enrollment so by the birthday paradox 
     / pigeon hole principle, your fav people will be there.
 
+
 Same rough format: 
   - still 2 days a week.
   - still hardware, low level code.
@@ -24,6 +25,11 @@ Differences:
   - class can replace cs240 (paper reading).
   - usually has the people who find 140e fun (+/-).
   - the final projects are wild.
+
+Two old, partially overlapping offerings:
+  - [cs240lx-22](https://github.com/dddrrreee/cs240lx-22spr/tree/main/labs)
+  - [cs240lx-23](https://github.com/dddrrreee/cs240lx-23spr/tree/main/labs)
+
 
 Topics:
   - cool tricks i picked up over 3+ decades. or seem not well covered.
