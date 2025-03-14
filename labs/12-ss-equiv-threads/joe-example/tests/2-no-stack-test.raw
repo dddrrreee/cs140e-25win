@@ -1,0 +1,399 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/2-no-stack-test.bin>: about to boot
+TRACE:simple_boot: sending 17152 bytes, crc32=c412828a
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+ENABLE
+hash: tid=1: cnt=1: pc=0x810c, hash=0xb9c6b424
+hash: tid=1: cnt=2: pc=0x8110, hash=0x70916294
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+hash: tid=1: cnt=1: pc=0x810c, hash=0xb9c6b424
+hash: tid=1: cnt=2: pc=0x8110, hash=0x70916294
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+hash: tid=1: cnt=1: pc=0x810c, hash=0xb9c6b424
+hash: tid=1: cnt=2: pc=0x8110, hash=0x70916294
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+hash: tid=1: cnt=1: pc=0x810c, hash=0xb9c6b424
+hash: tid=1: cnt=2: pc=0x8110, hash=0x70916294
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+hash: tid=2: cnt=1: pc=0x8118, hash=0x508812f7
+hash: tid=2: cnt=2: pc=0x811c, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+hash: tid=2: cnt=1: pc=0x8118, hash=0x508812f7
+hash: tid=2: cnt=2: pc=0x811c, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+hash: tid=2: cnt=1: pc=0x8118, hash=0x508812f7
+hash: tid=2: cnt=2: pc=0x811c, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+hash: tid=2: cnt=1: pc=0x8118, hash=0x508812f7
+hash: tid=2: cnt=2: pc=0x811c, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+hash: tid=2: cnt=1: pc=0x8118, hash=0x508812f7
+switching from tid=2,pc=0x8118 to tid=1,pc=0x8108,sp=0x0
+hash: tid=1: cnt=1: pc=0x810c, hash=0xb9c6b424
+switching from tid=1,pc=0x810c to tid=2,pc=0x8118,sp=0x0
+hash: tid=2: cnt=2: pc=0x811c, hash=0x18e43fb1
+switching from tid=2,pc=0x811c to tid=1,pc=0x810c,sp=0x0
+hash: tid=1: cnt=2: pc=0x8110, hash=0x70916294
+switching from tid=1,pc=0x8110 to tid=2,pc=0x811c,sp=0x0
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:notmain:easy no-stack passed
+hash: tid=3: cnt=1: pc=0x803c, hash=0x780cb2cf
+hash: tid=3: cnt=2: pc=0x8040, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+hash: tid=3: cnt=1: pc=0x803c, hash=0x780cb2cf
+hash: tid=3: cnt=2: pc=0x8040, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+hash: tid=3: cnt=1: pc=0x803c, hash=0x780cb2cf
+hash: tid=3: cnt=2: pc=0x8040, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+hash: tid=3: cnt=1: pc=0x803c, hash=0x780cb2cf
+hash: tid=3: cnt=2: pc=0x8040, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+hash: tid=4: cnt=1: pc=0x80a4, hash=0x7ad834e8
+hash: tid=4: cnt=2: pc=0x80a8, hash=0xa590b511
+hash: tid=4: cnt=3: pc=0x80ac, hash=0x309feec9
+hash: tid=4: cnt=4: pc=0x80b0, hash=0xa9b0e82d
+hash: tid=4: cnt=5: pc=0x80b4, hash=0x4fc03f71
+hash: tid=4: cnt=6: pc=0x80b8, hash=0xf692d880
+hash: tid=4: cnt=7: pc=0x80bc, hash=0x2f5703e8
+hash: tid=4: cnt=8: pc=0x80c0, hash=0x3a5e3a4e
+hash: tid=4: cnt=9: pc=0x80c4, hash=0x7d532412
+hash: tid=4: cnt=10: pc=0x80c8, hash=0xc1a38bc4
+hash: tid=4: cnt=11: pc=0x80cc, hash=0x99904d00
+hash: tid=4: cnt=12: pc=0x80d0, hash=0x6018f928
+hash: tid=4: cnt=13: pc=0x80d4, hash=0x89285cb7
+hash: tid=4: cnt=14: pc=0x8120, hash=0xfb04efda
+hash: tid=4: cnt=15: pc=0x8124, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+hash: tid=4: cnt=1: pc=0x80a4, hash=0x7ad834e8
+hash: tid=4: cnt=2: pc=0x80a8, hash=0xa590b511
+hash: tid=4: cnt=3: pc=0x80ac, hash=0x309feec9
+hash: tid=4: cnt=4: pc=0x80b0, hash=0xa9b0e82d
+hash: tid=4: cnt=5: pc=0x80b4, hash=0x4fc03f71
+hash: tid=4: cnt=6: pc=0x80b8, hash=0xf692d880
+hash: tid=4: cnt=7: pc=0x80bc, hash=0x2f5703e8
+hash: tid=4: cnt=8: pc=0x80c0, hash=0x3a5e3a4e
+hash: tid=4: cnt=9: pc=0x80c4, hash=0x7d532412
+hash: tid=4: cnt=10: pc=0x80c8, hash=0xc1a38bc4
+hash: tid=4: cnt=11: pc=0x80cc, hash=0x99904d00
+hash: tid=4: cnt=12: pc=0x80d0, hash=0x6018f928
+hash: tid=4: cnt=13: pc=0x80d4, hash=0x89285cb7
+hash: tid=4: cnt=14: pc=0x8120, hash=0xfb04efda
+hash: tid=4: cnt=15: pc=0x8124, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+hash: tid=4: cnt=1: pc=0x80a4, hash=0x7ad834e8
+hash: tid=4: cnt=2: pc=0x80a8, hash=0xa590b511
+hash: tid=4: cnt=3: pc=0x80ac, hash=0x309feec9
+hash: tid=4: cnt=4: pc=0x80b0, hash=0xa9b0e82d
+hash: tid=4: cnt=5: pc=0x80b4, hash=0x4fc03f71
+hash: tid=4: cnt=6: pc=0x80b8, hash=0xf692d880
+hash: tid=4: cnt=7: pc=0x80bc, hash=0x2f5703e8
+hash: tid=4: cnt=8: pc=0x80c0, hash=0x3a5e3a4e
+hash: tid=4: cnt=9: pc=0x80c4, hash=0x7d532412
+hash: tid=4: cnt=10: pc=0x80c8, hash=0xc1a38bc4
+hash: tid=4: cnt=11: pc=0x80cc, hash=0x99904d00
+hash: tid=4: cnt=12: pc=0x80d0, hash=0x6018f928
+hash: tid=4: cnt=13: pc=0x80d4, hash=0x89285cb7
+hash: tid=4: cnt=14: pc=0x8120, hash=0xfb04efda
+hash: tid=4: cnt=15: pc=0x8124, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+hash: tid=4: cnt=1: pc=0x80a4, hash=0x7ad834e8
+hash: tid=4: cnt=2: pc=0x80a8, hash=0xa590b511
+hash: tid=4: cnt=3: pc=0x80ac, hash=0x309feec9
+hash: tid=4: cnt=4: pc=0x80b0, hash=0xa9b0e82d
+hash: tid=4: cnt=5: pc=0x80b4, hash=0x4fc03f71
+hash: tid=4: cnt=6: pc=0x80b8, hash=0xf692d880
+hash: tid=4: cnt=7: pc=0x80bc, hash=0x2f5703e8
+hash: tid=4: cnt=8: pc=0x80c0, hash=0x3a5e3a4e
+hash: tid=4: cnt=9: pc=0x80c4, hash=0x7d532412
+hash: tid=4: cnt=10: pc=0x80c8, hash=0xc1a38bc4
+hash: tid=4: cnt=11: pc=0x80cc, hash=0x99904d00
+hash: tid=4: cnt=12: pc=0x80d0, hash=0x6018f928
+hash: tid=4: cnt=13: pc=0x80d4, hash=0x89285cb7
+hash: tid=4: cnt=14: pc=0x8120, hash=0xfb04efda
+hash: tid=4: cnt=15: pc=0x8124, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+hash: tid=5: cnt=1: pc=0x8048, hash=0x8af74857
+hash: tid=5: cnt=2: pc=0x804c, hash=0x85b6923e
+hash: tid=5: cnt=3: pc=0x8050, hash=0x31a100b7
+hash: tid=5: cnt=4: pc=0x8054, hash=0xb875d592
+hash: tid=5: cnt=5: pc=0x8058, hash=0xf1cf1521
+hash: tid=5: cnt=6: pc=0x805c, hash=0x7a977436
+hash: tid=5: cnt=7: pc=0x8060, hash=0x5ffbd934
+hash: tid=5: cnt=8: pc=0x8064, hash=0xd594c486
+hash: tid=5: cnt=9: pc=0x8068, hash=0x7f2e7309
+hash: tid=5: cnt=10: pc=0x806c, hash=0x2546dc99
+hash: tid=5: cnt=11: pc=0x8120, hash=0xb313ca37
+hash: tid=5: cnt=12: pc=0x8124, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+hash: tid=5: cnt=1: pc=0x8048, hash=0x8af74857
+hash: tid=5: cnt=2: pc=0x804c, hash=0x85b6923e
+hash: tid=5: cnt=3: pc=0x8050, hash=0x31a100b7
+hash: tid=5: cnt=4: pc=0x8054, hash=0xb875d592
+hash: tid=5: cnt=5: pc=0x8058, hash=0xf1cf1521
+hash: tid=5: cnt=6: pc=0x805c, hash=0x7a977436
+hash: tid=5: cnt=7: pc=0x8060, hash=0x5ffbd934
+hash: tid=5: cnt=8: pc=0x8064, hash=0xd594c486
+hash: tid=5: cnt=9: pc=0x8068, hash=0x7f2e7309
+hash: tid=5: cnt=10: pc=0x806c, hash=0x2546dc99
+hash: tid=5: cnt=11: pc=0x8120, hash=0xb313ca37
+hash: tid=5: cnt=12: pc=0x8124, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+hash: tid=5: cnt=1: pc=0x8048, hash=0x8af74857
+hash: tid=5: cnt=2: pc=0x804c, hash=0x85b6923e
+hash: tid=5: cnt=3: pc=0x8050, hash=0x31a100b7
+hash: tid=5: cnt=4: pc=0x8054, hash=0xb875d592
+hash: tid=5: cnt=5: pc=0x8058, hash=0xf1cf1521
+hash: tid=5: cnt=6: pc=0x805c, hash=0x7a977436
+hash: tid=5: cnt=7: pc=0x8060, hash=0x5ffbd934
+hash: tid=5: cnt=8: pc=0x8064, hash=0xd594c486
+hash: tid=5: cnt=9: pc=0x8068, hash=0x7f2e7309
+hash: tid=5: cnt=10: pc=0x806c, hash=0x2546dc99
+hash: tid=5: cnt=11: pc=0x8120, hash=0xb313ca37
+hash: tid=5: cnt=12: pc=0x8124, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+hash: tid=5: cnt=1: pc=0x8048, hash=0x8af74857
+hash: tid=5: cnt=2: pc=0x804c, hash=0x85b6923e
+hash: tid=5: cnt=3: pc=0x8050, hash=0x31a100b7
+hash: tid=5: cnt=4: pc=0x8054, hash=0xb875d592
+hash: tid=5: cnt=5: pc=0x8058, hash=0xf1cf1521
+hash: tid=5: cnt=6: pc=0x805c, hash=0x7a977436
+hash: tid=5: cnt=7: pc=0x8060, hash=0x5ffbd934
+hash: tid=5: cnt=8: pc=0x8064, hash=0xd594c486
+hash: tid=5: cnt=9: pc=0x8068, hash=0x7f2e7309
+hash: tid=5: cnt=10: pc=0x806c, hash=0x2546dc99
+hash: tid=5: cnt=11: pc=0x8120, hash=0xb313ca37
+hash: tid=5: cnt=12: pc=0x8124, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+hash: tid=4: cnt=1: pc=0x80a4, hash=0x7ad834e8
+switching from tid=4,pc=0x80a4 to tid=5,pc=0x8044,sp=0x0
+hash: tid=5: cnt=1: pc=0x8048, hash=0x8af74857
+switching from tid=5,pc=0x8048 to tid=3,pc=0x8038,sp=0x0
+hash: tid=3: cnt=1: pc=0x803c, hash=0x780cb2cf
+switching from tid=3,pc=0x803c to tid=4,pc=0x80a4,sp=0x0
+hash: tid=4: cnt=2: pc=0x80a8, hash=0xa590b511
+switching from tid=4,pc=0x80a8 to tid=5,pc=0x8048,sp=0x0
+hash: tid=5: cnt=2: pc=0x804c, hash=0x85b6923e
+switching from tid=5,pc=0x804c to tid=3,pc=0x803c,sp=0x0
+hash: tid=3: cnt=2: pc=0x8040, hash=0xf7e37b42
+switching from tid=3,pc=0x8040 to tid=4,pc=0x80a8,sp=0x0
+hash: tid=4: cnt=3: pc=0x80ac, hash=0x309feec9
+switching from tid=4,pc=0x80ac to tid=5,pc=0x804c,sp=0x0
+hash: tid=5: cnt=3: pc=0x8050, hash=0x31a100b7
+switching from tid=5,pc=0x8050 to tid=3,pc=0x8040,sp=0x0
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+hash: tid=4: cnt=4: pc=0x80b0, hash=0xa9b0e82d
+switching from tid=4,pc=0x80b0 to tid=5,pc=0x8050,sp=0x0
+hash: tid=5: cnt=4: pc=0x8054, hash=0xb875d592
+switching from tid=5,pc=0x8054 to tid=4,pc=0x80b0,sp=0x0
+hash: tid=4: cnt=5: pc=0x80b4, hash=0x4fc03f71
+switching from tid=4,pc=0x80b4 to tid=5,pc=0x8054,sp=0x0
+hash: tid=5: cnt=5: pc=0x8058, hash=0xf1cf1521
+switching from tid=5,pc=0x8058 to tid=4,pc=0x80b4,sp=0x0
+hash: tid=4: cnt=6: pc=0x80b8, hash=0xf692d880
+switching from tid=4,pc=0x80b8 to tid=5,pc=0x8058,sp=0x0
+hash: tid=5: cnt=6: pc=0x805c, hash=0x7a977436
+switching from tid=5,pc=0x805c to tid=4,pc=0x80b8,sp=0x0
+hash: tid=4: cnt=7: pc=0x80bc, hash=0x2f5703e8
+switching from tid=4,pc=0x80bc to tid=5,pc=0x805c,sp=0x0
+hash: tid=5: cnt=7: pc=0x8060, hash=0x5ffbd934
+switching from tid=5,pc=0x8060 to tid=4,pc=0x80bc,sp=0x0
+hash: tid=4: cnt=8: pc=0x80c0, hash=0x3a5e3a4e
+switching from tid=4,pc=0x80c0 to tid=5,pc=0x8060,sp=0x0
+hash: tid=5: cnt=8: pc=0x8064, hash=0xd594c486
+switching from tid=5,pc=0x8064 to tid=4,pc=0x80c0,sp=0x0
+hash: tid=4: cnt=9: pc=0x80c4, hash=0x7d532412
+switching from tid=4,pc=0x80c4 to tid=5,pc=0x8064,sp=0x0
+hash: tid=5: cnt=9: pc=0x8068, hash=0x7f2e7309
+switching from tid=5,pc=0x8068 to tid=4,pc=0x80c4,sp=0x0
+hash: tid=4: cnt=10: pc=0x80c8, hash=0xc1a38bc4
+switching from tid=4,pc=0x80c8 to tid=5,pc=0x8068,sp=0x0
+hash: tid=5: cnt=10: pc=0x806c, hash=0x2546dc99
+switching from tid=5,pc=0x806c to tid=4,pc=0x80c8,sp=0x0
+hash: tid=4: cnt=11: pc=0x80cc, hash=0x99904d00
+switching from tid=4,pc=0x80cc to tid=5,pc=0x806c,sp=0x0
+hash: tid=5: cnt=11: pc=0x8120, hash=0xb313ca37
+switching from tid=5,pc=0x8120 to tid=4,pc=0x80cc,sp=0x0
+hash: tid=4: cnt=12: pc=0x80d0, hash=0x6018f928
+switching from tid=4,pc=0x80d0 to tid=5,pc=0x8120,sp=0x0
+hash: tid=5: cnt=12: pc=0x8124, hash=0xf5ae770b
+switching from tid=5,pc=0x8124 to tid=4,pc=0x80d0,sp=0x0
+hash: tid=4: cnt=13: pc=0x80d4, hash=0x89285cb7
+switching from tid=4,pc=0x80d4 to tid=5,pc=0x8124,sp=0x0
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+hash: tid=4: cnt=14: pc=0x8120, hash=0xfb04efda
+hash: tid=4: cnt=15: pc=0x8124, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:notmain:second no-stack passed
+hash: tid=4: cnt=1: pc=0x80a4, hash=0x7ad834e8
+switching from tid=4,pc=0x80a4 to tid=5,pc=0x8044,sp=0x0
+hash: tid=5: cnt=1: pc=0x8048, hash=0x8af74857
+switching from tid=5,pc=0x8048 to tid=3,pc=0x8038,sp=0x0
+hash: tid=3: cnt=1: pc=0x803c, hash=0x780cb2cf
+switching from tid=3,pc=0x803c to tid=2,pc=0x8114,sp=0x0
+hash: tid=2: cnt=1: pc=0x8118, hash=0x508812f7
+switching from tid=2,pc=0x8118 to tid=1,pc=0x8108,sp=0x0
+hash: tid=1: cnt=1: pc=0x810c, hash=0xb9c6b424
+switching from tid=1,pc=0x810c to tid=4,pc=0x80a4,sp=0x0
+hash: tid=4: cnt=2: pc=0x80a8, hash=0xa590b511
+switching from tid=4,pc=0x80a8 to tid=5,pc=0x8048,sp=0x0
+hash: tid=5: cnt=2: pc=0x804c, hash=0x85b6923e
+switching from tid=5,pc=0x804c to tid=3,pc=0x803c,sp=0x0
+hash: tid=3: cnt=2: pc=0x8040, hash=0xf7e37b42
+switching from tid=3,pc=0x8040 to tid=2,pc=0x8118,sp=0x0
+hash: tid=2: cnt=2: pc=0x811c, hash=0x18e43fb1
+switching from tid=2,pc=0x811c to tid=1,pc=0x810c,sp=0x0
+hash: tid=1: cnt=2: pc=0x8110, hash=0x70916294
+switching from tid=1,pc=0x8110 to tid=4,pc=0x80a8,sp=0x0
+hash: tid=4: cnt=3: pc=0x80ac, hash=0x309feec9
+switching from tid=4,pc=0x80ac to tid=5,pc=0x804c,sp=0x0
+hash: tid=5: cnt=3: pc=0x8050, hash=0x31a100b7
+switching from tid=5,pc=0x8050 to tid=3,pc=0x8040,sp=0x0
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+hash: tid=4: cnt=4: pc=0x80b0, hash=0xa9b0e82d
+switching from tid=4,pc=0x80b0 to tid=5,pc=0x8050,sp=0x0
+hash: tid=5: cnt=4: pc=0x8054, hash=0xb875d592
+switching from tid=5,pc=0x8054 to tid=4,pc=0x80b0,sp=0x0
+hash: tid=4: cnt=5: pc=0x80b4, hash=0x4fc03f71
+switching from tid=4,pc=0x80b4 to tid=5,pc=0x8054,sp=0x0
+hash: tid=5: cnt=5: pc=0x8058, hash=0xf1cf1521
+switching from tid=5,pc=0x8058 to tid=4,pc=0x80b4,sp=0x0
+hash: tid=4: cnt=6: pc=0x80b8, hash=0xf692d880
+switching from tid=4,pc=0x80b8 to tid=5,pc=0x8058,sp=0x0
+hash: tid=5: cnt=6: pc=0x805c, hash=0x7a977436
+switching from tid=5,pc=0x805c to tid=4,pc=0x80b8,sp=0x0
+hash: tid=4: cnt=7: pc=0x80bc, hash=0x2f5703e8
+switching from tid=4,pc=0x80bc to tid=5,pc=0x805c,sp=0x0
+hash: tid=5: cnt=7: pc=0x8060, hash=0x5ffbd934
+switching from tid=5,pc=0x8060 to tid=4,pc=0x80bc,sp=0x0
+hash: tid=4: cnt=8: pc=0x80c0, hash=0x3a5e3a4e
+switching from tid=4,pc=0x80c0 to tid=5,pc=0x8060,sp=0x0
+hash: tid=5: cnt=8: pc=0x8064, hash=0xd594c486
+switching from tid=5,pc=0x8064 to tid=4,pc=0x80c0,sp=0x0
+hash: tid=4: cnt=9: pc=0x80c4, hash=0x7d532412
+switching from tid=4,pc=0x80c4 to tid=5,pc=0x8064,sp=0x0
+hash: tid=5: cnt=9: pc=0x8068, hash=0x7f2e7309
+switching from tid=5,pc=0x8068 to tid=4,pc=0x80c4,sp=0x0
+hash: tid=4: cnt=10: pc=0x80c8, hash=0xc1a38bc4
+switching from tid=4,pc=0x80c8 to tid=5,pc=0x8068,sp=0x0
+hash: tid=5: cnt=10: pc=0x806c, hash=0x2546dc99
+switching from tid=5,pc=0x806c to tid=4,pc=0x80c8,sp=0x0
+hash: tid=4: cnt=11: pc=0x80cc, hash=0x99904d00
+switching from tid=4,pc=0x80cc to tid=5,pc=0x806c,sp=0x0
+hash: tid=5: cnt=11: pc=0x8120, hash=0xb313ca37
+switching from tid=5,pc=0x8120 to tid=4,pc=0x80cc,sp=0x0
+hash: tid=4: cnt=12: pc=0x80d0, hash=0x6018f928
+switching from tid=4,pc=0x80d0 to tid=5,pc=0x8120,sp=0x0
+hash: tid=5: cnt=12: pc=0x8124, hash=0xf5ae770b
+switching from tid=5,pc=0x8124 to tid=4,pc=0x80d0,sp=0x0
+hash: tid=4: cnt=13: pc=0x80d4, hash=0x89285cb7
+switching from tid=4,pc=0x80d4 to tid=5,pc=0x8124,sp=0x0
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+hash: tid=4: cnt=14: pc=0x8120, hash=0xfb04efda
+hash: tid=4: cnt=15: pc=0x8124, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:notmain:all no-stack passed
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up

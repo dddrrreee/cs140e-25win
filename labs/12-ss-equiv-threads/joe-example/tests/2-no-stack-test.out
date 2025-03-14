@@ -1,0 +1,129 @@
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:notmain:easy no-stack passed
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done first run!-----------------
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=0!-----------------
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=1!-----------------
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:run_single:--------------done run=2!-----------------
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:notmain:second no-stack passed
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=2 exited with code=2, hash=0x18e43fb1
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0x18e43fb1
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:thread=4 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:notmain:all no-stack passed

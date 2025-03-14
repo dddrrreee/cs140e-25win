@@ -1,0 +1,58 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/1-nop1-test.bin>: about to boot
+TRACE:simple_boot: sending 16768 bytes, crc32=9e7d15d5
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+ENABLE
+TRACE:equiv_syscall_handler:thread=1 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+about to run 20 nop_1 threads
+TRACE:equiv_syscall_handler:thread=21 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=21: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=20 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=20: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=19 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=19: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=18 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=18: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=17 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=17: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=16 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=16: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=15 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=15: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=14 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=14: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=13 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=13: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=12 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=12: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=11 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=11: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=10 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=10: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=9 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=9: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=8 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=8: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=7 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=7: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=6 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=6: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=5 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=5: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=4 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=4: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=3 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=3: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:thread=2 exited with code=0, hash=0xf7e37b42
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=2: hash=0xf7e37b42
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+TRACE:notmain:done!  ran 20 threads, hash=0x5dc5a128
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up

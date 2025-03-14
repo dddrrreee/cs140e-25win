@@ -1,0 +1,17 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/0-mov-test.bin>: about to boot
+TRACE:simple_boot: sending 16512 bytes, crc32=f98e896a
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+BOOT: SENDING:
+g check
+SENDIING:
+ENABLE
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x984d6fbf
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x984d6fbf
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up

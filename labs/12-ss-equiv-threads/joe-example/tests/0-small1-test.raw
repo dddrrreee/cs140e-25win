@@ -1,0 +1,18 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/0-small1-test.bin>: about to boot
+TRACE:simple_boot: sending 16864 bytes, crc32=61c1582b
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+ENABLE
+tid=1: pc=0x810c cpsr=0x190: 
+   r1=0x1,    r14=0x8120, 
+tid=1: pc=0x8110 cpsr=0x190: 
+   r1=0x1,    r14=0x8120, 
+TRACE:equiv_syscall_handler:thread=1 exited with code=1, hash=0x70916294
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0x70916294
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up
