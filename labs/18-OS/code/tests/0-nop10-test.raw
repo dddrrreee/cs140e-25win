@@ -1,0 +1,38 @@
+staff-find-ttyusb.c:find_ttyusb_last:89:DEBUG:FOUND: </dev/ttyUSB0>
+my-install.c:main:150:DEBUG:my-install: tty-usb=</dev/ttyUSB0> program=<./tests/0-nop10-test.bin>: about to boot
+TRACE:simple_boot: sending 16864 bytes, crc32=dce254f4
+BOOT:waiting for a start
+BOOT:bootloader: Done.
+listening on ttyusb=</dev/ttyUSB0>
+ENABLE
+tid=1: pc=0x8048 cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x804c cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x8050 cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x8054 cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x8058 cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x805c cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x8060 cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x8064 cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x8068 cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x806c cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x8120 cpsr=0x190: 
+   r14=0x8120, 
+tid=1: pc=0x8124 cpsr=0x190: 
+   r14=0x8120, 
+TRACE:equiv_syscall_handler:thread=1 exited with code=0, hash=0xf5ae770b
+TRACE:equiv_syscall_handler:EXIT HASH MATCH: tid=1: hash=0xf5ae770b
+TRACE:equiv_syscall_handler:done with all threads
+TRACE:eqx_run_threads:done running threads
+DONE!!!
+
+BOOT: bootloader: pi exited.  cleaning up
