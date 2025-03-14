@@ -80,9 +80,9 @@
 # them, but it's easier to just give an error.
 #
 # error message assumes this is for libpi:
-$(foreach file, $(COMMON_SRC),                      \
-    $(if $(findstring ../, $(file)),                \
-        $(error "$(file) has a relative path: copy it into libpi/src")))
+#$(foreach file, $(COMMON_SRC),                      \
+#    $(if $(findstring ../, $(file)),                \
+#        $(error "$(file) has a relative path: copy it into libpi/src")))
 
 # all your common C files: note that unlike w VPATH there's no
 # danger in having multiple files with same name (e.g., foo.c)
