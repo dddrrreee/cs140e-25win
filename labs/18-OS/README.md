@@ -1,5 +1,6 @@
 ## equiv OS.
 
+
 Today we'll have a very small, OS that does equivalance checking.
 It provides `fork`, `waitpid`, `exit` and `sbrk`.
 
@@ -11,9 +12,19 @@ checking that you get the same result with and without VM.
 
 For now: 
   - go through the code.
-  - add free's on exit if the process has a sector.
-  - make sure this gives you the same result.
+  - add free's on exit if the process has allocated pins.
+  - make sure this gives you the same result when you run over and
+    over.
   - add a wait pid and get fib to work.
+
+Code:
+  - user-code: has the user programs.  these get compiled to byte
+    arrays.
+  - tests: test directory.
+  - the one example: tests/5-user-prog.c: uses the byte array produced
+    from user-code/0-hello.c and uses the exec call to load it.
+    Runs it once to get the hash.  Creates 5 and checks the hash is the
+    same.
 
 **** I'm going to  be adding alot more prose, so do a pull in 
 a bit: ignore the below***
