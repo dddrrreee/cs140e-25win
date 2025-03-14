@@ -49,7 +49,8 @@ STAFF_OBJS += staff-switchto-asm.o
 
 PIN_VM = ../../13-pinned-vm/code
 CFLAGS += -I$(PIN_VM)
-COMMON_SRC += $(PIN_VM)/pinned-vm.c
+#COMMON_SRC += $(PIN_VM)/pinned-vm.c
+COMMON_SRC += pinned-vm.c
 STAFF_OBJS += $(PIN_VM)/staff-pinned-vm.o
 STAFF_OBJS += $(PIN_VM)/staff-mmu.o
 STAFF_OBJS += $(PIN_VM)/staff-mmu-except.o
