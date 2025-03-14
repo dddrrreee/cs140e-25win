@@ -43,8 +43,10 @@ void notmain(void) {
 
 #endif
 
+    assert(mmu_is_enabled());
     eqx_verbose(0);
     eqx_init();
+    assert(mmu_is_enabled());
     
     enum { N = 8 };
     eqx_th_t *th[N];
@@ -62,8 +64,10 @@ void notmain(void) {
     output("about to do quiet run\n");
     eqx_verbose(0);
 
+    assert(mmu_is_enabled());
     // refork and run all together.
     for(int i = 0; i < N; i++)
         eqx_refork(th[i]);
     eqx_run_threads();
+    assert(mmu_is_enabled());
 }
