@@ -100,11 +100,62 @@ What to do right now:
   - You should be able to drop in all your code from the class,
     replacing ours and see that the tests pass.
 
-Some options:
- - Alternative: drop in page tables.
- - Alternative: add more interesting equiv hacks.  E.g., enable the 
-   icache.  Or, more tricky, add caching. 
-   Or, figure out how to reuse ASIDs. 
+Once you have hashes, one general game is to find stuff that should not
+lead to user-visible differences and do it.  Some options:
+ - Drop in page tables. 
+
+ - On each single step exception: optionally turn the MMU on
+   and off.  This should have zero effect on the the result,
+   but can spot cases where you don't flush things correctly
+   (esp if you have the data cache on).
+ - Currently the code uses a single ASID for all processes.
+   You can change this by adding multiple asids (nothing should
+   not change).  
+
+   When you have page tables you can do many checks with ASIDs: first use
+   one and always flush when switching, then use one for each process,
+   run enough so that you reuse some to check for mistakes.
+
+ - One easy thing you can do: artificially restrict the number 
+   of 1mb pages available, so that physical pages get recycled
+   more often: this can expose places where your cache flushing
+   code doesn't work.
+
+ - Add timer interrupts: should not effect the other hashes.
+
+
+ - Make the permissions more accurate.  Add different domains
+   for different processes.
+
+ - Turn on the icache and dcache.  One issue: after copying code
+   you'll have to flush both (either entirely or by range) since
+   they are not coherent.
+  
  - Major great thing: rewrite the code (or some of the code) so it doesn't
    suck.  This is what I will be doing. The great thing about equiv is
    that it's super brutal at finding weird errors.
+
+A fun fetchquest:  Add more system calls!
+ 
+ - Add fork, waitpid, pipes, your fat32, signal handlers for address
+   exceptions, sbrk for malloc, etc
+
+   This is always fun b/c it's a straight up fetchquest.  It also
+   very useful b/c the more programs you have, the more hashes you'll
+   have to check.  And, obviously, you can run each to get its hash in
+   isolation, then with everything to make sure the hashes don't change
+   in composition.
+
+   Ideally: you should be able to have the identical code run on your
+   laptop and the pi.
+
+More fun: Make stuff fast!  In general, any speedup you do to the kernel
+should not change any hash.  
+ - Instead of flushing entire caches to it by address range.  should
+   have no change.
+ - Instead of flushing entire tlb, just do by asi, should have
+   no change.
+ - Use different compiler options.
+ - In general: measure how many microseconds an entire test takes,
+   and try to speed up.  Shouldn't be hard to hit massive 10x wins
+   since we are aggressively stupid.
