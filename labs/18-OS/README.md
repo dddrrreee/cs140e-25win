@@ -159,3 +159,15 @@ should not change any hash.
  - In general: measure how many microseconds an entire test takes,
    and try to speed up.  Shouldn't be hard to hit massive 10x wins
    since we are aggressively stupid.
+
+Make ultra-fork:
+
+ - Try to have 100s of thousands of processes.  The key here:
+   Make the program use less memory.  Rather than two big 1MB pages,
+   initially use 64k or even 4k pages and only grow (promote)
+   if needed.    
+
+ - Use the small memory to make fork really fast.  I *believe*
+   you can beat your laptop OS in number and speed of processes
+   hopefully by 10x.
+
