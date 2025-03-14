@@ -1,11 +1,11 @@
 ## equiv OS.
 
-
 Today we'll have a very small, OS that does equivalance checking.
 It provides `fork`, `waitpid`, `exit` and `sbrk`.
 
-The good news:  lab today is capped at a few hours so you 
-can do final projects.
+Some news:
+  - The bad news: README is more of a WRITEME.
+  - The good news:  lab today is just an extension.
 
 Currently it loads a simple hello world program and runs it,
 checking that you get the same result with and without VM.
