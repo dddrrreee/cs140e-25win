@@ -10,81 +10,97 @@ Some news:
 Currently it loads a simple hello world program and runs it,
 checking that you get the same result with and without VM.
 
-For now: 
-  - go through the code.
-  - add free's on exit if the process has allocated pins.
-  - make sure this gives you the same result when you run over and
+BUGS:
+  - if you get duplicate symbols: if it's in a assembly file,
+    you can add a `.weak` directive for that name so the 
+    linker doesn't complain.  E.g.,  to make `foo` weak:
+
+    ```
+	        .weak	foo
+        MK_FN(foo)
+            ...
+    ```
+
+    if it's in C code, you can do 
+    ```
+        // in eqx-os.c
+        __attribute__((weak)) cp15_ctrl_reg1_t
+        cp15_ctrl_reg1_rd(void) {
+            return staff_cp15_ctrl_reg1_rd();
+        }
+
+    ```
+
+
+High Level:
+  - We take the interleaving single-step code from lab 12 and
+    add pinned VM.
+  - We add full, distinct user level programs (see: `user-code`).  
+    How they are different from non-user programs:
+       - These do not use libpi at all.  Instead all interactions 
+         with the pi are through system calls.  We do this so 
+         we can prevent the user code from directly accessing
+         the hardware and messing up other programs.
+
+       - User programs are linked with a custom linker script 
+         (`user-progs/small-proc.ld`) that does two things.
+
+         First, the script splits the user program into two 1MB segments:
+         one for code (at `0x400000`) and one for data (at `0x50000000`).
+
+         Why: (1) we want the user program's virtual addresses to not
+         conflict with with the kernel (2) we want code and data seperate
+         so that it's easier to make fork faster (b/c the read-only code
+         page can be shared versus copied).
+
+         Second, the original linker script we used assumed the program
+         itself would set up its environment.  The worked great for us
+         since our code was the only thing running.  However, for
+         user programs, the OS needs to be able to look inside and
+         see where the code, bss, and data is as well as their sizes so
+         that it can lay them out in virtual memory.
+        
+  - We add support for loading user programs.  There's several ways to
+    do this (including pulling them off the microSD using your fat32).
+    We pick the absolute simplest to understand: we have a simple program
+    (`code-gen.c` in `user-progs/code-gen-src`) that takes in a the user
+    program's ".bin" file and emits it as a byte array. This array can
+    be linked into test programs.  Its downside is that when you change
+    the user code, you have to relink the OS, but the upside is that it's
+    pretty simple to understand.  
+
+    The great thing about single step equiv checking is that once
+    you have the hashes, you can start rewriting the OS and just check
+    that no hash changes. 
+
+What to do right now:
+  - change the makefile to just run test 4 (this is the same test
+    from lab 12).   make sure it runs as before (smearing hello
+    8 times since there are 8 threads).
+
+  - change the makefile to just run test 5 and make sure it 
+    does a similar smearing.
+
+  - Go through the code, starting in `code/eqx-os.c` and the user
+    programs in `user-code`.  The `tests` directory has the old
+    tests from lab 12 as well as one new test `tests/5-user-prog.c`
+    showing how to do user program loading.  
+
+    It uses the byte array produced from user-code/0-hello.c and passes it
+    to the internal exec call to load it.  Runs it once to get the hash.
+    Creates 5 and checks the hash is the same.  I'd follow this around,
+    maybe make some small changes, and make sure the hashes don't change.
+  
+  - Add segment free's on exit if the process has allocated pins.
+  - Make sure this gives you the same result when you run over and
     over.
-  - add a wait pid and get fib to work.
+  - Add some other system calls, e.g., fork, waitpid.  Write some
+    other test programs.
 
-Code:
-  - user-code: has the user programs.  these get compiled to byte
-    arrays.
-  - tests: test directory.
-  - the one example: tests/5-user-prog.c: uses the byte array produced
-    from user-code/0-hello.c and uses the exec call to load it.
-    Runs it once to get the hash.  Creates 5 and checks the hash is the
-    same.
+  - You should be able to drop in all your code from the class,
+    replacing ours and see that the tests pass.
 
-**** I'm going to  be adding alot more prose, so do a pull in 
-a bit: ignore the below***
-
-
-
-
-You should drop
-in the code that you can to replace ours from old labs and see that
-the tests pass.  As is: `make` in `code` should complete without
-panics.
-
-The bad news: the reason its short is that the code is ugly and overly
-complex.  It needs another day of hacking to make it about half the
-size.  So, all you have to do today is try to drop in a few of your old
-implementations and replace mine.  none of the hashes should change.
-You can treat the code as a big test case; or you can go into it and
-add things.  The absolutely fantastic thing is that equivalance checking
-will find your mistakes aggressively (it did mine!).
-
-The big picture:
-  - This is a heavily modified version of lab 11 (the equivalance) process
-    code, which would context switch on every single program step.
-
-  - This lab adds virtual memory and system calls.  Virtual memory
-    uses a hacked up version of pinned memory.  Each process has a
-    single pinned entry (each process is 1 MB).  The system itself has
-    6 global entries.  There is a single entry used for temporary pins
-    (used for copying).
-
-  - The test programs are in `tests`.  There are simple ones for 
-    forking, allocation, etc and waitpid.  The full program is 
-    `3-do-all.c` which forks everything concurrently.  If this
-    code passes, your support code has been tested pretty harshly.
-
-If you look in the `config` structure in `equiv-os.h` you can see
-some of the options for flipping.  The main ones that work out of the
-box:
-
-  - `config.random_switch`: if you set this to a non-zero the system 
-    won't switch on every process, but randomly flip based on the number
-    you give (higher number = less often).
- - `config.do_vm_off_on`: this will flip the virtual memory off and on.
-
-The files:
-  - `proc.h`: ugly code for allocating and handling processes.
-  - `equiv-os.c`: code to implement system calls.
-  - `support-code.c`: this is an ugly mix of code that wraps up pinned code
-    and does fork and exec.
-  - `libos-*`: this is support for user level code.
-  - `user-progs/*`: these are the user programs.
-
-### ***WHAT TO DO***:
-
-Any of the following:
-
-  - start going through the `Makefile` and drop in your code for the
-    different pieces and make sure that the tests still pass.
-
-Alternatives, or extensions:
+Some options:
  - Alternative: drop in page tables.
  - Alternative: add more interesting equiv hacks.  E.g., enable the 
    icache.  Or, more tricky, add caching. 
