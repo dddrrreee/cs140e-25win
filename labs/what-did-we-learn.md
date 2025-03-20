@@ -23,6 +23,12 @@ Almost 40k lines of code (".h", ".c", ".S"):
 ```
 
 --------------------------------------------------------
+### The class approach
+
+<p align="center">
+<img src="lab-memes/let-there-be-exist.jpg" width="400" />
+</p>
+
 The general class approach:
   - real hardware, not simulator.
   - from raw data sheets and arch manual, not pre-digested
@@ -59,6 +65,19 @@ Low-level data sheets:
    seen a more IQ intensive 12 pages)
  - the next one you read: NBD.
 
+Data sheets are the hardest thing to understand.  
+ - Few can.
+ - So few can build interesting hardware. 
+ - Or they only work with simplified abstractions and don't
+   realize the cool tricks that the lowest level has (read
+   ch3 of arm1176).
+ - You now have the superpower of being able to 
+   transmute "passive definitional" datasheet prose into
+   working code, despite errata and subtly brittle rules.  
+ - Most other docs are relatively easy.  Try it!
+   (E.g., medical journal papers --- its not hard to figure out stuff
+   in a few hours that a specialist doesn't know).
+
 --------------------------------------------------------
 ### Concepts
 
@@ -80,21 +99,16 @@ Assembly:
  - lots of you went free range and wrote tons of
    assembly for all sorts of things.
 
-Simple versions of main OS nouns:
+You have simple, working versions of main OS nouns:
  - processes
  - vm
  - file system 
  - networking
  - threads
- - these are all small
-   - but they do work,
-   - and they run on raw hardware.
-   - and you wrote the crucial pieces
-   - and you can build out until real.
-   - "Show me an example and I'll show you the law"
+ - small but real: can build out.
 
 --------------------------------------------------------
-### Checking
+### How to check hard code
 
 We did alot of checking to show the code wasn't bullshit.
 Including tricks that no one else knows.
@@ -123,7 +137,8 @@ EQ checking:
 Our belief: These methods can be used to achieve a point where you are
 suprised if something is broken.
 
-### How to code
+--------------------------------------------------------
+### How to write hard code
 
 <p align="center">
 <img src="lab-memes/knuth-beat-everyone.jpg" width="400" />
@@ -168,20 +183,8 @@ Common mistake: wrote something, ran it, declare
     of "it compiled, why did it crash"
 
 
-My belief:
-  - yes 10x programmers exist.
-  - but it's not necessarily that they are 10x smarter.
-  - multiplication of two things:
-      1. understand N lines of code better (IQ)
-      2. but: able to make delta N smaller (practice)
-      3. so: multiply (1) and (2) = 10x
-  - IQ is at best fixed, but you can absolutely get better 
-    at smaller steps.
-
-
-
-
-### How to debug
+--------------------------------------------------------
+### How to debug hard code
 
 Differential (Ockam) debugging:
   - ok you didn't listen and have a broken system.
@@ -197,6 +200,16 @@ Differential debugging when nothing changed:
 
   - In general, probably sw, but 1 out of 20 isn't.
 
+
+My belief:
+  - yes 10x programmers exist.
+  - but it's not necessarily that they are 10x smarter.
+  - multiplication of two things:
+      1. understand N lines of code better (IQ)
+      2. but: able to make delta N smaller (practice)
+      3. so: multiply (1) and (2) = 10x
+  - IQ is at best fixed, but you can absolutely get better 
+    at smaller steps.
 
 --------------------------------------------------------
 ### Thanks for great class!
@@ -218,9 +231,6 @@ help people:
 
 Crazy workload.  Crazy class :)
 
-<p align="center">
-<img src="lab-memes/let-there-be-exist.jpg" width="400" />
-</p>
 
 
     ~/class/cs140e-25win/labs % find . -name "*.[chS]" | grep -v staff | grep -v old | grep code | xargs wc
