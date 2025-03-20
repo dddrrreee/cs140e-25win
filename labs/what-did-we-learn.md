@@ -1,5 +1,5 @@
 <p align="center">
-<img src="lab-memes/140e-is-pizza.jpg" width="400" />
+<img src="lab-memes/140e-is-pizza.jpg" width="350" />
 </p>
 
 ## What we learned 
@@ -26,7 +26,7 @@ Almost 40k lines of code (".h", ".c", ".S"):
 ### The class approach
 
 <p align="center">
-<img src="lab-memes/let-there-be-exist.jpg" width="400" />
+<img src="lab-memes/let-there-be-exist.jpg" width="350" />
 </p>
 
 The general class approach:
@@ -50,7 +50,7 @@ small:
 ### Data sheets
 
 <p align="center">
-<img src="lab-memes/why-read-datasheets.jpg" width="400" />
+<img src="lab-memes/why-read-datasheets.jpg" width="350" />
 </p>
 
 Low-level data sheets:
@@ -215,7 +215,7 @@ My belief:
 ### Thanks for great class!
 
 <p align="center">
-<img src="lab-memes/fetchquest.jpg" width="400" />
+<img src="lab-memes/fetchquest.jpg" width="350" />
 </p>
 
 Largest we've ever had.  Everyone worked incredibly hard.  Lots of crazy
