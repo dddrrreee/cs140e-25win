@@ -23,6 +23,24 @@ Almost 40k lines of code (".h", ".c", ".S"):
 ```
 
 --------------------------------------------------------
+The general class approach:
+  - real hardware, not simulator.
+  - from raw data sheets and arch manual, not pre-digested
+    textbooks.
+  - deep checking methods to find bugs.  want to be
+    surprised if code breaks.
+  - each lab = new interesting artifact.
+
+write small example for each concept.  while
+small:
+ - but they do work,
+ - and they run on raw hardware.
+ - and you wrote the crucial pieces
+ - and you can build out until real.
+ - "Show me an example and I'll show you the law"
+
+
+--------------------------------------------------------
 ### Data sheets
 
 <p align="center">
@@ -101,6 +119,10 @@ EQ checking:
    with PT vm, with caching, with few process with many
    process, with optimized code, w unopt, etc.
 
+
+Our belief: These methods can be used to achieve a point where you are
+suprised if something is broken.
+
 ### How to code
 
 <p align="center">
@@ -109,10 +131,8 @@ EQ checking:
 
 Even if you don't write another line of OS code, hopefully the lack of
 safety net + hard bug ingrained a much better approach to writing code.
-
   - NEVER: write 1000 lines, run it, and use the stare method
     "it doesn't work, why?" 
-
   - ALWAYS:
     1. working system (verify its working even if you know
       for sure --- easy for something in env to change)
@@ -123,11 +143,30 @@ safety net + hard bug ingrained a much better approach to writing code.
 
 Generalized: The Epsilon Paradox:
   - "the shorter your step, the faster you can sprint"
-
   - working system + one line change = easy linear eq solve
     if wrong
   - working system + X, Y, Z change = hard, multiplicative
     possible.
+
+Common mistake: wrote something, ran it, declare
+"it works".
+  - No.  It worked once, with a single test.  
+
+  - Maybe lucky with timing;
+  - or that you had only a few processes;
+  - or that it had internal corruption you didn't check;
+  - or cache didn't have conflict or alias;
+  - or a missing cache invalidation didn't matter b/c 
+    that run didn't load the entry;
+  - or that code straddled a 16 byte boundary
+    so you got lucky with a pipeline stall to hide a timing
+    race with the device;  or the compiler didn't coalesce
+  - or swap two loads and stores that it was allowed to;
+  - or ...
+
+  - Saying something works if it passed a few test cases is on the level
+    of "it compiled, why did it crash"
+
 
 My belief:
   - yes 10x programmers exist.
@@ -138,6 +177,8 @@ My belief:
       3. so: multiply (1) and (2) = 10x
   - IQ is at best fixed, but you can absolutely get better 
     at smaller steps.
+
+
 
 
 ### How to debug
@@ -183,3 +224,6 @@ Crazy workload.  Crazy class :)
 
 
     ~/class/cs140e-25win/labs % find . -name "*.[chS]" | grep -v staff | grep -v old | grep code | xargs wc
+
+
+---------------------------------------------------
