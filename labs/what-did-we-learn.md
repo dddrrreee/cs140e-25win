@@ -6,6 +6,7 @@
 
 Lots of stuff.   Stuff that gives power and few know.
 
+--------------------------------------------------------
 ### The Raw Material
 
 20k lines of .md files:
@@ -21,6 +22,7 @@ Almost 40k lines of code (".h", ".c", ".S"):
     39830  163894 1266670 total
 ```
 
+--------------------------------------------------------
 ### Data sheets
 
 Low-level data sheets:
@@ -35,6 +37,7 @@ Low-level data sheets:
    seen a more IQ intensive 12 pages)
  - the next one you read: NBD.
 
+--------------------------------------------------------
 ### Concepts
 
 Execution is main gerund of Turing world, so we exhausted all angles:
@@ -68,6 +71,7 @@ Simple versions of main OS nouns:
    - and you can build out until real.
    - "Show me an example and I'll show you the law"
 
+--------------------------------------------------------
 ### Checking
 
 We did alot of checking to show the code wasn't bullshit.
@@ -95,7 +99,9 @@ EQ checking:
 
 ### How to code
 
+<p align="center">
 <img src="lab-memes/knuth-beat-everyone.jpg" width="400" />
+</p>
 
 Even if you don't write another line of OS code, hopefully the lack of
 safety net + hard bug ingrained a much better approach to writing code.
@@ -147,9 +153,12 @@ Differential debugging when nothing changed:
   - In general, probably sw, but 1 out of 20 isn't.
 
 
+--------------------------------------------------------
 ### Thanks for great class!
 
+<p align="center">
 <img src="lab-memes/fetchquest.jpg" width="400" />
+</p>
 
 Largest we've ever had.  Everyone worked incredibly hard.  Lots of crazy
 results and hardcore projects.  Learning goal saturation.
@@ -164,7 +173,9 @@ help people:
 
 Crazy workload.  Crazy class :)
 
+<p align="center">
 <img src="lab-memes/let-there-be-exist.jpg" width="400" />
+</p>
 
 
     ~/class/cs140e-25win/labs % find . -name "*.[chS]" | grep -v staff | grep -v old | grep code | xargs wc
