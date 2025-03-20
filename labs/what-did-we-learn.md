@@ -25,6 +25,10 @@ Almost 40k lines of code (".h", ".c", ".S"):
 --------------------------------------------------------
 ### Data sheets
 
+<p align="center">
+<img src="lab-memes/why-read-datasheets.jpg" width="400" />
+</p>
+
 Low-level data sheets:
  - GPIO
  - UART
@@ -106,8 +110,8 @@ EQ checking:
 Even if you don't write another line of OS code, hopefully the lack of
 safety net + hard bug ingrained a much better approach to writing code.
 
-  - NEVER: write 1000 lines, run it.
-    "it doesn't work why?" 
+  - NEVER: write 1000 lines, run it, and use the stare method
+    "it doesn't work, why?" 
 
   - ALWAYS:
     1. working system (verify its working even if you know
