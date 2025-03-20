@@ -1,6 +1,8 @@
-## What we learned 
-
+<p align="center">
 <img src="lab-memes/140e-is-pizza.jpg" width="400" />
+</p>
+
+## What we learned 
 
 
 
