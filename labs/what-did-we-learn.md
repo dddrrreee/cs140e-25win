@@ -4,11 +4,9 @@
 
 ## What we learned 
 
+Lots of stuff.   Stuff that gives power and few know.
 
-
-Lots of stuff.
-
-### Material
+### The Raw Material
 
 20k lines of .md files:
 ```
@@ -68,7 +66,7 @@ Simple versions of main OS nouns:
    - and they run on raw hardware.
    - and you wrote the crucial pieces
    - and you can build out until real.
-   - "Show me an example and I'll show you the rule"
+   - "Show me an example and I'll show you the law"
 
 ### Checking
 
@@ -77,20 +75,17 @@ Including tricks that no one else knows.
  - cross checking memory state:
     - grab all loads and stores and hash to compare.
     - "show me your tape, and I'll show you your turing machine"
-
  - use of simulation (fake-pi) to push code through
    paths hard on real hw.
  - use of linker tricks to monitor loads and stores.
  - use of single step to monitor instructions.
 
- - using equivalance checking to verify that not even
-   a single bit changed in even a single register for
-   even a single instruction in code that should not be
-   effected.
+EQ checking:
+ - verify that not even a single bit changed in even a single register for
+   even a single instruction in code that should not be effected.
 
    This is exceptionally powerful.  Makes test
    cases for free, and checks deeply.
-
  - EQ check for race conditions (use single step to switch
    every instruction)
  - EQ check for OS: use SS to switch every process on
