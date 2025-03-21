@@ -188,7 +188,6 @@ Related, common initial class mistake that has been
 largely evaporated by the heat of pain:
   - wrote something, ran it, declare "it works".
   - No.  It worked once with a limited set of tests.
-
   - Maybe got lucky with timing;
   - or that you had only a few processes;
   - or cache didn't have conflict or alias;
@@ -258,7 +257,7 @@ A few asks:
  - We're going to have to fight for this room next year
    so let us know if you have interesting bio facts that we can
    use in the argument.
- - Mildly debating doing a 140e II where we build out the
+ - Mildly debating doing a "140e II" where we build out the
    OS into something real, go to riscv, do SMP and maybe
    do a virtual machine monitor.  Let us know if that
    would be something you'd take.
