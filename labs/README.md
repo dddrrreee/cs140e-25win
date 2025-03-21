@@ -5,6 +5,12 @@
   <img src="lab-memes/coding.jpg" width="400" />
 </p>
 
+Status:
+ - 18 labs later, the course is finished!   
+ - [A summary of what we learned](./what-did-we-learn.md)
+ - [A pitch to take 240lx as a follow-on](./cs240lx.md)
+
+
 Below describes where we're going and why.   The labs themselves have a
 lot more prose on each topic.  There is a pointer to where we currently
 are: the labs after this point can still see significant revisions.
