@@ -235,6 +235,20 @@ Trust but verify:
     likely an assumption somewhere is off.
 
 --------------------------------------------------------
+### A few asks
+
+ - Aditi setup an alumni discord (see Ed)
+ - if you think you aren't ever going to touch your hardware
+   please drop it off.  if you might use it, keep it!
+ - We're going to have to fight for this room next year
+   so let us know if you have interesting bio facts that we can
+   use in the argument.
+ - Mildly debating doing a "140e II" where we build out the
+   OS into something real, go to riscv, do SMP and maybe
+   do a virtual machine monitor.  Let us know if that
+   would be something you'd take.
+
+--------------------------------------------------------
 ### Thanks for great class!
 
 Largest we've ever had.  Everyone worked incredibly hard.  Lots of wild
@@ -249,17 +263,6 @@ often stayed til 2am helping people.
 
 Crazy workload.  Crazy class :)
 
-A few asks:
- - Aditi setup an alumni discord (see Ed)
- - if you think you aren't ever going to touch your hardware
-   please drop it off.  if you might use it, keep it!
- - We're going to have to fight for this room next year
-   so let us know if you have interesting bio facts that we can
-   use in the argument.
- - Mildly debating doing a "140e II" where we build out the
-   OS into something real, go to riscv, do SMP and maybe
-   do a virtual machine monitor.  Let us know if that
-   would be something you'd take.
 
 Next:
  - Project presentations;
