@@ -243,10 +243,10 @@ Trust but verify:
  - We're going to have to fight for this room next year
    so let us know if you have interesting bio facts that we can
    use in the argument.
- - Mildly debating doing a "140e II" where we build out the
+ - mildly debating doing a "140e II" where we build out the
    OS into something real, go to riscv, do SMP and maybe
    do a virtual machine monitor.  Let us know if that
-   would be something you'd take.
+   would be something you'd take.  
 
 --------------------------------------------------------
 ### Thanks for great class!
@@ -256,16 +256,15 @@ results and hardcore projects.  Learning goal saturation.
 
 And thanks to the crazy, cracked pirate crew staff who
 often stayed til 2am helping people.
-  - Joe: head pirate capt who swabbed the decks at all hours;
+  - Joe: head pirate capt firing cannons at all hours;
   - Ammar, who did it free(!!!) for the love of the game;
   - Arjun + Joseph ("rise of the new gen");
   - Matthew: low key PhD facts.
 
 Crazy workload.  Crazy class :)
 
-
 Next:
- - Project presentations;
+ - Project presentations!
 
 <p align="center">
 <img src="lab-memes/fetchquest.jpg" width="350" />
