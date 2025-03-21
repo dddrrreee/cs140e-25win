@@ -128,8 +128,7 @@ Few (or no) other people know these tricks:
 Single-step equivalance checking:
  - verify that not even a single bit changed in even a single register for
    even a single instruction in code that should not be effected.
-
-   This is exceptionally powerful.  Makes test
+ - This is exceptionally powerful.  Makes test
    cases for free, and checks deeply.
  - SS-eq check for race conditions by using single step to 
    switch on every instruction and verifying equiv to some
