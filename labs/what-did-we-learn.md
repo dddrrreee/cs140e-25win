@@ -27,7 +27,7 @@ Almost 40k lines of code (".h", ".c", ".S"):
 ### The class approach
 
 <p align="center">
-<img src="lab-memes/let-there-be-exist.jpg" width="350" />
+<img src="lab-memes/let-there-be-exist.jpg" width="300" />
 </p>
 
 The general class approach:
