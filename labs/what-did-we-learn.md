@@ -5,6 +5,7 @@
 ## What we learned 
 
 Lots of stuff.   Stuff that gives power and few know.
+With working examples on real hardware.
 
 --------------------------------------------------------
 ### The Raw Material
@@ -37,23 +38,25 @@ The general class approach:
     surprised if code breaks.
   - each lab = new interesting artifact.
 
-write small example for each concept.  while
-small:
- - but they do work,
- - and they run on raw hardware.
- - and you wrote the crucial pieces
+write small example for each concept.  
+ - big step from 0 to 1.  
+
+while small:
+ - the code works;
+ - and runs on raw hardware.
+ - and you wrote the crucial pieces;
  - and you can build out until real.
  - "Show me an example and I'll show you the law"
 
 
 --------------------------------------------------------
-### Data sheets
+### Data sheets: magick lore
 
 <p align="center">
 <img src="lab-memes/why-read-datasheets.jpg" width="350" />
 </p>
 
-Low-level data sheets:
+Eaten many data sheets:
  - GPIO
  - UART
  - machine exceptions
@@ -69,8 +72,8 @@ Data sheets are the hardest thing to understand.
  - Few can.
  - So few can build interesting hardware. 
  - Or they only work with simplified abstractions and don't
-   realize the cool tricks that the lowest level has (read
-   ch3 of arm1176).
+   realize the cool tricks that the lowest level has (e.g.,
+   Ch 3 of arm1176).
  - You now have the superpower of being able to 
    transmute "passive definitional" datasheet prose into
    working code, despite errata and subtly brittle rules.  
@@ -108,34 +111,37 @@ You have simple, working versions of main OS nouns:
  - small but real: can build out.
 
 --------------------------------------------------------
-### How to check hard code
+### Learned: How to check hard code
 
-We did alot of checking to show the code wasn't bullshit.
-Including tricks that no one else knows.
+We did alot of checking to show the code wasn't broken trash. 
+Few (or no) other people know these tricks:
+
  - cross checking memory state:
-    - grab all loads and stores and hash to compare.
+    - showing device code equivalence by grabbing all device
+      loads and stores and hashing to compare (UART, GPIO).
     - "show me your tape, and I'll show you your turing machine"
  - use of simulation (fake-pi) to push code through
    paths hard on real hw.
- - use of linker tricks to monitor loads and stores.
- - use of single step to monitor instructions.
+ - use of linker tricks to intercept loads and stores.
+ - use of single step to monitor all instructions + registers.
 
-EQ checking:
+Single-step equivalance checking:
  - verify that not even a single bit changed in even a single register for
    even a single instruction in code that should not be effected.
 
    This is exceptionally powerful.  Makes test
    cases for free, and checks deeply.
- - EQ check for race conditions (use single step to switch
-   every instruction)
- - EQ check for OS: use SS to switch every process on
-   every instrution, get same with no VM, with pinned VM,
-   with PT vm, with caching, with few process with many
-   process, with optimized code, w unopt, etc.
+ - SS-eq check for race conditions by using single step to 
+   switch on every instruction and verifying equiv to some
+   sequential execution.
+ - SS-eq check for OS: showed how to check OS by switching every process
+ on every instruction, checking that get same
+   execution hash with no VM, with pinned VM, with PT vm, with caching,
+   with few process with many process, with optimized code, w unopt, etc.
+   If you build out the OS further: I would absolutely use this approach.
 
-
-Our belief: These methods can be used to achieve a point where you are
-suprised if something is broken.
+Our belief: you can push these methods a point where you are suprised
+if hard code is broken.
 
 --------------------------------------------------------
 ### How to write hard code
@@ -145,61 +151,27 @@ suprised if something is broken.
 </p>
 
 Even if you don't write another line of OS code, hopefully the lack of
-safety net + hard bug ingrained a much better approach to writing code.
-  - NEVER: write 1000 lines, run it, and use the stare method
-    "it doesn't work, why?" 
-  - ALWAYS:
-    1. working system (verify its working even if you know
-      for sure --- easy for something in env to change)
-    2. tiny change
+safety net + hard bugs in-grained a much better approach to writing code.
+  - NEVER: write 1000 lines, and when you run it and it
+    breaks, use the stare method "it doesn't work, why?"
+
+  - ALWAYS: do epsilon-induction
+    1. start from working system (verify its working even 
+       if you "know for sure" --- easy for something in env 
+       to change)
+    2. do tiny change
     3. validate working.
     4. if not easy to solve.
-    5. if so, go back to (2).
+    5. if so, go back to (ii).
 
 Generalized: The Epsilon Paradox:
   - "the shorter your step, the faster you can sprint"
   - working system + one line change = easy linear eq solve
     if wrong
-  - working system + X, Y, Z change = hard, multiplicative
-    possible.
-
-Common mistake: wrote something, ran it, declare
-"it works".
-  - No.  It worked once, with a single test.  
-
-  - Maybe lucky with timing;
-  - or that you had only a few processes;
-  - or that it had internal corruption you didn't check;
-  - or cache didn't have conflict or alias;
-  - or a missing cache invalidation didn't matter b/c 
-    that run didn't load the entry;
-  - or that code straddled a 16 byte boundary
-    so you got lucky with a pipeline stall to hide a timing
-    race with the device;  or the compiler didn't coalesce
-  - or swap two loads and stores that it was allowed to;
-  - or ...
-
-  - Saying something works if it passed a few test cases is on the level
-    of "it compiled, why did it crash"
-
-
---------------------------------------------------------
-### How to debug hard code
-
-Differential (Ockam) debugging:
-  - ok you didn't listen and have a broken system.
-  - spend your time reverting back to original til
-    you have a tiny difference.
-  - we gave staff .o's but you can always save yesterdays
-    working .o's.
-
-Differential debugging when nothing changed:
-  - same: swap out different pieces to isolate.
-  - different pi, different laptop, different 
-    person doing the checks.
-
-  - In general, probably sw, but 1 out of 20 isn't.
-
+  - In contrast debugging a system that breaks after you
+    added X, Y, Z --- hard to solve b/c multiplicative.  Is the problem X,
+    or Y, or Z, or XY, or XZ, or YZ, or XYZ?  And if you find the right
+    combination, why?  Which line(s)?
 
 My belief:
   - yes 10x programmers exist.
@@ -211,29 +183,89 @@ My belief:
   - IQ is at best fixed, but you can absolutely get better 
     at smaller steps.
 
+
+Related, common initial class mistake that has been 
+largely evaporated by the heat of pain:
+  - wrote something, ran it, declare "it works".
+  - No.  It worked once with a limited set of tests.
+
+  - Maybe got lucky with timing;
+  - or that you had only a few processes;
+  - or cache didn't have conflict or alias;
+  - or a missing cache invalidation didn't matter b/c 
+    that run didn't load the entry;
+  - or that code straddled a 16 byte boundary
+    so you got lucky with a pipeline stall that hid a timing
+    race with the device;  
+  - or the compiler didn't coalesce or swap two loads and 
+    stores that it was allowed to;
+  - or ...
+
+Saying hardware-level code works if it passed a few test cases is on
+the level of saying "it compiled, why did it crash".  Hence
+why we spent so much time on checking methods.
+
+--------------------------------------------------------
+### How to debug hard code
+
+Differential (Ockam) debugging (binary search + reversion):
+  - Your system is broken.
+  - Spend your time reverting pieces back to working 
+    versions, until you get the smallest change that 
+    shows the bug.
+  - E.g., we gave staff .o's but you can use yesterdays
+    working .o's.  you can turn off features. you
+    can cut down number of processes, mappings, etc.  
+  - "differential debugging" (binary search + reversion).
+
+Differential debugging especially useful for hardware.
+  - system that worked yesterday doesn't today.
+  - same approach: swap out different pieces to isolate.
+  - different pi, different laptop, different 
+    person doing the checks.  
+  - we did this from lab 1 on.
+  - In general, bug probably sw, but 1 out of 20 isn't, so
+    the faster you can eliminate or diagnose this 1:20 chance of broken
+    hw, the more cycles you have for each software bug.
+
+Trust but verify:
+  - use asserts to shrink trust from everything 
+    (a belief with no validation that "i don't see how this
+    could be wrong") to no trust ("i just verified
+    it is not wrong").
+  - do this especially if you have an "impossible bug" ---
+    likely an assumption somewhere is off.
+
 --------------------------------------------------------
 ### Thanks for great class!
+
+Largest we've ever had.  Everyone worked incredibly hard.  Lots of wild
+results and hardcore projects.  Learning goal saturation.
+
+And thanks to the crazy, cracked pirate crew staff who
+often stayed til 2am helping people.
+  - Joe: head pirate capt who swabbed the decks at all hours;
+  - Ammar, who did it free(!!!) for the love of the game;
+  - Arjun + Joseph ("rise of the new gen");
+  - Matthew: low key PhD facts.
+
+Crazy workload.  Crazy class :)
+
+A few asks:
+ - Aditi setup an alumni discord (see Ed)
+ - if you think you aren't ever going to touch your hardware
+   please drop it off.  if you might use it, keep it!
+ - We're going to have to fight for this room next year
+   so let us know if you have interesting bio facts that we can
+   use in the argument.
+ - Mildly debating doing a 140e II where we build out the
+   OS into something real, go to riscv, do SMP and maybe
+   do a virtual machine monitor.  Let us know if that
+   would be something you'd take.
+
+Next:
+ - Project presentations;
 
 <p align="center">
 <img src="lab-memes/fetchquest.jpg" width="350" />
 </p>
-
-Largest we've ever had.  Everyone worked incredibly hard.  Lots of crazy
-results and hardcore projects.  Learning goal saturation.
-
-And thanks to the staff for often staying til 2am to 
-help people:
-  - Joe: head TA over and above 
-  - Ammar, 
-  - Arjun, 
-  - Joseph, 
-  - Matthew.
-
-Crazy workload.  Crazy class :)
-
-
-
-    ~/class/cs140e-25win/labs % find . -name "*.[chS]" | grep -v staff | grep -v old | grep code | xargs wc
-
-
----------------------------------------------------
