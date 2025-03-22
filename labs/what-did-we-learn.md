@@ -23,6 +23,7 @@ Almost 40k lines of code (".h", ".c", ".S"):
     39830  163894 1266670 total
 ```
 
+
 --------------------------------------------------------
 ### The class approach
 
@@ -251,8 +252,17 @@ Trust but verify:
 --------------------------------------------------------
 ### Thanks for great class!
 
-Largest we've ever had.  Everyone worked incredibly hard.  Lots of wild
-results and hardcore projects.  Learning goal saturation.
+Largest we've ever had.  Massive workload:
+ - 74 students.
+ - 1333 checkoffs(!!!)
+ - typical: lab about 6.5hrs (530pm - midnight)
+   x 2 week 
+   x 10 week
+   = 130 hours in class alone.
+
+Everyone worked incredibly hard.  Lots of wild results and hardcore
+projects.  Learning goal saturation.
+
 
 And thanks to the crazy, cracked pirate crew staff who
 often stayed til 2am helping people.
